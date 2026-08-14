@@ -179,6 +179,7 @@ export function FilmPlayer({
               src={posterUrl(film)}
               alt=""
               loading="lazy"
+          referrerPolicy="no-referrer"
               onLoad={(e) => {
                 const img = e.currentTarget;
                 if (img.naturalWidth < 200 && !img.dataset["fallback"] && film.source === "youtube") {

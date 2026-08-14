@@ -62,6 +62,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
           src={posterUrl(film)}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           loading="lazy"
+          referrerPolicy="no-referrer"
           onLoad={(e) => {
             const img = e.currentTarget;
             if (img.naturalWidth < 200 && !img.dataset["fallback"] && film.source === "youtube") {
