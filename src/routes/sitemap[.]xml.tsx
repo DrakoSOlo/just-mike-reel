@@ -1,8 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+/**
+ * No custom domain is set yet, so the base URL is derived from the host that
+ * actually served the request. That keeps <loc> absolute and correct on the
+ * preview, the lovable.app domain and any custom domain added later.
+ */
+function baseUrl(request: Request) {
+  const url = new URL(request.url);
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const host = forwardedHost ?? url.host;
+  const proto = forwardedProto ?? (host.startsWith("localhost") ? "http" : "https");
+  return `${proto}://${host}`;
+}
 
 interface SitemapEntry {
   path: string;
@@ -13,7 +24,8 @@ interface SitemapEntry {
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }: { request: Request }) => {
+        const BASE_URL = baseUrl(request);
         const entries: SitemapEntry[] = [{ path: "/", changefreq: "weekly", priority: "1.0" }];
 
         const urls = entries.map((e) =>

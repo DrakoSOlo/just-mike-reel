@@ -3,6 +3,7 @@ import { Captions, CaptionsOff, ExternalLink, Pause, Play, RotateCcw, Volume2, V
 import type { Film } from "@/data/films";
 import { embedUrl, posterUrl, watchUrl } from "@/data/films";
 import { cn } from "@/lib/utils";
+import { Poster } from "@/components/media/Poster";
 import { track } from "@/lib/analytics";
 
 
@@ -180,37 +181,22 @@ export function FilmPlayer({
             className="absolute inset-0 h-full w-full cursor-pointer"
           >
             <span className="sr-only">{`Play ${film.title}, ${film.category}, ${film.year}`}</span>
-            <img
-              src={posterUrl(film)}
+            <Poster
+              mediaId={film.mediaId}
               alt=""
-              loading="lazy"
-              decoding="async"
-              onLoad={(e) => {
-                const img = e.currentTarget;
-                if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
-                  img.dataset["fallback"] = "1";
-                  img.src = img.src.replace("maxresdefault", "hqdefault");
-                }
-              }}
-              onError={(e) => {
-                const img = e.currentTarget;
-                if (!img.dataset["fallback"]) {
-                  img.dataset["fallback"] = "1";
-                  img.src = img.src.replace("maxresdefault", "hqdefault");
-                }
-              }}
-              className="h-full w-full object-cover opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
+              priority
+              sizes="(min-width: 1024px) 900px, 100vw"
+              className="opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
-            {/* Minimal preview chrome: a hairline frame and a single glyph. */}
+            {/* Same hairline graphic as the rest of the page; inverts on hover. */}
             <span aria-hidden="true" className="frame-ticks absolute inset-0" />
-            <span
-              aria-hidden="true"
-              className="absolute bottom-4 left-4 flex items-center gap-3"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:scale-105">
-                <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" />
+            <span aria-hidden="true" className="absolute bottom-4 left-4">
+              <span className="play-badge">
+                <Play fill="currentColor" aria-hidden="true" />
+                Play
               </span>
-                          </span>
+            </span>
+
           </button>
         )}
       </div>

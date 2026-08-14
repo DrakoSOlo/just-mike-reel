@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { track } from "@/lib/analytics";
+import { OPEN_CONSENT_EVENT } from "@/components/consent/CookieBanner";
 import { useParallax } from "@/hooks/use-parallax";
 
 const services = [
@@ -113,6 +114,15 @@ export function Craft() {
                 </a>
               </li>
             ))}
+            <li>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))}
+                className="link-sweep inline-flex min-h-11 items-center uppercase transition-colors duration-300 hover:text-foreground"
+              >
+                Cookies
+              </button>
+            </li>
           </ul>
           <span className="spec-label">
             © {new Date().getFullYear()} just mike

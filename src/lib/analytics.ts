@@ -9,7 +9,10 @@
  * Nothing personal is collected — event name plus a couple of short labels.
  */
 
+import { getConsent } from "./consent";
+
 type Props = Record<string, string | number | boolean | undefined>;
+
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
@@ -28,11 +31,12 @@ export type AnalyticsEvent =
   | "social_click"
   | "nav_click";
 
-export function track(event: AnalyticsEvent, props: Props = {}) {
-  if (typeof window === "undefined") return;
+/** Events captured before the visitor answered the consent banner. */
+const queue: { event: AnalyticsEvent; props: Props }[] = [];
+
+function send(event: AnalyticsEvent, props: Props) {
   const w = window as AnalyticsWindow;
   const payload = { event, ...props };
-
   try {
     (w.dataLayer ??= []).push(payload);
     w.gtag?.("event", event, props);
@@ -42,3 +46,27 @@ export function track(event: AnalyticsEvent, props: Props = {}) {
     /* analytics must never break the page */
   }
 }
+
+export function track(event: AnalyticsEvent, props: Props = {}) {
+  if (typeof window === "undefined") return;
+
+  const consent = getConsent();
+  if (consent === "denied") return;
+  if (consent === "unset") {
+    // Hold, don't drop: replayed only if the visitor later opts in.
+    if (queue.length < 20) queue.push({ event, props });
+    return;
+  }
+
+  send(event, props);
+}
+
+/** Replay anything captured before consent was granted. */
+export function flushAnalyticsQueue() {
+  if (typeof window === "undefined" || getConsent() !== "granted") return;
+  while (queue.length) {
+    const item = queue.shift()!;
+    send(item.event, item.props);
+  }
+}
+
