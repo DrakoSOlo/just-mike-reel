@@ -552,3 +552,94 @@
 [data-a11y-contrast="on"] .glow-warm {
   opacity: 0.12;
 }
+
+/* ---------------------------------------------------------------
+ * Colour correction (grade) — a film grade applied to the warm light
+ * source and glows only. Text tokens are never touched, so every
+ * WCAG AA pairing holds in all grades.
+ * --------------------------------------------------------------- */
+
+:root {
+  --grade-strength: 1;
+}
+
+[data-grade="warm"] {
+  --warm: oklch(0.84 0.16 62);
+  --grade-strength: 1.15;
+}
+
+[data-grade="cool"] {
+  --warm: oklch(0.82 0.11 215);
+  --grade-strength: 0.95;
+}
+
+[data-grade="mono"] {
+  --warm: oklch(0.86 0 0);
+  --grade-strength: 0.6;
+}
+
+[data-theme="paper"] {
+  --warm: oklch(0.88 0.14 88);
+  --grade-strength: 0.55;
+}
+
+.ambient-orb-warm {
+  opacity: calc(0.3 * var(--grade-strength));
+}
+
+.glow-warm {
+  opacity: calc(0.4 * var(--grade-strength));
+}
+
+/* ---------------------------------------------------------------
+ * Editorial / Figma-style layer: hairline guides, spec labels,
+ * corner ticks. Structure you can see, nothing decorative-heavy.
+ * --------------------------------------------------------------- */
+
+.spec-label {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+/* Vertical column guides, like a Figma layout grid */
+.figma-guides::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background-image: repeating-linear-gradient(
+    to right,
+    color-mix(in oklab, var(--color-foreground) 7%, transparent) 0 1px,
+    transparent 1px calc(100% / 6)
+  );
+}
+
+/* Selection-handle ticks on media frames */
+.frame-ticks::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 0%, transparent);
+  transition: border-color 400ms ease;
+}
+
+.group:hover .frame-ticks::after,
+.group:focus-visible .frame-ticks::after {
+  border-color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}
+
+/* ---------------------------------------------------------------
+ * Performance: skip render + layout work for sections that are far
+ * outside the viewport. Intrinsic sizes keep the scrollbar stable.
+ * --------------------------------------------------------------- */
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
