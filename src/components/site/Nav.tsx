@@ -5,6 +5,7 @@ import { track } from "@/lib/analytics";
 
 const links = [
   { href: "#reel", label: "Reel", id: "reel" },
+  { href: "#reels", label: "Shorts", id: "reels" },
   { href: "#work", label: "Work", id: "work" },
   { href: "#about", label: "About", id: "about" },
   { href: "#services", label: "Services", id: "services" },

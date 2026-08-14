@@ -733,3 +733,25 @@
     color-mix(in oklab, var(--color-foreground) 7%, transparent) 100%
   );
 }
+
+/* Printed bloom graphics -------------------------------------------------- */
+.bloom {
+  filter: blur(28px) saturate(1.05);
+  mix-blend-mode: multiply;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+[data-theme="midnight"] .bloom,
+[data-theme="forest"] .bloom {
+  mix-blend-mode: screen;
+  filter: blur(34px) saturate(1.1);
+}
+
+[data-a11y-motion="off"] .bloom {
+  transform: none !important;
+}
+
+[data-a11y-contrast="on"] .bloom {
+  display: none;
+}

@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
 import { warmPoster } from "@/lib/youtube-images";
 import { track } from "@/lib/analytics";
+import { Bloom } from "@/components/motion/Bloom";
 
 
 function FilmCard({
@@ -127,22 +128,24 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="cv-auto figma-guides relative border-t border-border px-5 py-16 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
+      <Bloom variant="a" opacity={0.22} depth={38} className="-right-40 top-1/3 h-[20rem] w-[20rem] md:h-[28rem] md:w-[28rem]" />
+
       <div className="relative z-10 mx-auto max-w-[1400px]">
-        <Reveal className="mb-8 flex items-baseline md:mb-14 justify-between gap-6">
+        <Reveal className="mb-6 flex items-baseline md:mb-8 justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
-          <span className="spec-label">{films.length} films</span>
+          <span className="spec-label">3 films / 1 trailer</span>
         </Reveal>
 
-        <div className="grid gap-x-10 gap-y-10 md:grid-cols-2 md:gap-y-16">
+        <div className="grid gap-x-8 gap-y-8 md:grid-cols-2 md:gap-y-12">
           {films.map((film, i) => (
             <Reveal
               key={film.id}
               delay={(i % 2) * 120}
-              className={cn(i % 2 === 1 && "md:mt-24")}
+              className={cn(i % 2 === 1 && "md:mt-16")}
             >
               <FilmCard
                 film={film}

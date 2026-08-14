@@ -1,3 +1,4 @@
+import { Bloom } from "@/components/motion/Bloom";
 import { Reveal } from "@/components/Reveal";
 import { track } from "@/lib/analytics";
 import { Magnetic } from "@/components/motion/Magnetic";
@@ -16,7 +17,7 @@ export function Studio() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="cv-auto relative overflow-hidden border-t border-border px-5 py-16 md:px-10 md:py-32"
+      className="cv-auto relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
       <div
         ref={driftRef}
@@ -51,7 +52,7 @@ export function Studio() {
         {/* Get in touch */}
         <div id="contact" className="md:col-span-5 md:border-l md:border-border md:pl-16">
           <Reveal delay={80}>
-            <h2 className="spec-label">
+            <h2 id="contact-heading" className="spec-label">
               Get in touch
             </h2>
             <p className="mt-5 font-display md:mt-8 text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.2] tracking-tight">

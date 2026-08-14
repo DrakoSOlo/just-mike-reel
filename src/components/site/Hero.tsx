@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useParallax } from "@/hooks/use-parallax";
+import { Bloom } from "@/components/motion/Bloom";
 
 const word1 = "just".split("");
 const word2 = "mike".split("");
@@ -67,8 +68,11 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="grain spotlight relative flex min-h-[88svh] flex-col justify-end overflow-hidden px-5 pb-12 pt-28 md:min-h-[100svh] md:px-10 md:pb-20 md:pt-32"
+      className="grain spotlight relative flex min-h-[80svh] flex-col justify-end overflow-hidden px-5 pb-10 pt-24 md:min-h-[88svh] md:px-10 md:pb-14 md:pt-28"
     >
+      <Bloom variant="a" opacity={0.3} depth={44} className="-left-40 -top-40 h-[22rem] w-[22rem] md:h-[30rem] md:w-[30rem]" />
+      <Bloom variant="b" opacity={0.26} depth={-30} className="-right-44 -bottom-24 h-[22rem] w-[22rem] md:h-[32rem] md:w-[32rem]" />
+
       <div ref={scrollRef} className="relative mx-auto w-full max-w-[1400px]">
         <p
           className="animate-rise text-xs uppercase tracking-[0.4em] text-muted-foreground"
@@ -110,7 +114,7 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="mt-8 flex flex-col gap-5 border-t md:mt-10 md:gap-8 border-border pt-8 md:flex-row md:items-end md:justify-between">
+        <div className="mt-6 flex flex-col gap-5 border-t md:mt-8 md:gap-8 border-border pt-8 md:flex-row md:items-end md:justify-between">
           <p
             className="animate-rise max-w-md text-sm leading-relaxed text-muted-foreground"
             style={{ animationDelay: "700ms" }}
