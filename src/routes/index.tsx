@@ -3,8 +3,9 @@ import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Showreel } from "@/components/site/Showreel";
 import { Work } from "@/components/site/Work";
-import { About } from "@/components/site/About";
-import { Contact } from "@/components/site/Contact";
+import { Studio } from "@/components/site/Studio";
+import { Craft } from "@/components/site/Craft";
+import { AccessibilityMenu } from "@/components/a11y/AccessibilityMenu";
 import { CursorLens } from "@/components/motion/CursorLens";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
@@ -55,13 +56,14 @@ function Index() {
       <AmbientBackdrop />
       <ScrollProgress />
       <CursorLens />
+      <AccessibilityMenu />
       <Nav />
-      <main id="main" className="bg-background text-foreground">
+      <main id="main" className="relative text-foreground">
         <Hero />
         <Showreel />
         <Work />
-        <About />
-        <Contact />
+        <Studio />
+        <Craft />
       </main>
     </>
   );

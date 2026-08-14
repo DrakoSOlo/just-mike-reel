@@ -348,3 +348,150 @@
     opacity: 1 !important;
   }
 }
+
+/* ---------------------------------------------------------------
+ * Warm haze, fancy pointer, and the visitor accessibility panel
+ * --------------------------------------------------------------- */
+
+/* Decorative warm yellow only — never used behind text, so contrast
+   ratios in the palette are unaffected. */
+:root {
+  --warm: oklch(0.86 0.15 88);
+}
+
+.ambient-orb-warm {
+  top: 65%;
+  left: 70%;
+  height: 70vmax;
+  width: 70vmax;
+  margin-left: -35vmax;
+  margin-top: -35vmax;
+  opacity: 0.3;
+  filter: blur(40px);
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--warm) 42%, transparent) 0%,
+    color-mix(in oklab, var(--warm) 12%, transparent) 45%,
+    transparent 68%
+  );
+}
+
+/* Section-level warm blur graphic */
+.glow-warm {
+  height: 34rem;
+  width: 34rem;
+  border-radius: 9999px;
+  opacity: 0.4;
+  filter: blur(70px);
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--warm) 60%, transparent) 0%,
+    transparent 66%
+  );
+  will-change: transform;
+}
+
+.glow-warm-left {
+  transform: translate3d(calc(var(--parallax, 0) * -40px), calc(var(--parallax, 0) * 60px), 0);
+}
+
+.glow-warm-right {
+  transform: translate3d(calc(var(--parallax, 0) * 50px), calc(var(--parallax, 0) * -70px), 0);
+}
+
+/* Services rows: warm wash sweeps in on hover/focus */
+.service-row::before {
+  content: "";
+  position: absolute;
+  inset: -0.25rem -1rem;
+  z-index: 0;
+  border-radius: 0.25rem;
+  opacity: 0;
+  transform: scaleX(0.9);
+  transform-origin: left;
+  transition: opacity 500ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--warm) 16%, transparent),
+    transparent 70%
+  );
+}
+
+.service-row:hover::before,
+.service-row:focus-within::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Fancy pointer */
+.cursor-ring {
+  transition: opacity 300ms ease, background-color 300ms ease, border-color 300ms ease;
+  background-color: color-mix(in oklab, var(--warm) 10%, transparent);
+  backdrop-filter: blur(2px);
+  will-change: transform;
+}
+
+.cursor-dot {
+  transition: opacity 300ms ease;
+  will-change: transform;
+}
+
+.cursor-label {
+  font-size: 0.55rem;
+}
+
+/* Visitor accessibility preferences (set from the panel) */
+[data-a11y-motion="off"] .ambient-orb,
+[data-a11y-motion="off"] .glow-warm,
+[data-a11y-motion="off"] .parallax-y,
+[data-a11y-motion="off"] .parallax-media,
+[data-a11y-motion="off"] .edge-draw,
+[data-a11y-motion="off"] .marquee-track,
+[data-a11y-motion="off"] .animate-rise,
+[data-a11y-motion="off"] .reveal,
+[data-a11y-motion="off"] h1,
+[data-a11y-motion="off"] .grain::after,
+[data-a11y-motion="off"] .service-row::before {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  opacity: 1;
+}
+
+[data-a11y-motion="off"] .parallax-media {
+  transform: scale(1) !important;
+}
+
+[data-a11y-motion="off"] .spotlight::before,
+[data-a11y-motion="off"] .grain::after {
+  display: none;
+}
+
+[data-a11y-motion="off"] html,
+[data-a11y-motion="off"] {
+  scroll-behavior: auto;
+}
+
+[data-a11y-cursor="off"] .cursor-layer {
+  display: none;
+}
+
+[data-a11y-underline="on"] main a,
+[data-a11y-underline="on"] footer a,
+[data-a11y-underline="on"] nav a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+/* Raises every muted pairing to >= 7:1 and hardens borders (WCAG AAA text,
+   1.4.11 non-text contrast) for visitors who ask for it. */
+[data-a11y-contrast="on"] {
+  --muted-foreground: oklch(0.93 0.008 87.5);
+  --border: oklch(0.9585 0.0098 87.5 / 65%);
+  --input: oklch(0.9585 0.0098 87.5 / 70%);
+}
+
+[data-a11y-contrast="on"] .ambient-orb,
+[data-a11y-contrast="on"] .glow-warm {
+  opacity: 0.12;
+}
