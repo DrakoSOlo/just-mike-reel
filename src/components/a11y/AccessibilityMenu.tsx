@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accessibility, RotateCcw, Volume2 } from "lucide-react";
+import { Accessibility, RotateCcw } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { PaintDial } from "@/components/theme/PaintDial";
+import { DEFAULT_PAINT, applyPaint } from "@/lib/theme";
 
 type Prefs = {
   motion: boolean;
@@ -200,7 +201,14 @@ export function AccessibilityMenu() {
 
           <button
             type="button"
-            onClick={() => setPrefs(DEFAULTS)}
+            onClick={() => {
+              setPrefs(DEFAULTS);
+              // Paint intensity is shared by both themes, so reset it too.
+              applyPaint(DEFAULT_PAINT);
+              window.dispatchEvent(
+                new CustomEvent("jm:paint", { detail: DEFAULT_PAINT }),
+              );
+            }}
             className="inline-flex min-h-11 items-center gap-2 text-xs uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 transition-colors duration-300 hover:text-foreground hover:underline"
           >
             <RotateCcw className="h-4 w-4" aria-hidden="true" />

@@ -20,6 +20,15 @@ export function PaintDial() {
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
+    const onExternal = (event: Event) => {
+      const next = (event as CustomEvent<PaintLevel>).detail;
+      if (PAINT_LEVELS.includes(next)) setLevel(next);
+    };
+    window.addEventListener("jm:paint", onExternal as EventListener);
+    return () => window.removeEventListener("jm:paint", onExternal as EventListener);
+  }, []);
+
+  useEffect(() => {
     const attr = document.documentElement.dataset["paint"] as PaintLevel | undefined;
     if (attr && PAINT_LEVELS.includes(attr)) setLevel(attr);
   }, []);
