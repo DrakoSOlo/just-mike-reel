@@ -19,6 +19,11 @@
  */
 
 @theme inline {
+  --font-display: "Instrument Serif", "Canela", Georgia, serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
