@@ -381,7 +381,7 @@
   height: 34rem;
   width: 34rem;
   border-radius: 9999px;
-  opacity: 0.22;
+  opacity: 0.4;
   filter: blur(70px);
   background: radial-gradient(
     circle,

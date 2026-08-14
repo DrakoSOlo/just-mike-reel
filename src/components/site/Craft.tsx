@@ -42,10 +42,10 @@ export function Craft() {
       <div
         ref={glowRef}
         aria-hidden="true"
-        className="glow-warm glow-warm-right pointer-events-none absolute -right-32 bottom-0 -z-10"
+        className="glow-warm glow-warm-right pointer-events-none absolute z-0 -right-32 bottom-0"
       />
 
-      <div className="mx-auto max-w-[1400px]">
+      <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal>
           <h2
             id="services-heading"

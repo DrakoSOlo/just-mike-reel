@@ -58,7 +58,7 @@ function Index() {
       <CursorLens />
       <AccessibilityMenu />
       <Nav />
-      <main id="main" className="bg-background text-foreground">
+      <main id="main" className="relative text-foreground">
         <Hero />
         <Showreel />
         <Work />

@@ -22,10 +22,10 @@ export function Studio() {
       <div
         ref={driftRef}
         aria-hidden="true"
-        className="glow-warm glow-warm-left pointer-events-none absolute -left-24 top-1/3 -z-10"
+        className="glow-warm glow-warm-left pointer-events-none absolute z-0 -left-24 top-1/3"
       />
 
-      <div className="mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
+      <div className="relative z-10 mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
         {/* About */}
         <div className="md:col-span-7">
           <Reveal>
