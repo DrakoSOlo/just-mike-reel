@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
 /** Crawlers should always be pointed at the canonical project domain. */
-const BASE_URL = "https://just-mike-reel.lovable.app";
+const BASE_URL = "https://justmike.gr";
 
 export const Route = createFileRoute("/robots.txt")({
   server: {

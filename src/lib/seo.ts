@@ -1,7 +1,7 @@
 import { films, posterUrl, showreel, watchUrl } from "@/data/films";
 
 /** Canonical production origin — never a preview host. */
-export const SITE_URL = "https://just-mike-reel.lovable.app";
+export const SITE_URL = "https://justmike.gr";
 
 export const seoTitle = "just mike — Video Editor & Filmmaker";
 
