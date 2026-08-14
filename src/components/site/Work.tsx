@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Play } from "lucide-react";
 
 import {
   Dialog,
@@ -104,10 +103,7 @@ function FilmCard({
         />
         <span aria-hidden="true" className="frame-ticks absolute inset-0" />
         <span aria-hidden="true" className="absolute bottom-4 left-4">
-          <span className="play-badge">
-            <Play fill="currentColor" aria-hidden="true" />
-            Play
-          </span>
+          <span className="play-orb" />
         </span>
       </div>
       <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
