@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog";
 import { Reveal } from "@/components/Reveal";
 import { Bloom } from "@/components/motion/Bloom";
-import { useReels, reelEmbedUrl, reelPoster, type Reel } from "@/data/reels";
+import { Poster } from "@/components/media/Poster";
+import { useReels, reelEmbedUrl, type Reel } from "@/data/reels";
 import { track } from "@/lib/analytics";
 
 export function Reels() {
@@ -77,13 +78,7 @@ export function Reels() {
                     className="group block w-full text-left"
                   >
                     <span className="relative block aspect-[9/16] overflow-hidden bg-surface">
-                      <img
-                        src={reelPoster(reel)}
-                        alt={`Still frame from the reel ${reel.title}`}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-full w-full scale-[1.6] object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-[1.7]"
-                      />
+                      <Poster mediaId={reel.id} alt={`Placeholder art for the reel ${reel.title}`} />
                       <span aria-hidden="true" className="frame-ticks absolute inset-0" />
                       <span aria-hidden="true" className="absolute bottom-3 left-3">
                         <span className="play-badge">

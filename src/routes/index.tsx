@@ -12,8 +12,6 @@ import { CursorLens } from "@/components/motion/CursorLens";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
-import { showreel } from "@/data/films";
-import { posterSources } from "@/lib/youtube-images";
 
 
 import { homeJsonLd, homeMeta, SITE_URL } from "@/lib/seo";
@@ -23,15 +21,6 @@ export const Route = createFileRoute("/")({
     meta: homeMeta(),
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
-      // The showreel still is the first poster a visitor sees — fetch it early.
-      {
-        rel: "preload",
-        as: "image",
-        href: `https://i.ytimg.com/vi_webp/${showreel.mediaId}/hqdefault.webp`,
-        imageSrcSet: posterSources(showreel.mediaId).webpSrcSet,
-        imageSizes: "(min-width: 1024px) 900px, 100vw",
-        fetchPriority: "high",
-      },
     ],
     scripts: [{ type: "application/ld+json", children: JSON.stringify(homeJsonLd()) }],
   }),
