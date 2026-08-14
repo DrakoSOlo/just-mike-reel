@@ -85,7 +85,7 @@ export function Hero() {
               "translate3d(var(--tilt-x, 0px), calc(var(--tilt-y, 0px) + var(--parallax, 0) * 40px), 0) rotate(var(--tilt-rot, 0deg))",
           }}
         >
-          <span className="sr-only">just mike</span>
+          <span className="sr-only">just mike — Video Editor &amp; Filmmaker</span>
           <span aria-hidden="true" className="block">
             {word1.map((letter, i) => (
               <span

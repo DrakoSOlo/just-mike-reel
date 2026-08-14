@@ -1,19 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-/**
- * No custom domain is set yet, so the base URL is derived from the host that
- * actually served the request. That keeps <loc> absolute and correct on the
- * preview, the lovable.app domain and any custom domain added later.
- */
-function baseUrl(request: Request) {
-  const url = new URL(request.url);
-  const forwardedHost = request.headers.get("x-forwarded-host");
-  const forwardedProto = request.headers.get("x-forwarded-proto");
-  const host = forwardedHost ?? url.host;
-  const proto = forwardedProto ?? (host.startsWith("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
-}
+/** Entries always advertise the canonical project domain, never a preview host. */
+const BASE_URL = "https://just-mike-reel.lovable.app";
 
 interface SitemapEntry {
   path: string;
@@ -24,8 +13,7 @@ interface SitemapEntry {
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: async ({ request }: { request: Request }) => {
-        const BASE_URL = baseUrl(request);
+      GET: async () => {
         const entries: SitemapEntry[] = [{ path: "/", changefreq: "weekly", priority: "1.0" }];
 
         const urls = entries.map((e) =>

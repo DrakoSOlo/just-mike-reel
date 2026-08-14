@@ -1,18 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-function baseUrl(request: Request) {
-  const url = new URL(request.url);
-  const host = request.headers.get("x-forwarded-host") ?? url.host;
-  const proto =
-    request.headers.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
-}
+/** Crawlers should always be pointed at the canonical project domain. */
+const BASE_URL = "https://just-mike-reel.lovable.app";
 
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
-      GET: async ({ request }: { request: Request }) => {
+      GET: async () => {
         const body = [
           "User-agent: Googlebot",
           "Allow: /",
@@ -29,7 +24,7 @@ export const Route = createFileRoute("/robots.txt")({
           "User-agent: *",
           "Allow: /",
           "",
-          `Sitemap: ${baseUrl(request)}/sitemap.xml`,
+          `Sitemap: ${BASE_URL}/sitemap.xml`,
           "",
         ].join("\n");
 
