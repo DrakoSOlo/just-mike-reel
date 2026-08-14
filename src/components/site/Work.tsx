@@ -115,16 +115,14 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative border-t border-border px-6 py-24 md:px-10 md:py-32"
     >
-      <div className="mx-auto max-w-[1400px]">
+      <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal className="mb-14 flex items-baseline justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {films.length} films
-          </span>
+          <span className="spec-label">{films.length} films</span>
         </Reveal>
 
         <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
@@ -139,10 +137,12 @@ export function Work() {
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
                   setActive(film);
+                  track("film_open", { title: film.title, category: film.category });
                 }}
               />
             </Reveal>
           ))}
+
         </div>
       </div>
 
