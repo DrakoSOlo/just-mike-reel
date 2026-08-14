@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image:alt", content: "Still frame from the just mike showreel" },
     ],
     links: [
-      { rel: "canonical", href: "/" },
+      { rel: "canonical", href: "https://just-mike-reel.lovable.app/" },
       // The showreel still is the first poster a visitor sees — fetch it early.
       {
         rel: "preload",
