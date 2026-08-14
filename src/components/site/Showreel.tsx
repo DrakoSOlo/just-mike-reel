@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { MotifBrackets, MotifHalftone, MotifRings } from "@/components/motion/Motif";
 import { FilmPlayer } from "@/components/media/FilmPlayer";
 import { showreel } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
@@ -20,7 +21,7 @@ export function Showreel() {
         <div className="md:col-span-3">
           <Reveal>
             <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-4xl">
-              Showreel
+              just mike
             </h2>
             <dl className="mt-5 space-y-2 border-t border-border pt-4">
               <div className="flex items-baseline justify-between gap-4">
@@ -36,6 +37,10 @@ export function Showreel() {
                 <dd className="spec-label text-foreground">16:9 / 24fps</dd>
               </div>
             </dl>
+            <div className="relative mt-8 hidden h-24 md:block">
+              <MotifRings className="absolute left-0 top-0 h-24 w-24" />
+              <MotifHalftone className="absolute bottom-1 right-0 h-10 w-24" />
+            </div>
           </Reveal>
         </div>
 
@@ -48,7 +53,8 @@ export function Showreel() {
                 "scale(calc(0.96 + var(--enter, 1) * 0.04)) translate3d(0, calc(var(--parallax, 0) * -18px), 0)",
             }}
           >
-            <div className="media-frame">
+            <div className="media-frame relative">
+              <MotifBrackets className="pointer-events-none absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] opacity-60" />
               <FilmPlayer film={showreel} autoPlay />
             </div>
           </div>

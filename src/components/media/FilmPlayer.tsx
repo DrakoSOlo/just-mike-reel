@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { Play } from "lucide-react";
 import type { Film } from "@/data/films";
 import { embedUrl } from "@/data/films";
 import { cn } from "@/lib/utils";
@@ -50,9 +49,9 @@ function timecode(seconds: number) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-/* Bare text controls: no chrome, just labels on the hairline under the frame. */
+/* Dot controls: no words, just small graphic marks on the hairline. */
 const controlClass =
-  "inline-flex min-h-11 items-center px-0 font-mono text-[0.625rem] uppercase tracking-[0.28em] text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:text-foreground disabled:opacity-40";
+  "ctl inline-flex h-11 w-11 items-center justify-center disabled:opacity-40";
 
 
 /* ------------------------------------------------------------------ */
@@ -203,33 +202,32 @@ export function FilmPlayer({
             {/* Same hairline graphic as the rest of the page; inverts on hover. */}
             <span aria-hidden="true" className="frame-ticks absolute inset-0" />
             <span aria-hidden="true" className="absolute bottom-4 left-4">
-              <span className="play-badge">
-                <Play fill="currentColor" aria-hidden="true" />
-                Play
-              </span>
+              <span className="play-orb" />
             </span>
+
 
           </button>
         )}
       </div>
 
       {active && (
-        <div className="mt-3 flex items-center gap-x-6 border-t border-border pt-2">
+        <div className="mt-3 flex items-center gap-x-2 border-t border-border pt-1">
           <button
             type="button"
             onClick={togglePlay}
             disabled={!ready}
             aria-pressed={playing}
+            aria-label={playing ? "Pause" : "Play"}
             aria-describedby={statusId}
             className={controlClass}
           >
-            {playing ? "Pause" : "Play"}
+            <span aria-hidden="true" className={cn("ctl-orb", playing && "is-on")} />
           </button>
 
           <span
             ref={timeRef}
             aria-hidden="true"
-            className="font-mono text-[0.625rem] tabular-nums tracking-[0.2em] text-muted-foreground"
+            className="ml-2 font-mono text-[0.625rem] tabular-nums tracking-[0.2em] text-muted-foreground"
           >
             00:00 / 00:00
           </span>
@@ -239,12 +237,18 @@ export function FilmPlayer({
             onClick={toggleMute}
             disabled={!ready}
             aria-pressed={muted}
+            aria-label={muted ? "Unmute" : "Mute"}
             className={cn(controlClass, "ml-auto")}
           >
-            {muted ? "Unmute" : "Mute"}
+            <span aria-hidden="true" className={cn("ctl-sound", !muted && "is-on")} />
           </button>
-          <button type="button" onClick={toggleFullscreen} className={controlClass}>
-            Full
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            aria-label="Toggle fullscreen"
+            className={controlClass}
+          >
+            <span aria-hidden="true" className="ctl-corners" />
           </button>
 
           <p id={statusId} role="status" aria-live="polite" className="sr-only">

@@ -29,6 +29,19 @@ export const GRADE_KEY = "justmike:grade";
 export const DEFAULT_THEME: Theme = "paper";
 export const DEFAULT_GRADE: Grade = "neutral";
 
+let fadeTimer: number | undefined;
+
+/**
+ * Enable colour transitions for the length of one crossfade, then remove them
+ * so ordinary interactions stay snappy.
+ */
+export function crossfadeThemes() {
+  const root = document.documentElement;
+  root.setAttribute("data-theme-fade", "");
+  window.clearTimeout(fadeTimer);
+  fadeTimer = window.setTimeout(() => root.removeAttribute("data-theme-fade"), 700);
+}
+
 export function applyTheme(theme: Theme, grade: Grade = DEFAULT_GRADE) {
   const root = document.documentElement;
   root.dataset["theme"] = theme;

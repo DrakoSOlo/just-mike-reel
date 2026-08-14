@@ -15,7 +15,6 @@ export function CursorLens() {
   const current = useRef({ x: 0, y: 0 });
   const state = useRef({ hot: false, media: false, down: false });
   const [visible, setVisible] = useState(false);
-  const [label, setLabel] = useState("");
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export function CursorLens() {
       const hot = media || Boolean(el?.closest("a, button, [role='button'], input, summary"));
       state.current.hot = hot;
       state.current.media = media;
-      setLabel(media ? "Play" : "");
     };
     const onLeave = () => setVisible(false);
     const onDown = () => (state.current.down = true);
@@ -88,7 +86,7 @@ export function CursorLens() {
         className="cursor-tag pointer-events-none fixed left-0 top-0 z-[80] hidden md:block"
         style={{ opacity: 0 }}
       >
-        <span className="play-badge play-badge-cursor">{label || "Play"}</span>
+        <span className="play-orb play-orb-cursor" />
       </div>
       <div
         ref={dotRef}
