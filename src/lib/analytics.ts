@@ -30,7 +30,8 @@ export type AnalyticsEvent =
   | "a11y_change"
   | "contact_click"
   | "social_click"
-  | "nav_click";
+  | "nav_click"
+  | "ambience_toggle";
 
 /** Events captured before the visitor answered the consent banner. */
 const queue: { event: AnalyticsEvent; props: Props }[] = [];

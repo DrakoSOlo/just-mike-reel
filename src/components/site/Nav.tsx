@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeDot } from "@/components/theme/ThemeDot";
+import { AmbienceDot } from "@/components/audio/AmbienceDot";
 import { track } from "@/lib/analytics";
 
 const links = [
@@ -90,6 +91,7 @@ export function Nav() {
 
           <span aria-hidden="true" className="mx-1 h-4 w-px bg-border sm:mx-2" />
 
+          <AmbienceDot />
           <ThemeDot />
         </div>
       </nav>
