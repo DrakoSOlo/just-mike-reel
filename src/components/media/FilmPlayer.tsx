@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import type { Film } from "@/data/films";
-import { embedUrl, posterUrl, watchUrl } from "@/data/films";
+import { embedUrl } from "@/data/films";
 import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
 import { track } from "@/lib/analytics";
