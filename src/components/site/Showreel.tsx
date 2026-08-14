@@ -3,6 +3,10 @@ import { FilmPlayer } from "@/components/media/FilmPlayer";
 import { showreel } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
 
+/**
+ * The showreel sits in the layout as a framed element — an offset column with
+ * its spec column beside it — rather than a full-bleed placeholder.
+ */
 export function Showreel() {
   const ref = useParallax<HTMLDivElement>();
 
@@ -10,27 +14,44 @@ export function Showreel() {
     <section
       id="reel"
       aria-labelledby="reel-heading"
-      className="cv-auto px-5 py-10 md:px-10 md:py-16"
+      className="cv-auto section-band px-5 md:px-10"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <Reveal className="mb-5 flex items-baseline md:mb-6 justify-between gap-6 border-b border-border pb-5">
-          <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-5xl">
-            Showreel
-          </h2>
-          <span className="spec-label">
-            2026 / 02:14
-          </span>
-        </Reveal>
+      <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-12 md:gap-10">
+        <div className="md:col-span-3">
+          <Reveal>
+            <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-4xl">
+              Showreel
+            </h2>
+            <dl className="mt-5 space-y-2 border-t border-border pt-4">
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="spec-label">Year</dt>
+                <dd className="spec-label text-foreground">2026</dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="spec-label">Runtime</dt>
+                <dd className="spec-label text-foreground">02:14</dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="spec-label">Format</dt>
+                <dd className="spec-label text-foreground">16:9 / 24fps</dd>
+              </div>
+            </dl>
+          </Reveal>
+        </div>
 
-        <div
-          ref={ref}
-          className="parallax-fade origin-bottom will-change-transform"
-          style={{
-            transform:
-              "scale(calc(0.94 + var(--enter, 1) * 0.06)) translate3d(0, calc(var(--parallax, 0) * -22px), 0)",
-          }}
-        >
-          <FilmPlayer film={showreel} autoPlay />
+        <div className="md:col-span-8 md:col-start-5">
+          <div
+            ref={ref}
+            className="parallax-fade origin-bottom will-change-transform"
+            style={{
+              transform:
+                "scale(calc(0.96 + var(--enter, 1) * 0.04)) translate3d(0, calc(var(--parallax, 0) * -18px), 0)",
+            }}
+          >
+            <div className="media-frame">
+              <FilmPlayer film={showreel} autoPlay />
+            </div>
+          </div>
         </div>
       </div>
     </section>
