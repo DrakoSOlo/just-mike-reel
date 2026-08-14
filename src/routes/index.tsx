@@ -39,7 +39,19 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: image },
       { name: "twitter:image:alt", content: "Still frame from the just mike showreel" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "/" },
+      // The showreel still is the first poster a visitor sees — fetch it early.
+      {
+        rel: "preload",
+        as: "image",
+        href: `https://i.ytimg.com/vi_webp/${showreel.mediaId}/hqdefault.webp`,
+        imagesrcset: posterSources(showreel.mediaId).webpSrcSet,
+        imagesizes: "(min-width: 1024px) 900px, 100vw",
+        fetchpriority: "high",
+      },
+    ],
+
     scripts: [
       {
         type: "application/ld+json",
