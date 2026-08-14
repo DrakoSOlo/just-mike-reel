@@ -51,6 +51,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
       onPointerLeave={reset}
       onBlur={reset}
       onClick={() => ref.current && onOpen(ref.current)}
+      data-cursor="play"
       style={{
         transform:
           "perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translate3d(0, var(--lift, 0px), 0)",
