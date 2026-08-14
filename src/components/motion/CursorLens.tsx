@@ -10,6 +10,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 export function CursorLens() {
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
+  const tagRef = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
   const current = useRef({ x: 0, y: 0 });
   const state = useRef({ hot: false, media: false, down: false });
@@ -42,12 +43,18 @@ export function CursorLens() {
       current.current.x += (x - current.current.x) * 0.14;
       current.current.y += (y - current.current.y) * 0.14;
       const { hot, media, down } = state.current;
-      const scale = (media ? 3.4 : hot ? 2.1 : 1) * (down ? 0.85 : 1);
+      const scale = (media ? 1.7 : hot ? 1.35 : 1) * (down ? 0.86 : 1);
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) translate(-50%, -50%) scale(${scale})`;
       }
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${hot ? 0 : 1})`;
+        dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${media ? 1 : hot ? 0 : 1})`;
+      }
+      // The label rides beside the pointer at a fixed size, so the type stays
+      // crisp instead of being blown up with the ring.
+      if (tagRef.current) {
+        tagRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) translate(1.15rem, 0.9rem)`;
+        tagRef.current.style.opacity = media ? "1" : "0";
       }
       frame = requestAnimationFrame(tick);
     };
@@ -75,9 +82,13 @@ export function CursorLens() {
         className="cursor-ring pointer-events-none fixed left-0 top-0 z-[80] hidden h-10 w-10 items-center justify-center rounded-full border border-foreground/60 md:flex"
         style={{ opacity: visible ? 1 : 0 }}
       >
-        <span className="cursor-label text-[0.32rem] uppercase tracking-[0.25em]">
-          {label}
-        </span>
+      </div>
+      <div
+        ref={tagRef}
+        className="cursor-tag pointer-events-none fixed left-0 top-0 z-[80] hidden md:block"
+        style={{ opacity: 0 }}
+      >
+        <span className="play-badge play-badge-cursor">{label || "Play"}</span>
       </div>
       <div
         ref={dotRef}
