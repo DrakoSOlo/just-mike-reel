@@ -260,7 +260,7 @@ export function FilmPlayer({
             <ExternalLink className="h-4 w-4" aria-hidden="true" />
             <span>
               Open {film.title}
-              <span className="sr-only"> in a new tab on {isYouTube ? "YouTube" : "Google Drive"}</span>
+              <span className="sr-only"> in a new tab on YouTube</span>
             </span>
           </a>
 
