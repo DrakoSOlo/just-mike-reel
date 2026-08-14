@@ -29,7 +29,9 @@ export function posterUrl(film: Film) {
   if (film.poster) return film.poster;
   return film.source === "youtube"
     ? `https://img.youtube.com/vi/${film.mediaId}/maxresdefault.jpg`
-    : `https://drive.google.com/thumbnail?id=${film.mediaId}&sz=w1600`;
+    // lh3 serves the Drive poster frame directly; drive.google.com/thumbnail
+    // redirects and is blocked by some browsers' referrer rules.
+    : `https://lh3.googleusercontent.com/d/${film.mediaId}=w1600`;
 }
 
 export function embedUrl(film: Film, autoplay = true) {
