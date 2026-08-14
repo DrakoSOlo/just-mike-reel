@@ -21,7 +21,7 @@ type Project = {
 // Placeholder YouTube IDs — swap for the real films.
 const projects: Project[] = [
   { id: "p1", videoId: "aqz-KE-bpKQ", title: "Northbound", category: "Brand film", year: "2026" },
-  { id: "p2", videoId: "eRsGyueVLvQ", title: "Salt & Static", category: "Music video", year: "2025" },
+  { id: "p2", videoId: "9bZkp7q19f0", title: "Salt & Static", category: "Music video", year: "2025" },
   { id: "p3", videoId: "YE7VzlLtp-4", title: "The Long Room", category: "Documentary", year: "2025" },
   { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
 ];
@@ -65,6 +65,13 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
           src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
           alt={`Still frame from ${project.title}, a ${project.category.toLowerCase()} from ${project.year}`}
           loading="lazy"
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
+              img.dataset["fallback"] = "1";
+              img.src = img.src.replace("maxresdefault", "hqdefault");
+            }
+          }}
           onError={(e) => {
             const img = e.currentTarget;
             if (!img.dataset["fallback"]) {
