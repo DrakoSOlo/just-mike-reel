@@ -31,7 +31,7 @@ export function Reels() {
       <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal className="mb-6 flex items-baseline justify-between gap-6 border-b border-border pb-4 md:mb-8">
           <h2 id="reels-heading" className="font-display text-3xl tracking-tight md:text-5xl">
-            Reels
+            Short-form Media
           </h2>
           <Link
             to="/reels"

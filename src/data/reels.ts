@@ -20,10 +20,10 @@ const STORAGE_KEY = "jm.reels.v1";
 const EVENT = "jm:reels";
 
 export const seedReels: Reel[] = [
-  { id: "r1", mediaId: "aqz-KE-bpKQ", title: "Cold open", note: "Vertical cut" },
-  { id: "r2", mediaId: "9bZkp7q19f0", title: "Neon run", note: "Music short" },
-  { id: "r3", mediaId: "YE7VzlLtp-4", title: "Golden hour", note: "Travel" },
-  { id: "r4", mediaId: "b7k0a5hYnSI", title: "First look", note: "Wedding" },
+  { id: "r1", mediaId: "aqz-KE-bpKQ", title: "Project 1", note: "STUDIO" },
+  { id: "r2", mediaId: "9bZkp7q19f0", title: "Project 2", note: "BRANDING" },
+  { id: "r3", mediaId: "YE7VzlLtp-4", title: "Project 3", note: "ARCHITECTURAL" },
+  { id: "r4", mediaId: "b7k0a5hYnSI", title: "Project 4", note: "Wedding" },
 ];
 
 /** Pull a YouTube video ID out of any watch / shorts / youtu.be / embed URL. */

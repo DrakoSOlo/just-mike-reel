@@ -6,7 +6,7 @@ export const profile = {
   name: "just mike",
   role: "Video Editor & Filmmaker",
   location: "Athens, Greece",
-  bio: "Mike — alternative rock, Miyazaki movies, and cinematic journeys that start with Lynch and end with Scorsese. Studied Materials Science and Engineering; three years editing video, driven by honesty and passion.",
+  bio: "I studied Materials Science and Engineering, which mostly just gave me a micro-perspective on how the physical world works - and that's about it. My real drive is guided by honesty and passion. I've been editing videos for three years now, and I created this space to document my work, develop my skills, and keep expanding my knowledge. I still have a lot to learn, and I'm here for it.",
   site: "https://just-mike-reel.lovable.app",
 } as const;
 
