@@ -1,29 +1,12 @@
-import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { VideoEmbed } from "@/components/VideoEmbed";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { useReveal } from "@/hooks/use-reveal";
+import { useParallax } from "@/hooks/use-parallax";
 
 // Placeholder — swap for the real showreel ID.
 const REEL_ID = "dQw4w9WgXcQ";
 
 export function Showreel() {
-  const { ref, shown } = useReveal<HTMLDivElement>(0.15);
-  const [progress, setProgress] = useState(1);
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    if (reduced) return;
-    const onScroll = () => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      setProgress(1 - Math.min(Math.max(rect.top / window.innerHeight, 0), 1));
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [ref, reduced]);
+  const ref = useParallax<HTMLDivElement>();
 
   return (
     <section
@@ -43,12 +26,13 @@ export function Showreel() {
 
         <div
           ref={ref}
-          style={{ transform: `scale(${0.94 + progress * 0.06})` }}
-          className="origin-bottom transition-transform duration-300 ease-out"
+          className="parallax-fade origin-bottom will-change-transform"
+          style={{
+            transform:
+              "scale(calc(0.94 + var(--enter, 1) * 0.06)) translate3d(0, calc(var(--parallax, 0) * -22px), 0)",
+          }}
         >
-          <div className={`transition-opacity duration-1000 ${shown ? "opacity-100" : "opacity-0"}`}>
-            <VideoEmbed videoId={REEL_ID} title="just mike — 2026 showreel" />
-          </div>
+          <VideoEmbed videoId={REEL_ID} title="just mike — 2026 showreel" />
         </div>
       </div>
     </section>
