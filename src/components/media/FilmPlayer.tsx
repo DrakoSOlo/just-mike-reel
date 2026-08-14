@@ -50,9 +50,9 @@ function timecode(seconds: number) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-/* Bare text controls: no chrome, just labels on the hairline under the frame. */
+/* Dot controls: no words, just small graphic marks on the hairline. */
 const controlClass =
-  "inline-flex min-h-11 items-center px-0 font-mono text-[0.625rem] uppercase tracking-[0.28em] text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:text-foreground disabled:opacity-40";
+  "ctl inline-flex h-11 w-11 items-center justify-center disabled:opacity-40";
 
 
 /* ------------------------------------------------------------------ */
