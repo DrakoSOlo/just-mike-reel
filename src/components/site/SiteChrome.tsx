@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
+import { IntroSequence } from "@/components/motion/IntroSequence";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { SceneBackdrop } from "@/components/motion/SceneBackdrop";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
