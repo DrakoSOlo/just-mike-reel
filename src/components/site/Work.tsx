@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 
 import {
@@ -16,13 +16,42 @@ import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
+import { warmPoster } from "@/lib/youtube-images";
 import { track } from "@/lib/analytics";
 
 
-function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
+function FilmCard({
+  film,
+  nextMediaId,
+  priority = false,
+  onOpen,
+}: {
+  film: Film;
+  nextMediaId?: string;
+  priority?: boolean;
+  onOpen: (el: HTMLButtonElement) => void;
+}) {
   const ref = useRef<HTMLButtonElement>(null);
   const mediaRef = useParallax<HTMLDivElement>();
   const reduced = useReducedMotion();
+
+  // As a card comes within ~a screen of the viewport, warm the *next* film's
+  // still so it is already decoded by the time the visitor reaches it.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !nextMediaId || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          warmPoster(nextMediaId);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [nextMediaId]);
 
   // Tilt is written straight to CSS variables — no state, no re-render per frame.
   const onMove = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -65,6 +94,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
         <Poster
+          priority={priority}
           mediaId={film.mediaId}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           className="parallax-media opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
@@ -116,6 +146,8 @@ export function Work() {
             >
               <FilmCard
                 film={film}
+                priority={i === 0}
+                nextMediaId={films[i + 1]?.mediaId}
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
                   setActive(film);
