@@ -1766,3 +1766,84 @@ html[data-theme-fade] body * {
   width: 0.75rem;
   transform: translate(-50%, -50%);
 }
+
+/* ---------------------------------------------------------------
+ * Final refinement pass — painted render, smooth easing, reduced motion
+ * --------------------------------------------------------------- */
+
+:root {
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* A richer, oil-on-paper render for the intro mark: pigment core, wet
+   edge bleed and a dry-brush rim, all painted with gradients only. */
+.intro-ball {
+  filter: blur(calc(var(--paint-bleed) * 0.5)) saturate(1.08) contrast(1.04);
+}
+
+.intro-ball::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: var(--paint-radius-b);
+  rotate: 14deg;
+  background:
+    radial-gradient(ellipse 70% 58% at 34% 70%, oklch(0.72 0.15 52 / 0.55), transparent 68%),
+    radial-gradient(ellipse 56% 72% at 74% 30%, oklch(0.9 0.11 88 / 0.45), transparent 70%);
+  filter: blur(calc(var(--paint-bleed) * 2.4));
+  opacity: calc(var(--paint-speckle) * 0.85);
+  pointer-events: none;
+}
+
+.intro-ball::after {
+  mix-blend-mode: multiply;
+}
+
+/* Softer, unified easing for the ambient motion. */
+.intro-ring { animation-timing-function: var(--ease-soft); }
+.reveal { transition-timing-function: var(--ease-soft); }
+
+/* Reduced motion: no glow pulses, no hover transitions — but the painted
+   pigment (gradients, bleed, speckle) stays fully visible. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mark-glyph,
+  .play-orb,
+  .nav-dot,
+  .theme-dot,
+  .intro-skip,
+  .intro-ball,
+  .paint-swatch {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1;
+  }
+
+  a:hover > .mark-glyph,
+  a:focus-visible > .mark-glyph,
+  button:hover > .theme-dot,
+  button:focus-visible > .theme-dot,
+  .nav-dot-link:hover .nav-dot {
+    filter: blur(calc(var(--paint-bleed) * 0.12)) !important;
+  }
+
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+[data-a11y-motion="off"] .mark-glyph,
+[data-a11y-motion="off"] .play-orb,
+[data-a11y-motion="off"] .nav-dot,
+[data-a11y-motion="off"] .theme-dot,
+[data-a11y-motion="off"] .intro-skip {
+  transition: none !important;
+  animation: none !important;
+  opacity: 1;
+}
