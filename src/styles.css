@@ -911,9 +911,9 @@
   height: 62vmax;
   object-fit: cover;
   border-radius: 9999px;
-  filter: blur(60px) saturate(1.05);
+  filter: blur(90px) saturate(1);
   mix-blend-mode: multiply;
-  opacity: 0.28;
+  opacity: 0.13;
   will-change: transform;
 }
 
@@ -928,7 +928,7 @@
   top: 18vh;
   width: 54vmax;
   height: 54vmax;
-  opacity: 0.22;
+  opacity: 0.1;
   animation: scene-drift-b 58s ease-in-out infinite;
 }
 
@@ -937,7 +937,7 @@
   left: 22vw;
   width: 48vmax;
   height: 48vmax;
-  opacity: 0.2;
+  opacity: 0.09;
   animation: scene-drift-c 68s ease-in-out infinite;
 }
 
@@ -947,7 +947,7 @@
   background: radial-gradient(
     120% 80% at 50% 0%,
     transparent 0%,
-    color-mix(in oklab, var(--color-background) 55%, transparent) 70%,
+    color-mix(in oklab, var(--color-background) 45%, transparent) 60%,
     color-mix(in oklab, var(--color-background) 80%, transparent) 100%
   );
 }
@@ -955,8 +955,8 @@
 [data-theme="midnight"] .scene-bloom,
 [data-theme="forest"] .scene-bloom {
   mix-blend-mode: screen;
-  opacity: 0.24;
-  filter: blur(70px) saturate(1.15);
+  opacity: 0.16;
+  filter: blur(90px) saturate(1.1);
 }
 
 @keyframes scene-drift-a {
