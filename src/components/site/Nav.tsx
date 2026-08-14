@@ -5,7 +5,7 @@ const links = [
   { href: "#reel", label: "Reel", id: "reel" },
   { href: "#work", label: "Work", id: "work" },
   { href: "#about", label: "About", id: "about" },
-  { href: "#contact", label: "Contact", id: "contact" },
+  { href: "#services", label: "Services", id: "services" },
 ];
 
 export function Nav() {
