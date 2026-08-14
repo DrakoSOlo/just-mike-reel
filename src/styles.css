@@ -681,3 +681,55 @@
   height: 0.7rem;
   width: 0.7rem;
 }
+
+/* ---------------------------------------------------------------
+ * Paper background refinement — on the light theme the big surface
+ * orb reads as a grey smudge, so it becomes a soft warm wash with a
+ * faint ink vignette instead, and the film grain is dialled back.
+ * --------------------------------------------------------------- */
+
+[data-theme="paper"] {
+  --warm: oklch(0.9 0.09 88);
+}
+
+[data-theme="paper"] .ambient-orb {
+  opacity: 0.75;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--warm) 26%, transparent) 0%,
+    color-mix(in oklab, var(--warm) 8%, transparent) 42%,
+    transparent 68%
+  );
+}
+
+[data-theme="paper"] .ambient-orb-warm {
+  opacity: 0.34;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--warm) 34%, transparent) 0%,
+    color-mix(in oklab, var(--color-accent) 7%, transparent) 48%,
+    transparent 70%
+  );
+}
+
+[data-theme="paper"] .glow-warm {
+  opacity: 0.3;
+}
+
+[data-theme="paper"] .grain::after {
+  opacity: 0.035;
+}
+
+/* A whisper of ink at the edges so the page has a paper edge. */
+[data-theme="paper"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    120% 80% at 50% 40%,
+    transparent 55%,
+    color-mix(in oklab, var(--color-foreground) 7%, transparent) 100%
+  );
+}
