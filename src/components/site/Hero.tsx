@@ -70,8 +70,8 @@ export function Hero() {
       id="top"
       className="grain spotlight relative flex min-h-[80svh] flex-col justify-end overflow-hidden px-5 pb-10 pt-24 md:min-h-[88svh] md:px-10 md:pb-14 md:pt-28"
     >
-      <Bloom variant="a" opacity={0.3} depth={44} className="-left-40 -top-40 h-[22rem] w-[22rem] md:h-[30rem] md:w-[30rem]" />
-      <Bloom variant="b" opacity={0.26} depth={-30} className="-right-44 -bottom-24 h-[22rem] w-[22rem] md:h-[32rem] md:w-[32rem]" />
+      <Bloom variant="a" opacity={0.16} depth={44} className="-left-40 -top-40 h-[22rem] w-[22rem] md:h-[30rem] md:w-[30rem]" />
+      <Bloom variant="b" opacity={0.14} depth={-30} className="-right-44 -bottom-24 h-[22rem] w-[22rem] md:h-[32rem] md:w-[32rem]" />
 
       <div ref={scrollRef} className="relative mx-auto w-full max-w-[1400px]">
         <p
