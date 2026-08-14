@@ -67,7 +67,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="grain spotlight relative flex min-h-[100svh] flex-col justify-end overflow-hidden px-6 pb-16 pt-32 md:px-10 md:pb-20"
+      className="grain spotlight relative flex min-h-[88svh] flex-col justify-end overflow-hidden px-5 pb-12 pt-28 md:min-h-[100svh] md:px-10 md:pb-20 md:pt-32"
     >
       <div ref={scrollRef} className="relative mx-auto w-full max-w-[1400px]">
         <p
@@ -79,7 +79,7 @@ export function Hero() {
 
         <h1
           ref={titleRef}
-          className="mt-6 font-display text-[clamp(4rem,17vw,16rem)] leading-[0.82] tracking-[-0.03em] will-change-transform"
+          className="mt-4 font-display text-[clamp(3.4rem,17vw,16rem)] md:mt-6 leading-[0.82] tracking-[-0.03em] will-change-transform"
           style={{
             transform:
               "translate3d(var(--tilt-x, 0px), calc(var(--tilt-y, 0px) + var(--parallax, 0) * 40px), 0) rotate(var(--tilt-rot, 0deg))",
@@ -110,7 +110,7 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="mt-10 flex flex-col gap-8 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
+        <div className="mt-8 flex flex-col gap-5 border-t md:mt-10 md:gap-8 border-border pt-8 md:flex-row md:items-end md:justify-between">
           <p
             className="animate-rise max-w-md text-sm leading-relaxed text-muted-foreground"
             style={{ animationDelay: "700ms" }}

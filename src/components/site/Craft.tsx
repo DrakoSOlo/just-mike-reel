@@ -39,7 +39,7 @@ export function Craft() {
     <footer
       id="services"
       aria-labelledby="services-heading"
-      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-16 md:px-10 md:py-32"
     >
       <div
         ref={glowRef}
@@ -57,11 +57,11 @@ export function Craft() {
           </h2>
         </Reveal>
 
-        <ol className="mt-14 grid gap-px border-t border-border sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="mt-8 grid gap-px border-t md:mt-14 border-border sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
             <li
               key={service}
-              className="service-row group relative flex items-baseline justify-between gap-6 border-b border-border py-7"
+              className="service-row group relative flex items-baseline justify-between gap-4 border-b border-border py-5 md:py-7"
             >
               <Reveal delay={80 + i * 70} className="flex w-full items-baseline justify-between gap-6">
                 <span className="relative z-10 font-display text-[clamp(1.3rem,2.4vw,2rem)] tracking-tight transition-transform duration-500 ease-out group-hover:translate-x-3">
@@ -75,7 +75,7 @@ export function Craft() {
           ))}
         </ol>
 
-        <Reveal delay={140} className="mt-20">
+        <Reveal delay={140} className="mt-14 md:mt-20">
           <h3 className="spec-label">
             On repeat
           </h3>
@@ -96,10 +96,10 @@ export function Craft() {
 
         <Reveal
           delay={200}
-          className="mt-20 flex flex-col gap-8 border-t border-border pt-8 md:flex-row md:items-center md:justify-between"
+          className="mt-14 flex flex-col gap-6 border-t border-border pt-6 md:mt-20 md:gap-8 md:pt-8 md:flex-row md:items-center md:justify-between"
         >
           <span className="font-display text-lg tracking-tight">just.mike</span>
-          <ul className="spec-label flex flex-wrap gap-7">
+          <ul className="spec-label flex flex-wrap gap-x-5 gap-y-2">
             {socials.map((social) => (
               <li key={social.label}>
                 <a
