@@ -45,6 +45,13 @@ export function VideoEmbed({
             src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
             alt=""
             loading="lazy"
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.dataset["fallback"]) {
+              img.dataset["fallback"] = "1";
+              img.src = img.src.replace("maxresdefault", "hqdefault");
+            }
+          }}
             className="h-full w-full object-cover opacity-85 transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:opacity-100"
           />
           <span

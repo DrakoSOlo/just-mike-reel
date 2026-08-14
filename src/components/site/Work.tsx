@@ -65,6 +65,13 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
           src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
           alt={`Still frame from ${project.title}, a ${project.category.toLowerCase()} from ${project.year}`}
           loading="lazy"
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.dataset["fallback"]) {
+              img.dataset["fallback"] = "1";
+              img.src = img.src.replace("maxresdefault", "hqdefault");
+            }
+          }}
           className="h-full w-full object-cover opacity-80 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
         />
         <span
