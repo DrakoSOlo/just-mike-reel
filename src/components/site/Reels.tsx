@@ -24,7 +24,7 @@ export function Reels() {
       aria-labelledby="reels-heading"
       className="cv-auto relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
-      <Bloom variant="b" opacity={0.34} className="-right-24 top-0 h-[26rem] w-[26rem] md:h-[34rem] md:w-[34rem]" />
+      <Bloom variant="b" opacity={0.22} className="-left-40 top-0 h-[20rem] w-[20rem] md:h-[28rem] md:w-[28rem]" />
 
       <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal className="mb-6 flex items-baseline justify-between gap-6 border-b border-border pb-4 md:mb-8">
