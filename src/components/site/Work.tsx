@@ -92,7 +92,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
             <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
           </span>
-          <span className="spec-label">Play film</span>
+          <span className="spec-label bg-background px-2 py-1 text-foreground">Play film</span>
         </span>
       </div>
       <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
