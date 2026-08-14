@@ -10,21 +10,33 @@ import { CursorLens } from "@/components/motion/CursorLens";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { showreel, posterUrl, watchUrl, films } from "@/data/films";
 
 const title = "just mike — Video Editor & Filmmaker";
 const description =
   "Selected edits, short films and music videos by just mike — a video editor driven by honesty, rhythm and cinematic storytelling.";
+const image = posterUrl(showreel);
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title },
       { name: "description", content: description },
+      { name: "author", content: "just mike" },
+      { name: "robots", content: "index, follow" },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
+      { property: "og:site_name", content: "just mike" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: image },
+      { property: "og:image:alt", content: "Still frame from the just mike showreel" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
+      { name: "twitter:image", content: image },
+      { name: "twitter:image:alt", content: "Still frame from the just mike showreel" },
     ],
     links: [{ rel: "canonical", href: "/" }],
     scripts: [
@@ -32,16 +44,59 @@ export const Route = createFileRoute("/")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Person",
-          name: "just mike",
-          jobTitle: "Video Editor & Filmmaker",
-          email: "hello@justmike.film",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "/#mike",
+              name: "just mike",
+              alternateName: "Mike",
+              jobTitle: "Video Editor & Filmmaker",
+              description,
+              url: "/",
+              image,
+              knowsAbout: [
+                "Video editing",
+                "Colour grading",
+                "Short films",
+                "Music videos",
+                "Documentary",
+              ],
+              worksFor: { "@type": "Organization", name: "just mike" },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "/#website",
+              name: "just mike",
+              url: "/",
+              description,
+              inLanguage: "en",
+              publisher: { "@id": "/#mike" },
+            },
+            {
+              "@type": "ItemList",
+              name: "Selected work",
+              itemListElement: films.map((film, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                item: {
+                  "@type": "VideoObject",
+                  name: film.title,
+                  genre: film.category,
+                  thumbnailUrl: posterUrl(film),
+                  url: watchUrl(film),
+                  uploadDate: `${film.year}-01-01`,
+                  creator: { "@id": "/#mike" },
+                },
+              })),
+            },
+          ],
         }),
       },
     ],
   }),
   component: Index,
 });
+
 
 function Index() {
   return (
