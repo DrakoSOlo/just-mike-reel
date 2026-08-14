@@ -63,7 +63,7 @@ export function Studio() {
 
           <div className="mt-7 flex flex-col gap-6 md:mt-10 md:gap-8">
             <Reveal delay={160}>
-              <Magnetic strength={0.12} className="block">
+              <Magnetic strength={0.035} className="block">
                 <a
                   href={WHATSAPP_LINK}
                   target="_blank"
@@ -87,7 +87,7 @@ export function Studio() {
             </Reveal>
 
             <Reveal delay={240}>
-              <Magnetic strength={0.12} className="block">
+              <Magnetic strength={0.035} className="block">
                 <a
                   href={`mailto:${EMAIL}`}
                   onClick={() => track("contact_click", { channel: "email" })}

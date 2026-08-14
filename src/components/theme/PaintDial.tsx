@@ -16,6 +16,7 @@ import {
  */
 export function PaintDial() {
   const [level, setLevel] = useState<PaintLevel>(DEFAULT_PAINT);
+  const [announcement, setAnnouncement] = useState("");
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
@@ -27,6 +28,13 @@ export function PaintDial() {
     setLevel(next);
     applyPaint(next);
     track("paint_change", { level: next });
+    // Re-announce even when the same level is re-selected: the trailing space
+    // guarantees the live region text actually changes.
+    setAnnouncement((prev) =>
+      prev.trimEnd() === `Painted texture: ${PAINT_LABELS[next]}`
+        ? `Painted texture: ${PAINT_LABELS[next]} `
+        : `Painted texture: ${PAINT_LABELS[next]}`,
+    );
     if (focus) refs.current[PAINT_LEVELS.indexOf(next)]?.focus();
   };
 
@@ -44,6 +52,7 @@ export function PaintDial() {
 
   return (
     <div
+      id="paint-dial"
       role="radiogroup"
       aria-label="Painted texture intensity"
       className="flex items-center"
@@ -70,8 +79,8 @@ export function PaintDial() {
           />
         </button>
       ))}
-      <span aria-live="polite" className="sr-only">
-        {`Painted texture: ${PAINT_LABELS[level]}`}
+      <span aria-live="polite" aria-atomic="true" role="status" className="sr-only">
+        {announcement}
       </span>
     </div>
   );
