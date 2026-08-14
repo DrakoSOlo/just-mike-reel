@@ -1,6 +1,11 @@
 import { Reveal } from "@/components/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
 
+// TODO: replace with Mike's real details.
+const EMAIL = "hello@justmike.film";
+const WHATSAPP_NUMBER = "+30 000 000 0000";
+const WHATSAPP_LINK = "https://wa.me/300000000000";
+
 const socials = [
   { label: "Instagram", href: "https://instagram.com" },
   { label: "YouTube", href: "https://youtube.com" },
@@ -13,20 +18,50 @@ export function Contact() {
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
           <h2 className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Available for commissions
+            Get in touch
           </h2>
-          <Magnetic strength={0.12} className="mt-8 block">
-            <a
-              href="mailto:hello@justmike.film"
-              className="group block font-display text-[clamp(2.2rem,8vw,7rem)] leading-[0.95] tracking-[-0.03em]"
-            >
-              hello@justmike.film
-              <span
-                aria-hidden="true"
-                className="mt-4 block h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-700 group-hover:scale-x-100 group-focus-visible:scale-x-100"
-              />
-            </a>
-          </Magnetic>
+          <p className="mt-8 font-display text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.15] tracking-tight">
+            Let's talk. Feel free to shoot me a message on WhatsApp, or send an
+            email if you're that old.
+          </p>
+
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <Magnetic strength={0.1} className="block">
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group block"
+              >
+                <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  WhatsApp
+                </span>
+                <span className="mt-3 block font-display text-[clamp(1.8rem,4.5vw,3.4rem)] leading-[1] tracking-[-0.02em]">
+                  {WHATSAPP_NUMBER}
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="mt-4 block h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-700 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                />
+              </a>
+            </Magnetic>
+
+            <Magnetic strength={0.1} className="block">
+              <a href={`mailto:${EMAIL}`} className="group block">
+                <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  Email
+                </span>
+                <span className="mt-3 block font-display text-[clamp(1.8rem,4.5vw,3.4rem)] leading-[1] tracking-[-0.02em]">
+                  {EMAIL}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="mt-4 block h-px w-full origin-left scale-x-0 bg-foreground transition-transform duration-700 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                />
+              </a>
+            </Magnetic>
+          </div>
         </Reveal>
 
         <Reveal

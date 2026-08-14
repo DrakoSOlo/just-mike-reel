@@ -6,80 +6,78 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { FilmPlayer } from "@/components/media/FilmPlayer";
 import { Reveal } from "@/components/Reveal";
+import type { Film } from "@/data/films";
+import { films, posterUrl } from "@/data/films";
+import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type Project = {
-  id: string;
-  videoId: string;
-  title: string;
-  category: string;
-  year: string;
-};
-
-// Placeholder YouTube IDs — swap for the real films.
-const projects: Project[] = [
-  { id: "p1", videoId: "aqz-KE-bpKQ", title: "Northbound", category: "Brand film", year: "2026" },
-  { id: "p2", videoId: "9bZkp7q19f0", title: "Salt & Static", category: "Music video", year: "2025" },
-  { id: "p3", videoId: "YE7VzlLtp-4", title: "The Long Room", category: "Documentary", year: "2025" },
-  { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
-];
-
-function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLButtonElement) => void }) {
+function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
+  const mediaRef = useParallax<HTMLDivElement>();
   const reduced = useReducedMotion();
-  const [style, setStyle] = useState<React.CSSProperties>({});
 
-  const onMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (reduced || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
+  // Tilt is written straight to CSS variables — no state, no re-render per frame.
+  const onMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const el = ref.current;
+    if (reduced || !el) return;
+    const rect = el.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
-    setStyle({
-      transform: `perspective(1100px) rotateX(${(0.5 - py) * 6}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-6px)`,
-    });
-    ref.current.style.setProperty("--spot-x", `${px * 100}%`);
-    ref.current.style.setProperty("--spot-y", `${py * 100}%`);
-    ref.current.style.setProperty("--spot-opacity", "0.9");
+    el.style.setProperty("--rx", `${(0.5 - py) * 7}deg`);
+    el.style.setProperty("--ry", `${(px - 0.5) * 10}deg`);
+    el.style.setProperty("--lift", "-8px");
+    el.style.setProperty("--spot-x", `${px * 100}%`);
+    el.style.setProperty("--spot-y", `${py * 100}%`);
+    el.style.setProperty("--spot-opacity", "0.9");
   };
 
   const reset = () => {
-    setStyle({});
-    ref.current?.style.setProperty("--spot-opacity", "0");
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+    el.style.setProperty("--lift", "0px");
+    el.style.setProperty("--spot-opacity", "0");
   };
 
   return (
     <button
       ref={ref}
       type="button"
-      onMouseMove={onMove}
-      onMouseLeave={reset}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
       onBlur={reset}
       onClick={() => ref.current && onOpen(ref.current)}
-      style={style}
-      className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out"
+      style={{
+        transform:
+          "perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translate3d(0, var(--lift, 0px), 0)",
+      }}
+      className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out will-change-transform"
     >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
+      <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
         <img
-          src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
-          alt={`Still frame from ${project.title}, a ${project.category.toLowerCase()} from ${project.year}`}
+          src={posterUrl(film)}
+          alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           loading="lazy"
+          referrerPolicy="no-referrer"
           onLoad={(e) => {
             const img = e.currentTarget;
-            if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
+            if (img.naturalWidth < 200 && !img.dataset["fallback"] && film.source === "youtube") {
               img.dataset["fallback"] = "1";
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
           }}
           onError={(e) => {
             const img = e.currentTarget;
-            if (!img.dataset["fallback"]) {
+            if (!img.dataset["fallback"] && film.source === "youtube") {
               img.dataset["fallback"] = "1";
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
           }}
-          className="h-full w-full object-cover opacity-80 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+          className="parallax-media h-full w-full object-cover opacity-80 transition-opacity duration-[900ms] ease-out group-hover:opacity-100"
         />
         <span
           aria-hidden="true"
@@ -93,9 +91,9 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
         </span>
       </div>
       <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
-        <h3 className="font-display text-2xl tracking-tight md:text-3xl">{project.title}</h3>
+        <h3 className="font-display text-2xl tracking-tight md:text-3xl">{film.title}</h3>
         <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {project.category} — {project.year}
+          {film.category} — {film.year}
         </span>
       </div>
     </button>
@@ -103,7 +101,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
 }
 
 export function Work() {
-  const [active, setActive] = useState<Project | null>(null);
+  const [active, setActive] = useState<Film | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
 
@@ -119,22 +117,22 @@ export function Work() {
             Selected work
           </h2>
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {projects.length} films
+            {films.length} films
           </span>
         </Reveal>
 
         <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
-          {projects.map((project, i) => (
+          {films.map((film, i) => (
             <Reveal
-              key={project.id}
+              key={film.id}
               delay={(i % 2) * 120}
               className={cn(i % 2 === 1 && "md:mt-24")}
             >
-              <ProjectCard
-                project={project}
+              <FilmCard
+                film={film}
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
-                  setActive(project);
+                  setActive(film);
                 }}
               />
             </Reveal>
@@ -165,16 +163,8 @@ export function Work() {
           </DialogHeader>
           {active && (
             <>
-              <div className="aspect-video w-full overflow-hidden rounded-sm bg-surface">
-                <iframe
-                  className="h-full w-full"
-                  src={`https://www.youtube.com/embed/${active.videoId}?autoplay=1&rel=0&modestbranding=1&cc_load_policy=1`}
-                  title={`${active.title} — ${active.category}, ${active.year}`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              <FilmPlayer film={active} active autoPlay />
+              <p className="mt-4 text-xs uppercase tracking-[0.3em] text-muted-foreground">
                 {active.title} — {active.category}, {active.year}
               </p>
             </>

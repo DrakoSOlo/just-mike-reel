@@ -6,11 +6,13 @@ import { Work } from "@/components/site/Work";
 import { About } from "@/components/site/About";
 import { Contact } from "@/components/site/Contact";
 import { CursorLens } from "@/components/motion/CursorLens";
+import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
+import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
-const title = "just mike — Videographer & Director";
+const title = "just mike — Video Editor & Filmmaker";
 const description =
-  "Cinematic brand films, music videos and documentaries by just mike. Watch the 2026 showreel and selected work.";
+  "Selected edits, short films and music videos by just mike — a video editor driven by honesty, rhythm and cinematic storytelling.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,7 +33,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "Person",
           name: "just mike",
-          jobTitle: "Videographer & Director",
+          jobTitle: "Video Editor & Filmmaker",
           email: "hello@justmike.film",
         }),
       },
@@ -49,6 +51,8 @@ function Index() {
       >
         Skip to main content
       </a>
+      <PageCurtain />
+      <AmbientBackdrop />
       <ScrollProgress />
       <CursorLens />
       <Nav />
