@@ -60,7 +60,7 @@ export function Nav() {
           just.mike
         </a>
         <div className="flex items-center gap-4 sm:gap-6">
-          <ul className="hidden items-center gap-5 text-[0.7rem] uppercase tracking-[0.2em] sm:flex sm:gap-7">
+          <ul className="flex items-center gap-4 text-[0.7rem] uppercase tracking-[0.2em] sm:gap-7">
             {links.map((link) => (
               <li key={link.href}>
                 <a
