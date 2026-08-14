@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import bloomA from "@/assets/bloom-a.png.asset.json";
 import bloomB from "@/assets/bloom-b.png.asset.json";
 
-const DURATION = 6400;
-const WIPE_AT = 5400;
+const DURATION = 5900;
+const WIPE_AT = 4900;
 
 /**
  * Wordless opening: a single soft ball drops, bounces across the hairline

@@ -6,6 +6,7 @@ import {
   THEME_KEY,
   THEME_LABELS,
   applyTheme,
+  crossfadeThemes,
   type Theme,
 } from "@/lib/theme";
 
@@ -24,6 +25,7 @@ export function ThemeDot() {
   const toggle = () => {
     const next: Theme = theme === "paper" ? "midnight" : "paper";
     setTheme(next);
+    crossfadeThemes();
     applyTheme(next);
     try {
       localStorage.setItem(THEME_KEY, next);
