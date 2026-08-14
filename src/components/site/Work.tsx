@@ -26,7 +26,7 @@ const projects: Project[] = [
   { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
 ];
 
-function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
+function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
   const [style, setStyle] = useState<React.CSSProperties>({});
@@ -56,7 +56,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
       onMouseMove={onMove}
       onMouseLeave={reset}
       onBlur={reset}
-      onClick={onOpen}
+      onClick={() => ref.current && onOpen(ref.current)}
       style={style}
       className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out"
     >
@@ -132,7 +132,7 @@ export function Work() {
             >
               <ProjectCard
                 project={project}
-                onOpen={(el) => {
+                onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
                   setActive(project);
                 }}
