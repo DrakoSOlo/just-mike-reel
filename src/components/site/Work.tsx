@@ -84,6 +84,8 @@ function FilmCard({
       type="button"
       onPointerMove={onMove}
       onPointerLeave={reset}
+      onPointerUp={reset}
+      onPointerCancel={reset}
       onBlur={reset}
       onClick={() => ref.current && onOpen(ref.current)}
       data-cursor="play"
@@ -104,7 +106,7 @@ function FilmCard({
         <span aria-hidden="true" className="absolute bottom-4 left-4">
           <span className="play-badge">
             <Play fill="currentColor" aria-hidden="true" />
-            Play film
+            Play
           </span>
         </span>
       </div>

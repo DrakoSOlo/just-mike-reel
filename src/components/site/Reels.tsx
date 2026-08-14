@@ -17,6 +17,7 @@ export function Reels() {
   const { reels } = useReels();
   const [active, setActive] = useState<Reel | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const dragRef = useRef<{ x: number; y: number; moved: boolean } | null>(null);
 
   return (
     <section
@@ -55,7 +56,20 @@ export function Reels() {
                   <button
                     type="button"
                     data-cursor="play"
+                    onPointerDown={(e) => {
+                      dragRef.current = { x: e.clientX, y: e.clientY, moved: false };
+                    }}
+                    onPointerMove={(e) => {
+                      const d = dragRef.current;
+                      if (!d) return;
+                      if (Math.abs(e.clientX - d.x) > 10 || Math.abs(e.clientY - d.y) > 10) d.moved = true;
+                    }}
                     onClick={(e) => {
+                      if (dragRef.current?.moved) {
+                        dragRef.current = null;
+                        return;
+                      }
+                      dragRef.current = null;
                       triggerRef.current = e.currentTarget;
                       setActive(reel);
                       track("reel_play", { title: reel.title });
