@@ -29,7 +29,7 @@ export function VideoEmbed({
       {playing ? (
         <iframe
           className="absolute inset-0 h-full w-full"
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=${autoPlayOnClick ? 1 : 0}&rel=0&modestbranding=1`}
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=${autoPlayOnClick ? 1 : 0}&rel=0&modestbranding=1&cc_load_policy=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -43,12 +43,18 @@ export function VideoEmbed({
         >
           <img
             src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-            alt={title}
+            alt=""
             loading="lazy"
-            className="h-full w-full object-cover opacity-80 transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:opacity-100"
+            className="h-full w-full object-cover opacity-85 transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:opacity-100"
           />
-          <span className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
-          <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-foreground/40 bg-background/30 backdrop-blur-sm transition-all duration-500 group-hover:scale-110 group-hover:border-accent group-hover:text-accent">
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-foreground/70 bg-background/40 backdrop-blur-sm transition-all duration-500 group-hover:scale-110 group-hover:border-foreground group-hover:bg-background/60"
+          >
             <Play className="ml-0.5 h-5 w-5" fill="currentColor" />
           </span>
         </button>
