@@ -130,14 +130,33 @@ export function Work() {
               delay={(i % 2) * 120}
               className={cn(i % 2 === 1 && "md:mt-24")}
             >
-              <ProjectCard project={project} onOpen={() => setActive(project)} />
+              <ProjectCard
+                project={project}
+                onOpen={(el) => {
+                  triggerRef.current = el;
+                  setActive(project);
+                }}
+              />
             </Reveal>
           ))}
         </div>
       </div>
 
       <Dialog open={Boolean(active)} onOpenChange={(open) => !open && setActive(null)}>
-        <DialogContent className="max-w-5xl border-border bg-background p-4 sm:p-6">
+        <DialogContent
+          className="max-w-5xl border-border bg-background p-4 sm:p-6"
+          onOpenAutoFocus={(e) => {
+            // Keep focus on the dialog itself: an autoplaying YouTube iframe
+            // would otherwise swallow focus and trap keyboard users (WCAG 2.1.2).
+            e.preventDefault();
+            (e.currentTarget as HTMLElement).focus();
+          }}
+          onCloseAutoFocus={(e) => {
+            e.preventDefault();
+            triggerRef.current?.focus();
+          }}
+        >
+
           <DialogHeader className="sr-only">
             <DialogTitle>{active?.title ?? "Film"}</DialogTitle>
             <DialogDescription>
