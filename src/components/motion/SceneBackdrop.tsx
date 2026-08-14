@@ -20,6 +20,14 @@ export function SceneBackdrop() {
         <img src={bloom2.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-2" />
         <img src={bloom3.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-3" />
         <span className="scene-veil" />
+        {/* Drafting guides — the hairline frame the whole layout sits inside. */}
+        <span className="scene-guides">
+          <span className="scene-guide scene-guide-v" style={{ left: "12%" }} />
+          <span className="scene-guide scene-guide-v" style={{ left: "50%" }} />
+          <span className="scene-guide scene-guide-v" style={{ left: "88%" }} />
+          <span className="scene-guide scene-guide-h" style={{ top: "14%" }} />
+          <span className="scene-guide scene-guide-h" style={{ top: "86%" }} />
+        </span>
       </div>
     </>
   );

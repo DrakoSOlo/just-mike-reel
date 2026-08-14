@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
+import { IntroSequence } from "@/components/motion/IntroSequence";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { SceneBackdrop } from "@/components/motion/SceneBackdrop";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
@@ -18,6 +19,21 @@ import { CookieBanner } from "@/components/consent/CookieBanner";
  */
 export function SiteChrome() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [intro, setIntro] = useState(false);
+  // The page the intro covered: the curtain must not replay on top of it.
+  const [introPath, setIntroPath] = useState<string | null>(null);
+
+  // The title sequence plays once per session, on the home page only, and
+  // never when the visitor asked for reduced motion.
+  useEffect(() => {
+    if (pathname !== "/") return;
+    if (sessionStorage.getItem("jm-intro-seen") === "1") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.documentElement.dataset["a11yMotion"] === "off") return;
+    sessionStorage.setItem("jm-intro-seen", "1");
+    setIntro(true);
+    setIntroPath(pathname);
+  }, [pathname]);
 
   // Land at the top of the new page so reveals start from the same state
   // the home page does (they animate as they enter the viewport).
@@ -27,7 +43,8 @@ export function SiteChrome() {
 
   return (
     <>
-      <PageCurtain key={pathname} />
+      {intro && <IntroSequence onDone={() => setIntro(false)} />}
+      {!intro && pathname !== introPath && <PageCurtain key={pathname} />}
       <SceneBackdrop />
       <ScrollProgress />
       <CursorLens />
