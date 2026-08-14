@@ -15,7 +15,7 @@ export function Craft() {
     <footer
       id="services"
       aria-labelledby="services-heading"
-      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-16 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
       <div
         ref={glowRef}
@@ -33,7 +33,7 @@ export function Craft() {
           </h2>
         </Reveal>
 
-        <ol className="mt-8 grid gap-px border-t md:mt-14 border-border sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="mt-6 grid gap-px border-t md:mt-8 border-border sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
             <li
               key={service}
@@ -51,7 +51,7 @@ export function Craft() {
           ))}
         </ol>
 
-        <Reveal delay={140} className="mt-14 md:mt-20">
+        <Reveal delay={140} className="mt-10 md:mt-12">
           <h3 className="spec-label">
             On repeat
           </h3>
@@ -72,7 +72,7 @@ export function Craft() {
 
         <Reveal
           delay={200}
-          className="mt-14 flex flex-col gap-6 border-t border-border pt-6 md:mt-20 md:gap-8 md:pt-8 md:flex-row md:items-center md:justify-between"
+          className="mt-10 flex flex-col gap-6 border-t border-border pt-6 md:mt-12 md:gap-8 md:pt-8 md:flex-row md:items-center md:justify-between"
         >
           <span className="font-display text-lg tracking-tight">just.mike</span>
           <ul className="spec-label flex flex-wrap gap-x-5 gap-y-2">

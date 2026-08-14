@@ -16,7 +16,7 @@ export function Studio() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="cv-auto relative overflow-hidden border-t border-border px-5 py-16 md:px-10 md:py-32"
+      className="cv-auto relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
       <div
         ref={driftRef}

@@ -127,22 +127,22 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="cv-auto figma-guides relative border-t border-border px-5 py-16 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
       <div className="relative z-10 mx-auto max-w-[1400px]">
-        <Reveal className="mb-8 flex items-baseline md:mb-14 justify-between gap-6">
+        <Reveal className="mb-6 flex items-baseline md:mb-8 justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
           <span className="spec-label">{films.length} films</span>
         </Reveal>
 
-        <div className="grid gap-x-10 gap-y-10 md:grid-cols-2 md:gap-y-16">
+        <div className="grid gap-x-8 gap-y-8 md:grid-cols-2 md:gap-y-12">
           {films.map((film, i) => (
             <Reveal
               key={film.id}
               delay={(i % 2) * 120}
-              className={cn(i % 2 === 1 && "md:mt-24")}
+              className={cn(i % 2 === 1 && "md:mt-16")}
             >
               <FilmCard
                 film={film}
