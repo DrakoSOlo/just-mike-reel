@@ -134,11 +134,54 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+
+  /* WCAG 2.1 AA — 2.4.7 Focus Visible, 1.4.11 Non-text Contrast */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
 @utility font-display {
   font-family: var(--font-display);
 }
+
+/* Interactive motion */
+@utility magnetic {
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+@keyframes marquee-track {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-track 32s linear infinite;
+}
+
+.marquee-track:hover,
+.marquee-paused .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Spotlight that follows the pointer inside a section */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--spot-opacity, 0);
+  transition: opacity 500ms ease;
+  background: radial-gradient(
+    22rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in oklab, var(--color-surface) 85%, transparent),
+    transparent 70%
+  );
+}
+
 
 /* Scroll reveal */
 .reveal {
