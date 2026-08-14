@@ -4,10 +4,6 @@ import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
 import { parseYouTubeId, reelWatchUrl, useReels } from "@/data/reels";
 import { Bloom } from "@/components/motion/Bloom";
-import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
-import { PageCurtain } from "@/components/motion/PageCurtain";
-import { ScrollProgress } from "@/components/motion/ScrollProgress";
-import { CursorLens } from "@/components/motion/CursorLens";
 import { Reveal } from "@/components/Reveal";
 import { Poster } from "@/components/media/Poster";
 
@@ -57,10 +53,6 @@ function ReelsManager() {
 
   return (
     <>
-      <PageCurtain />
-      <AmbientBackdrop />
-      <ScrollProgress />
-      <CursorLens />
       <main className="relative min-h-svh overflow-hidden px-5 py-10 md:px-10 md:py-16">
         <Bloom variant="a" opacity={0.4} className="-left-24 top-10 h-[28rem] w-[28rem]" />
         <Bloom variant="b" opacity={0.2} className="-right-32 bottom-10 h-[24rem] w-[24rem]" />
