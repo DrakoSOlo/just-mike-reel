@@ -94,7 +94,7 @@ function FilmCard({
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
         <Poster
-          priority={priority}
+          eager={priority}
           mediaId={film.mediaId}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           className="parallax-media opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
