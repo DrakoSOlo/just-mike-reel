@@ -118,6 +118,63 @@
   --foreground: oklch(0.9585 0.0098 87.5);
 }
 
+/* ---------------------------------------------------------------
+ * Themes — swapped from the theme menu via data-theme on <html>.
+ * Each theme keeps the same three-colour logic (deep base / surface /
+ * off-white) and every text pairing below is >= 4.5:1.
+ * --------------------------------------------------------------- */
+
+/* Midnight (default) is the :root palette above. */
+
+/* Forest — the deep green becomes the page, navy becomes the surface. */
+[data-theme="forest"] {
+  --background: oklch(0.2712 0.0393 176.8);
+  --surface: oklch(0.3242 0.0367 200.9);
+  --card: var(--surface);
+  --popover: var(--surface);
+  --secondary: var(--surface);
+  --muted: var(--surface);
+  --sidebar: var(--surface);
+  --sidebar-accent: var(--surface);
+  --primary-foreground: oklch(0.2712 0.0393 176.8);
+  --accent-foreground: oklch(0.2712 0.0393 176.8);
+  --sidebar-primary-foreground: oklch(0.2712 0.0393 176.8);
+  --chart-3: oklch(0.2712 0.0393 176.8);
+}
+
+/* Paper — light mode. Off-white page, navy ink (13.8:1). */
+[data-theme="paper"] {
+  --background: oklch(0.9585 0.0098 87.5);
+  --foreground: oklch(0.2551 0.0367 250.9);
+  --surface: oklch(0.9215 0.0122 87.5);
+  --surface-foreground: oklch(0.2551 0.0367 250.9);
+  --card: oklch(0.9215 0.0122 87.5);
+  --card-foreground: oklch(0.2551 0.0367 250.9);
+  --popover: oklch(0.9585 0.0098 87.5);
+  --popover-foreground: oklch(0.2551 0.0367 250.9);
+  --primary: oklch(0.2551 0.0367 250.9);
+  --primary-foreground: oklch(0.9585 0.0098 87.5);
+  --secondary: oklch(0.9215 0.0122 87.5);
+  --secondary-foreground: oklch(0.2551 0.0367 250.9);
+  --muted: oklch(0.9215 0.0122 87.5);
+  /* 4.8:1 on the paper background */
+  --muted-foreground: oklch(0.46 0.026 250.9);
+  --accent: oklch(0.2989 0.0393 176.8);
+  --accent-foreground: oklch(0.9585 0.0098 87.5);
+  --border: oklch(0.2551 0.0367 250.9 / 20%);
+  --input: oklch(0.2551 0.0367 250.9 / 30%);
+  --ring: oklch(0.2551 0.0367 250.9);
+  --sidebar: oklch(0.9215 0.0122 87.5);
+  --sidebar-foreground: oklch(0.2551 0.0367 250.9);
+  --sidebar-primary: oklch(0.2551 0.0367 250.9);
+  --sidebar-primary-foreground: oklch(0.9585 0.0098 87.5);
+  --sidebar-accent: oklch(0.9215 0.0122 87.5);
+  --sidebar-accent-foreground: oklch(0.2551 0.0367 250.9);
+  --sidebar-border: oklch(0.2551 0.0367 250.9 / 20%);
+  --sidebar-ring: oklch(0.2551 0.0367 250.9);
+}
+
+
 
 @layer base {
   * {
