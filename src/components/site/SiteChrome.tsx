@@ -20,6 +20,8 @@ import { CookieBanner } from "@/components/consent/CookieBanner";
 export function SiteChrome() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [intro, setIntro] = useState(false);
+  // The page the intro covered: the curtain must not replay on top of it.
+  const [introPath, setIntroPath] = useState<string | null>(null);
 
   // The title sequence plays once per session, on the home page only, and
   // never when the visitor asked for reduced motion.
