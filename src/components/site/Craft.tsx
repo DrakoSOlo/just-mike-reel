@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { track } from "@/lib/analytics";
 import { useParallax } from "@/hooks/use-parallax";
 
 const services = [
@@ -37,7 +38,7 @@ export function Craft() {
     <footer
       id="services"
       aria-labelledby="services-heading"
-      className="relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
     >
       <div
         ref={glowRef}
@@ -65,7 +66,7 @@ export function Craft() {
                 <span className="relative z-10 font-display text-[clamp(1.3rem,2.4vw,2rem)] tracking-tight transition-transform duration-500 ease-out group-hover:translate-x-3">
                   {service}
                 </span>
-                <span className="relative z-10 text-xs tabular-nums tracking-[0.3em] text-muted-foreground">
+                <span className="spec-label relative z-10 tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </Reveal>
@@ -74,7 +75,7 @@ export function Craft() {
         </ol>
 
         <Reveal delay={140} className="mt-20">
-          <h3 className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          <h3 className="spec-label">
             On repeat
           </h3>
           <div className="relative mt-6 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
@@ -97,13 +98,14 @@ export function Craft() {
           className="mt-20 flex flex-col gap-8 border-t border-border pt-8 md:flex-row md:items-center md:justify-between"
         >
           <span className="font-display text-lg tracking-tight">just.mike</span>
-          <ul className="flex flex-wrap gap-7 text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          <ul className="spec-label flex flex-wrap gap-7">
             {socials.map((social) => (
               <li key={social.label}>
                 <a
                   href={social.href}
                   target="_blank"
                   rel="noreferrer noopener"
+                  onClick={() => track("social_click", { network: social.label })}
                   className="link-sweep inline-flex min-h-11 items-center transition-colors duration-300 hover:text-foreground"
                 >
                   {social.label}
@@ -112,7 +114,7 @@ export function Craft() {
               </li>
             ))}
           </ul>
-          <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          <span className="spec-label">
             © {new Date().getFullYear()} just mike
           </span>
         </Reveal>

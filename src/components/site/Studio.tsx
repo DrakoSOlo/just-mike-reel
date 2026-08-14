@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { track } from "@/lib/analytics";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { useParallax } from "@/hooks/use-parallax";
 
@@ -17,7 +18,7 @@ export function Studio() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
     >
       <div
         ref={driftRef}
@@ -29,7 +30,7 @@ export function Studio() {
         {/* About */}
         <div className="md:col-span-7">
           <Reveal>
-            <h2 id="about-heading" className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            <h2 id="about-heading" className="spec-label">
               About me
             </h2>
             <p className="mt-8 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] leading-[1.15] tracking-tight">
@@ -52,7 +53,7 @@ export function Studio() {
         {/* Get in touch */}
         <div id="contact" className="md:col-span-5 md:border-l md:border-border md:pl-16">
           <Reveal delay={80}>
-            <h2 className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            <h2 className="spec-label">
               Get in touch
             </h2>
             <p className="mt-8 font-display text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.2] tracking-tight">
@@ -68,9 +69,10 @@ export function Studio() {
                   href={WHATSAPP_LINK}
                   target="_blank"
                   rel="noreferrer noopener"
+                  onClick={() => track("contact_click", { channel: "whatsapp" })}
                   className="group block"
                 >
-                  <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  <span className="spec-label">
                     WhatsApp
                   </span>
                   <span className="mt-2 block font-display text-[clamp(1.5rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">
@@ -87,8 +89,12 @@ export function Studio() {
 
             <Reveal delay={240}>
               <Magnetic strength={0.12} className="block">
-                <a href={`mailto:${EMAIL}`} className="group block">
-                  <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  onClick={() => track("contact_click", { channel: "email" })}
+                  className="group block"
+                >
+                  <span className="spec-label">
                     Email
                   </span>
                   <span className="mt-2 block font-display text-[clamp(1.5rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.02em]">

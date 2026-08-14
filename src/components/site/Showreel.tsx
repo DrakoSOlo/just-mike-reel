@@ -10,14 +10,14 @@ export function Showreel() {
     <section
       id="reel"
       aria-labelledby="reel-heading"
-      className="px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-[1400px]">
         <Reveal className="mb-10 flex items-baseline justify-between gap-6 border-b border-border pb-5">
           <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Showreel
           </h2>
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          <span className="spec-label">
             2026 / 02:14
           </span>
         </Reveal>
