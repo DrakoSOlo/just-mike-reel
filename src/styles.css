@@ -1623,3 +1623,9 @@ html[data-theme-fade] body * {
 }
 [data-a11y-motion="off"] .motif-spin,
 [data-a11y-motion="off"] .motif-breathe { animation: none !important; }
+
+.play-orb-cursor {
+  height: 0.75rem;
+  width: 0.75rem;
+  transform: translate(-50%, -50%);
+}
