@@ -209,7 +209,7 @@ export function FilmPlayer({
 
       {active && (
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          {isYouTube ? (
+          {(
             <>
               <button
                 type="button"
