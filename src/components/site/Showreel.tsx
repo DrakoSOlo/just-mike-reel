@@ -5,7 +5,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useReveal } from "@/hooks/use-reveal";
 
 // Placeholder — swap for the real showreel ID.
-const REEL_ID = "ScMzIvxBSi4";
+const REEL_ID = "dQw4w9WgXcQ";
 
 export function Showreel() {
   const { ref, shown } = useReveal<HTMLDivElement>(0.15);
