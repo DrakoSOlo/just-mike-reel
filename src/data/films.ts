@@ -48,7 +48,7 @@ export const showreel: Film = {
 
 /** Showcase: three films plus one trailer. */
 export const films: Film[] = [
-  { id: "f1", mediaId: "aqz-KE-bpKQ", title: "Northbound", category: "Film", year: "2026" },
+  { id: "f1", mediaId: "aqz-KE-bpKQ", title: "\n", category: "Film", year: "2026" },
   { id: "f2", mediaId: "9bZkp7q19f0", title: "Salt & Static", category: "Film", year: "2025" },
   { id: "f3", mediaId: "YE7VzlLtp-4", title: "The Long Room", category: "Film", year: "2025" },
   { id: "f4", mediaId: "b7k0a5hYnSI", title: "Florianna & Spiros", category: "Trailer", year: "2026" },
