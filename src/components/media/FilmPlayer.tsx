@@ -210,7 +210,7 @@ export function FilmPlayer({
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:scale-105">
                 <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" />
               </span>
-              <span className="spec-label">Play</span>
+              <span className="spec-label bg-background px-2 py-1 text-foreground">Play</span>
             </span>
           </button>
         )}
