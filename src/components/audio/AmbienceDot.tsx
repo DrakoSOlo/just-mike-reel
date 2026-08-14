@@ -16,7 +16,12 @@ import {
 export function AmbienceDot() {
   const [on, setOn] = useState(false);
 
-  useEffect(() => onAmbienceChange(setOn), []);
+  useEffect(() => {
+    const off = onAmbienceChange(setOn);
+    return () => {
+      off();
+    };
+  }, []);
 
   // Remembered preference resumes on the visitor's next interaction, since
   // browsers refuse to start audio without one.
