@@ -27,7 +27,7 @@ function FilmCard({
   onOpen,
 }: {
   film: Film;
-  nextMediaId?: string;
+  nextMediaId?: string | undefined;
   priority?: boolean;
   onOpen: (el: HTMLButtonElement) => void;
 }) {
