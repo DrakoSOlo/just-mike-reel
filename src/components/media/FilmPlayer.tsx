@@ -203,11 +203,9 @@ export function FilmPlayer({
             {/* Same hairline graphic as the rest of the page; inverts on hover. */}
             <span aria-hidden="true" className="frame-ticks absolute inset-0" />
             <span aria-hidden="true" className="absolute bottom-4 left-4">
-              <span className="play-badge">
-                <Play fill="currentColor" aria-hidden="true" />
-                Play
-              </span>
+              <span className="play-orb" />
             </span>
+
 
           </button>
         )}
