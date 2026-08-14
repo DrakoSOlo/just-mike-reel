@@ -209,56 +209,47 @@ export function FilmPlayer({
 
       {active && (
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          {(
-            <>
-              <button
-                type="button"
-                onClick={togglePlay}
-                disabled={!ready}
-                aria-pressed={playing}
-                aria-describedby={statusId}
-                className={cn(controlClass, "disabled:opacity-50")}
-              >
-                {playing ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
-                {playing ? "Pause" : "Play"}
-              </button>
-              <button
-                type="button"
-                onClick={toggleMute}
-                disabled={!ready}
-                aria-pressed={muted}
-                className={cn(controlClass, "disabled:opacity-50")}
-              >
-                {muted ? <VolumeX className="h-4 w-4" aria-hidden="true" /> : <Volume2 className="h-4 w-4" aria-hidden="true" />}
-                {muted ? "Unmute" : "Mute"}
-              </button>
-              <button
-                type="button"
-                onClick={toggleCaptions}
-                disabled={!ready}
-                aria-pressed={captionsOn}
-                className={cn(controlClass, "disabled:opacity-50")}
-              >
-                {captionsOn ? <Captions className="h-4 w-4" aria-hidden="true" /> : <CaptionsOff className="h-4 w-4" aria-hidden="true" />}
-                Captions
-              </button>
-              <button
-                type="button"
-                onClick={restart}
-                disabled={!ready}
-                className={cn(controlClass, "disabled:opacity-50")}
-              >
-                <RotateCcw className="h-4 w-4" aria-hidden="true" />
-                Restart
-              </button>
-            </>
-          ) : (
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              This film streams from Google Drive. Use the player's own
-              keyboard controls: space or K to play and pause, arrow keys to
-              seek, M to mute, C for captions when the file has them.
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={togglePlay}
+            disabled={!ready}
+            aria-pressed={playing}
+            aria-describedby={statusId}
+            className={cn(controlClass, "disabled:opacity-50")}
+          >
+            {playing ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
+            {playing ? "Pause" : "Play"}
+          </button>
+          <button
+            type="button"
+            onClick={toggleMute}
+            disabled={!ready}
+            aria-pressed={muted}
+            className={cn(controlClass, "disabled:opacity-50")}
+          >
+            {muted ? <VolumeX className="h-4 w-4" aria-hidden="true" /> : <Volume2 className="h-4 w-4" aria-hidden="true" />}
+            {muted ? "Unmute" : "Mute"}
+          </button>
+          <button
+            type="button"
+            onClick={toggleCaptions}
+            disabled={!ready}
+            aria-pressed={captionsOn}
+            className={cn(controlClass, "disabled:opacity-50")}
+          >
+            {captionsOn ? <Captions className="h-4 w-4" aria-hidden="true" /> : <CaptionsOff className="h-4 w-4" aria-hidden="true" />}
+            Captions
+          </button>
+          <button
+            type="button"
+            onClick={restart}
+            disabled={!ready}
+            className={cn(controlClass, "disabled:opacity-50")}
+          >
+            <RotateCcw className="h-4 w-4" aria-hidden="true" />
+            Restart
+          </button>
+
 
           <a
             href={watchUrl(film)}
