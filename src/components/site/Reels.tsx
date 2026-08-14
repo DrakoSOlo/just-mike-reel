@@ -53,7 +53,7 @@ export function Reels() {
                     onClick={(e) => {
                       triggerRef.current = e.currentTarget;
                       setActive(reel);
-                      track("reel_open", { title: reel.title });
+                      track("reel_play", { title: reel.title });
                     }}
                     className="group block w-full text-left"
                   >
