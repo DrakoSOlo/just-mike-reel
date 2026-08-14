@@ -32,6 +32,7 @@ export function SiteChrome() {
     if (document.documentElement.dataset["a11yMotion"] === "off") return;
     sessionStorage.setItem("jm-intro-seen", "1");
     setIntro(true);
+    setIntroPath(pathname);
   }, [pathname]);
 
   // Land at the top of the new page so reveals start from the same state
