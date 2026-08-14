@@ -204,55 +204,50 @@ export function FilmPlayer({
       </div>
 
       {active && (
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-border pt-3">
+        <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 border-t border-border pt-2">
           <button
             type="button"
             onClick={togglePlay}
             disabled={!ready}
             aria-pressed={playing}
             aria-describedby={statusId}
-            aria-label={playing ? "Pause" : "Play"}
             className={controlClass}
           >
-            {playing ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
+            {playing ? "Pause" : "Play"}
           </button>
           <button
             type="button"
             onClick={toggleMute}
             disabled={!ready}
             aria-pressed={muted}
-            aria-label={muted ? "Unmute" : "Mute"}
             className={controlClass}
           >
-            {muted ? <VolumeX className="h-4 w-4" aria-hidden="true" /> : <Volume2 className="h-4 w-4" aria-hidden="true" />}
+            {muted ? "Unmute" : "Mute"}
           </button>
           <button
             type="button"
             onClick={toggleCaptions}
             disabled={!ready}
             aria-pressed={captionsOn}
-            aria-label={captionsOn ? "Turn captions off" : "Turn captions on"}
             className={controlClass}
           >
-            {captionsOn ? <Captions className="h-4 w-4" aria-hidden="true" /> : <CaptionsOff className="h-4 w-4" aria-hidden="true" />}
+            {captionsOn ? "Captions off" : "Captions on"}
           </button>
           <button
             type="button"
             onClick={restart}
             disabled={!ready}
-            aria-label="Restart from the beginning"
             className={controlClass}
           >
-            <RotateCcw className="h-4 w-4" aria-hidden="true" />
+            Restart
           </button>
 
           <a
             href={watchUrl(film)}
             target="_blank"
             rel="noreferrer"
-            className="spec-label ml-auto inline-flex min-h-11 items-center gap-2 transition-colors duration-300 hover:text-foreground"
+            className={cn(controlClass, "ml-auto")}
           >
-            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
             <span>
               YouTube
               <span className="sr-only">
