@@ -31,7 +31,12 @@ export function Reels() {
           <h2 id="reels-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Reels
           </h2>
-          <span className="spec-label">{reels.length} shorts / 9:16</span>
+          <a
+            href="/reels"
+            className="spec-label inline-flex min-h-11 items-center underline-offset-4 hover:underline"
+          >
+            {reels.length} shorts / manage
+          </a>
         </Reveal>
 
         {reels.length === 0 ? (
