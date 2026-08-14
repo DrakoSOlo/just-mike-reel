@@ -95,7 +95,7 @@ function FilmCard({
       }}
       className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out will-change-transform"
     >
-      <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
+      <div ref={mediaRef} className="media-frame relative aspect-[16/10] overflow-hidden bg-surface">
         <Poster
           eager={priority}
           mediaId={film.mediaId}
@@ -130,7 +130,7 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
+      className="cv-auto section-band figma-guides relative overflow-hidden px-5 md:px-10"
     >
       <Bloom variant="a" opacity={0.14} depth={38} className="-right-40 top-1/3 h-[20rem] w-[20rem] md:h-[28rem] md:w-[28rem]" />
 
@@ -142,7 +142,7 @@ export function Work() {
           <span className="spec-label">3 films / 1 trailer</span>
         </Reveal>
 
-        <div className="grid gap-x-8 gap-y-8 md:grid-cols-2 md:gap-y-12">
+        <div className="grid gap-x-10 gap-y-10 md:grid-cols-2 md:gap-y-14">
           {films.map((film, i) => (
             <Reveal
               key={film.id}

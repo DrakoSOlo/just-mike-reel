@@ -15,7 +15,7 @@ export function Craft() {
     <footer
       id="services"
       aria-labelledby="services-heading"
-      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
+      className="cv-auto section-band figma-guides relative overflow-hidden px-5 md:px-10"
     >
       <div
         ref={glowRef}
