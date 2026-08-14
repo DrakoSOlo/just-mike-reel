@@ -104,6 +104,8 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
 
 export function Work() {
   const [active, setActive] = useState<Project | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
 
   return (
     <section
