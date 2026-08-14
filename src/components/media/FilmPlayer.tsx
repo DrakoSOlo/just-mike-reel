@@ -184,20 +184,19 @@ export function FilmPlayer({
             <Poster
               mediaId={film.mediaId}
               alt=""
-              priority={autoPlay === false || true}
+              priority
               sizes="(min-width: 1024px) 900px, 100vw"
               className="opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
             />
-            {/* Minimal preview chrome: a hairline frame and a single glyph. */}
+            {/* Same hairline graphic as the rest of the page; inverts on hover. */}
             <span aria-hidden="true" className="frame-ticks absolute inset-0" />
-            <span
-              aria-hidden="true"
-              className="absolute bottom-4 left-4 flex items-center gap-3"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:scale-105">
-                <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" />
+            <span aria-hidden="true" className="absolute bottom-4 left-4">
+              <span className="play-badge">
+                <Play fill="currentColor" aria-hidden="true" />
+                Play
               </span>
-                          </span>
+            </span>
+
           </button>
         )}
       </div>
