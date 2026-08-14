@@ -59,19 +59,19 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
         <img
-          src={`https://img.youtube.com/vi/${film.videoId}/maxresdefault.jpg`}
+          src={posterUrl(film)}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           loading="lazy"
           onLoad={(e) => {
             const img = e.currentTarget;
-            if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
+            if (img.naturalWidth < 200 && !img.dataset["fallback"] && film.source === "youtube") {
               img.dataset["fallback"] = "1";
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
           }}
           onError={(e) => {
             const img = e.currentTarget;
-            if (!img.dataset["fallback"]) {
+            if (!img.dataset["fallback"] && film.source === "youtube") {
               img.dataset["fallback"] = "1";
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
@@ -162,16 +162,8 @@ export function Work() {
           </DialogHeader>
           {active && (
             <>
-              <div className="aspect-video w-full overflow-hidden rounded-sm bg-surface">
-                <iframe
-                  className="h-full w-full"
-                  src={`https://www.youtube.com/embed/${active.videoId}?autoplay=1&rel=0&modestbranding=1&cc_load_policy=1`}
-                  title={`${active.title} — ${active.category}, ${active.year}`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              <FilmPlayer film={active} active autoPlay />
+              <p className="mt-4 text-xs uppercase tracking-[0.3em] text-muted-foreground">
                 {active.title} — {active.category}, {active.year}
               </p>
             </>
