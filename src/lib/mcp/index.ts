@@ -1,4 +1,4 @@
-import { defineMcp, type ToolDefinition } from "@lovable.dev/mcp-js";
+import { defineMcp } from "@lovable.dev/mcp-js";
 
 import getFilmTool from "./tools/get-film";
 import getStudioProfileTool from "./tools/get-studio-profile";
@@ -11,5 +11,5 @@ export default defineMcp({
   instructions:
     "Public tools for just mike's film portfolio. Use `list_films` to browse the reel, `get_film` for one film's details and YouTube link, and `get_studio_profile` for services, influences and contact details.",
   // Cast: the SDK's tool type predates this project's exactOptionalPropertyTypes.
-  tools: [listFilmsTool, getFilmTool, getStudioProfileTool] as unknown as ToolDefinition[],
+  tools: [listFilmsTool, getFilmTool, getStudioProfileTool] as unknown as Parameters<typeof defineMcp>[0]["tools"],
 });
