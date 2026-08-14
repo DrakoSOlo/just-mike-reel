@@ -2,16 +2,19 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 /**
- * A single fixed, GPU-composited light source that drifts with the pointer and
- * with scroll depth. One rAF loop, transform/opacity only — no layout work.
+ * Two fixed, GPU-composited light sources behind the page: a cool green pool
+ * and a warm yellow haze that drift with the pointer and with scroll depth.
+ * One rAF loop, transform/opacity only — no layout work.
  */
 export function AmbientBackdrop() {
-  const ref = useRef<HTMLDivElement>(null);
+  const coolRef = useRef<HTMLDivElement>(null);
+  const warmRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el || reduced) return;
+    const cool = coolRef.current;
+    const warm = warmRef.current;
+    if (!cool || !warm || reduced) return;
 
     let targetX = 0.5;
     let targetY = 0.35;
@@ -23,7 +26,9 @@ export function AmbientBackdrop() {
       x += (targetX - x) * 0.06;
       y += (targetY - y) * 0.06;
       const depth = window.scrollY / (window.innerHeight || 1);
-      el.style.transform = `translate3d(${(x - 0.5) * 12}vw, ${(y - 0.5) * 10 - depth * 4}vh, 0) scale(${1 + Math.min(depth, 2) * 0.08})`;
+      const d = Math.min(depth, 3);
+      cool.style.transform = `translate3d(${(x - 0.5) * 12}vw, ${(y - 0.5) * 10 - d * 4}vh, 0) scale(${1 + d * 0.08})`;
+      warm.style.transform = `translate3d(${(0.5 - x) * 18}vw, ${(0.5 - y) * 14 + d * 9}vh, 0) scale(${1 + d * 0.12})`;
       frame = requestAnimationFrame(loop);
     };
 
@@ -42,7 +47,8 @@ export function AmbientBackdrop() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div ref={ref} className="ambient-orb" />
+      <div ref={coolRef} className="ambient-orb" />
+      <div ref={warmRef} className="ambient-orb ambient-orb-warm" />
     </div>
   );
 }
