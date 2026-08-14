@@ -233,20 +233,27 @@
   animation: grain-shift 7s steps(4) infinite;
 }
 
+/* WCAG 2.1 AA — 2.3.3 Animation from Interactions */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .reveal,
   .animate-rise,
-  .grain::after {
+  .grain::after,
+  .marquee-track,
+  .magnetic {
     animation: none !important;
     transition: none !important;
     opacity: 1;
-    transform: none;
+    transform: none !important;
   }
   .grain::after {
     opacity: 0.05;
   }
+  .spotlight::before {
+    display: none;
+  }
 }
+
 
