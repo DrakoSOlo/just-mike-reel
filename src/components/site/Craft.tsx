@@ -3,31 +3,7 @@ import { track } from "@/lib/analytics";
 import { OPEN_CONSENT_EVENT } from "@/components/consent/CookieBanner";
 import { useParallax } from "@/hooks/use-parallax";
 
-const services = [
-  "Video editing",
-  "Short films",
-  "Music videos",
-  "Colour grading",
-  "Motion & titles",
-  "Sound & rhythm",
-];
-
-const influences = [
-  "Alternative rock",
-  "Miyazaki",
-  "Lynch",
-  "Scorsese",
-  "Natural light",
-  "Long takes",
-  "Slow fades",
-  "Analog grain",
-];
-
-const socials = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "YouTube", href: "https://youtube.com" },
-  { label: "Vimeo", href: "https://vimeo.com" },
-];
+import { influences, services, socials } from "@/data/profile";
 
 /**
  * Closing section: services grid + the "on repeat" marquee.
