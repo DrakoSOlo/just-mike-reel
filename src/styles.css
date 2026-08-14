@@ -20,7 +20,8 @@
 
 @theme inline {
   --font-display: "Instrument Serif", "Canela", Georgia, serif;
-  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Schibsted Grotesk", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
 
@@ -144,13 +145,14 @@
 
 /* Paper — light mode. Off-white page, navy ink (13.8:1). */
 [data-theme="paper"] {
-  --background: oklch(0.9585 0.0098 87.5);
+  /* Warm printed cream, closer to the reference paper stock. */
+  --background: oklch(0.9525 0.0185 84);
   --foreground: oklch(0.2551 0.0367 250.9);
-  --surface: oklch(0.9215 0.0122 87.5);
+  --surface: oklch(0.9155 0.0235 82);
   --surface-foreground: oklch(0.2551 0.0367 250.9);
-  --card: oklch(0.9215 0.0122 87.5);
+  --card: oklch(0.9155 0.0235 82);
   --card-foreground: oklch(0.2551 0.0367 250.9);
-  --popover: oklch(0.9585 0.0098 87.5);
+  --popover: oklch(0.9525 0.0185 84);
   --popover-foreground: oklch(0.2551 0.0367 250.9);
   --primary: oklch(0.2551 0.0367 250.9);
   --primary-foreground: oklch(0.9585 0.0098 87.5);
@@ -612,7 +614,7 @@
  * --------------------------------------------------------------- */
 
 .spec-label {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -670,7 +672,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.75rem;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1148,4 +1150,105 @@
     opacity: 1;
     transform: none !important;
   }
+}
+
+
+/* ---------------------------------------------------------------
+ * Opening statement — centred aperture + word masks
+ * --------------------------------------------------------------- */
+
+.intro-aperture {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: min(58vmin, 30rem);
+  width: min(58vmin, 30rem);
+  margin: calc(min(58vmin, 30rem) / -2) 0 0 calc(min(58vmin, 30rem) / -2);
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 16%, transparent);
+  border-radius: 9999px;
+  opacity: 0;
+  transform: scale(0.6);
+  animation: intro-aperture-open 5200ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+}
+
+@keyframes intro-aperture-open {
+  0% { opacity: 0; transform: scale(0.6) rotate(-6deg); }
+  40% { opacity: 1; }
+  100% { opacity: 0.55; transform: scale(1.12) rotate(4deg); }
+}
+
+.intro-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.06em;
+}
+
+.intro-word-mask + .intro-word-mask {
+  margin-left: 0.26em;
+}
+
+.intro-word {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: intro-word-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes intro-word-in {
+  to { transform: none; }
+}
+
+/* ---------------------------------------------------------------
+ * One continuous page: sections share the same rhythm and are joined
+ * by a hairline seam instead of hard blocks.
+ * --------------------------------------------------------------- */
+
+.section-band {
+  position: relative;
+  padding-block: clamp(3rem, 6vw, 5.5rem);
+}
+
+.section-band + .section-band::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-foreground) 22%, transparent) 12%,
+    color-mix(in oklab, var(--color-foreground) 22%, transparent) 88%,
+    transparent
+  );
+}
+
+/* Media frames read as composed elements: inset, hairline, soft lift. */
+.media-frame {
+  position: relative;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 16%, transparent);
+  background: color-mix(in oklab, var(--color-surface) 70%, transparent);
+  padding: 0.5rem;
+  transition: border-color 400ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.media-frame:hover {
+  border-color: color-mix(in oklab, var(--color-foreground) 34%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-aperture,
+  .intro-word {
+    animation: none !important;
+    opacity: 1;
+    transform: none !important;
+  }
+}
+
+[data-a11y-motion="off"] .intro-aperture,
+[data-a11y-motion="off"] .intro-word {
+  animation: none !important;
+  opacity: 1;
+  transform: none !important;
 }
