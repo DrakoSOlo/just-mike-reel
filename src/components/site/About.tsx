@@ -1,15 +1,22 @@
 import { Reveal } from "@/components/Reveal";
 
 const services = [
-  "Brand films",
+  "Video editing",
+  "Short films",
   "Music videos",
-  "Documentary",
-  "Commercial direction",
   "Colour grading",
-  "Aerial / FPV",
+  "Motion & titles",
+  "Sound & rhythm",
 ];
 
-const clients = ["Nike", "Spotify", "Aesop", "Red Bull", "Monocle", "Ace Hotel"];
+const influences = [
+  "Alternative rock",
+  "Miyazaki",
+  "Lynch",
+  "Scorsese",
+  "Natural light",
+  "Long takes",
+];
 
 export function About() {
   return (
@@ -24,14 +31,16 @@ export function About() {
             About
           </h2>
           <p className="font-display text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.15] tracking-tight">
-            I'm Mike — a videographer who builds films around the small,
-            unrepeatable moments. Ten years behind the camera, a stubborn
-            attachment to natural light, and a habit of shooting one more take.
+            Hi, I'm Mike. I love alternative rock, Miyazaki movies, and
+            cinematic journeys that start with Lynch and end with Scorsese.
           </p>
           <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            I work end to end: concept, shoot, edit, grade. Small crews, honest
-            frames, and a cut that holds attention from the first second. If you
-            have a story that deserves more than a template, let's talk.
+            I studied Materials Science and Engineering, which mostly just gave
+            me a micro-perspective on how the physical world works — and that's
+            about it. My real drive is guided by honesty and passion. I've been
+            editing videos for three years now, and I created this space to
+            document my work, develop my skills, and keep expanding my
+            knowledge. I still have a lot to learn, and I'm here for it.
           </p>
         </Reveal>
 
@@ -58,13 +67,13 @@ export function About() {
 
           <Reveal delay={220} className="mt-12">
             <h3 className="mb-5 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              Selected clients
+              On repeat
             </h3>
             <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
               <ul className="marquee-track flex w-max gap-8 text-sm text-muted-foreground">
-                {[...clients, ...clients].map((client, i) => (
-                  <li key={`${client}-${i}`} aria-hidden={i >= clients.length}>
-                    {client}
+                {[...influences, ...influences].map((item, i) => (
+                  <li key={`${item}-${i}`} aria-hidden={i >= influences.length}>
+                    {item}
                   </li>
                 ))}
               </ul>
