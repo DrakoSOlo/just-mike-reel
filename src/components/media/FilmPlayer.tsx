@@ -71,10 +71,8 @@ export function FilmPlayer({
   const statusId = useId();
   const [status, setStatus] = useState("");
 
-  const isYouTube = film.source === "youtube";
-
   useEffect(() => {
-    if (!active || !isYouTube) return;
+    if (!active) return;
     let cancelled = false;
 
     loadYouTubeApi().then(() => {
@@ -109,7 +107,7 @@ export function FilmPlayer({
       playerRef.current = null;
       setReady(false);
     };
-  }, [active, isYouTube]);
+  }, [active]);
 
   const togglePlay = useCallback(() => {
     const p = playerRef.current;
@@ -179,17 +177,16 @@ export function FilmPlayer({
               src={posterUrl(film)}
               alt=""
               loading="lazy"
-          referrerPolicy="no-referrer"
               onLoad={(e) => {
                 const img = e.currentTarget;
-                if (img.naturalWidth < 200 && !img.dataset["fallback"] && film.source === "youtube") {
+                if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
                   img.dataset["fallback"] = "1";
                   img.src = img.src.replace("maxresdefault", "hqdefault");
                 }
               }}
               onError={(e) => {
                 const img = e.currentTarget;
-                if (!img.dataset["fallback"] && film.source === "youtube") {
+                if (!img.dataset["fallback"]) {
                   img.dataset["fallback"] = "1";
                   img.src = img.src.replace("maxresdefault", "hqdefault");
                 }
