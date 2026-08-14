@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { PaintDial } from "@/components/theme/PaintDial";
 import { ThemeDot } from "@/components/theme/ThemeDot";
 import { track } from "@/lib/analytics";
 
@@ -88,10 +87,6 @@ export function Nav() {
               </li>
             ))}
           </ul>
-
-          <span aria-hidden="true" className="mx-1 h-4 w-px bg-border sm:mx-2" />
-
-          <PaintDial />
 
           <span aria-hidden="true" className="mx-1 h-4 w-px bg-border sm:mx-2" />
 

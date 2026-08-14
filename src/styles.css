@@ -558,17 +558,45 @@
 }
 
 /* Raises every muted pairing to >= 7:1 and hardens borders (WCAG AAA text,
-   1.4.11 non-text contrast) for visitors who ask for it. */
+   1.4.11 non-text contrast) for visitors who ask for it. Theme aware: dark
+   themes lift muted text towards the off-white, paper darkens it to ink. */
 [data-a11y-contrast="on"] {
-  --muted-foreground: oklch(0.93 0.008 87.5);
-  --border: oklch(0.9585 0.0098 87.5 / 65%);
-  --input: oklch(0.9585 0.0098 87.5 / 70%);
+  --muted-foreground: oklch(0.95 0.008 87.5);
+  --foreground: oklch(0.985 0.006 87.5);
+  --border: oklch(0.9585 0.0098 87.5 / 70%);
+  --input: oklch(0.9585 0.0098 87.5 / 75%);
+  --ring: oklch(0.99 0.005 87.5);
 }
 
-[data-a11y-contrast="on"] .ambient-orb,
-[data-a11y-contrast="on"] .glow-warm {
-  opacity: 0.12;
+[data-a11y-contrast="on"][data-theme="paper"] {
+  --background: oklch(0.985 0.008 84);
+  --foreground: oklch(0.16 0.03 250.9);
+  --muted-foreground: oklch(0.24 0.03 250.9);
+  --border: oklch(0.16 0.03 250.9 / 70%);
+  --input: oklch(0.16 0.03 250.9 / 75%);
+  --ring: oklch(0.16 0.03 250.9);
 }
+
+/* Quiet the ambient light so text always wins. */
+[data-a11y-contrast="on"] .ambient-orb,
+[data-a11y-contrast="on"] .glow-warm,
+[data-a11y-contrast="on"] .scene-bloom,
+[data-a11y-contrast="on"] .bloom {
+  opacity: 0.06;
+}
+
+[data-a11y-contrast="on"] .grain::after,
+[data-a11y-contrast="on"] .poster-grid {
+  opacity: 0.15;
+}
+
+/* Hairline UI (dots, rules, frames) needs 3:1 too. */
+[data-a11y-contrast="on"] .nav-dot,
+[data-a11y-contrast="on"] .intro-skip,
+[data-a11y-contrast="on"] .theme-dot {
+  border-color: var(--color-foreground);
+}
+
 
 /* ---------------------------------------------------------------
  * Colour correction (grade) — a film grade applied to the warm light
@@ -1337,22 +1365,29 @@ a:focus-visible > .mark-glyph {
 }
 
 .nav-dot {
-  height: 0.375rem;
-  width: 0.375rem;
-  border-radius: 9999px;
-  background: color-mix(in oklab, var(--color-foreground) 28%, transparent);
-  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), background-color 450ms ease;
+  height: 0.4rem;
+  width: 0.4rem;
+  border-radius: var(--paint-radius-b);
+  rotate: -12deg;
+  background:
+    radial-gradient(ellipse 60% 70% at 26% 24%, oklch(0.96 0.05 92 / 0.9), transparent 66%),
+    radial-gradient(ellipse 78% 66% at 74% 76%, oklch(0.58 0.11 42 / 0.55), transparent 72%),
+    radial-gradient(ellipse 95% 95% at 46% 44%, oklch(0.85 0.14 76) 0%, oklch(0.71 0.16 52) 62%, oklch(0.6 0.13 40 / 0.92) 100%);
+  filter: blur(calc(var(--paint-bleed) * 0.1)) saturate(0.65);
+  opacity: 0.45;
+  transition: opacity 520ms ease, filter 520ms ease, box-shadow 520ms ease;
 }
 
 .nav-dot-link:hover .nav-dot,
 .nav-dot-link:focus-visible .nav-dot {
-  transform: scale(1.5);
-  background: var(--color-foreground);
+  opacity: 0.85;
+  filter: blur(calc(var(--paint-bleed) * 0.1)) saturate(1.3);
 }
 
 .nav-dot-on {
-  background: var(--color-foreground);
-  transform: scale(1.6);
+  opacity: 1;
+  filter: blur(calc(var(--paint-bleed) * 0.12)) saturate(1.5);
+  box-shadow: 0 0 0.7rem color-mix(in oklab, oklch(0.85 0.14 76) calc(var(--paint-glow) * 0.7), transparent);
 }
 
 .nav-dot-label {
@@ -1379,19 +1414,25 @@ a:focus-visible > .mark-glyph {
 .theme-dot {
   height: 0.75rem;
   width: 0.75rem;
-  border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 55%, transparent);
-  background: var(--color-foreground);
-  transition: background-color 450ms ease, transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--paint-radius-a);
+  rotate: 8deg;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 40%, transparent);
+  background:
+    radial-gradient(ellipse 60% 70% at 26% 24%, oklch(0.96 0.05 92 / 0.9), transparent 66%),
+    radial-gradient(ellipse 78% 66% at 74% 76%, oklch(0.58 0.11 42 / 0.55), transparent 72%),
+    radial-gradient(ellipse 95% 95% at 46% 44%, oklch(0.85 0.14 76) 0%, oklch(0.71 0.16 52) 62%, oklch(0.6 0.13 40 / 0.92) 100%);
+  filter: blur(calc(var(--paint-bleed) * 0.1));
+  transition: opacity 520ms ease, filter 520ms ease;
 }
 
 .theme-dot-on {
   background: transparent;
+  filter: none;
 }
 
 button:hover > .theme-dot,
 button:focus-visible > .theme-dot {
-  transform: scale(1.3);
+  filter: blur(calc(var(--paint-bleed) * 0.1)) saturate(1.4) brightness(1.05);
 }
 
 /* ---------------------------------------------------------------
@@ -1541,17 +1582,23 @@ button:focus-visible > .theme-dot {
 }
 
 .intro-skip {
-  height: 0.5rem;
-  width: 0.5rem;
-  border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 55%, transparent);
-  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), background-color 400ms ease;
+  height: 0.55rem;
+  width: 0.55rem;
+  border-radius: var(--paint-radius-b);
+  rotate: -14deg;
+  background:
+    radial-gradient(ellipse 60% 70% at 26% 24%, oklch(0.96 0.05 92 / 0.9), transparent 66%),
+    radial-gradient(ellipse 78% 66% at 74% 76%, oklch(0.58 0.11 42 / 0.55), transparent 72%),
+    radial-gradient(ellipse 95% 95% at 46% 44%, oklch(0.85 0.14 76) 0%, oklch(0.71 0.16 52) 62%, oklch(0.6 0.13 40 / 0.92) 100%);
+  opacity: 0.5;
+  filter: blur(calc(var(--paint-bleed) * 0.12));
+  transition: opacity 400ms ease, filter 400ms ease;
 }
 
 button:hover > .intro-skip,
 button:focus-visible > .intro-skip {
-  transform: scale(1.6);
-  background: var(--color-foreground);
+  opacity: 1;
+  filter: blur(calc(var(--paint-bleed) * 0.12)) saturate(1.4);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1718,4 +1765,85 @@ html[data-theme-fade] body * {
   height: 0.75rem;
   width: 0.75rem;
   transform: translate(-50%, -50%);
+}
+
+/* ---------------------------------------------------------------
+ * Final refinement pass — painted render, smooth easing, reduced motion
+ * --------------------------------------------------------------- */
+
+:root {
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* A richer, oil-on-paper render for the intro mark: pigment core, wet
+   edge bleed and a dry-brush rim, all painted with gradients only. */
+.intro-ball {
+  filter: blur(calc(var(--paint-bleed) * 0.5)) saturate(1.08) contrast(1.04);
+}
+
+.intro-ball::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: var(--paint-radius-b);
+  rotate: 14deg;
+  background:
+    radial-gradient(ellipse 70% 58% at 34% 70%, oklch(0.72 0.15 52 / 0.55), transparent 68%),
+    radial-gradient(ellipse 56% 72% at 74% 30%, oklch(0.9 0.11 88 / 0.45), transparent 70%);
+  filter: blur(calc(var(--paint-bleed) * 2.4));
+  opacity: calc(var(--paint-speckle) * 0.85);
+  pointer-events: none;
+}
+
+.intro-ball::after {
+  mix-blend-mode: multiply;
+}
+
+/* Softer, unified easing for the ambient motion. */
+.intro-ring { animation-timing-function: var(--ease-soft); }
+.reveal { transition-timing-function: var(--ease-soft); }
+
+/* Reduced motion: no glow pulses, no hover transitions — but the painted
+   pigment (gradients, bleed, speckle) stays fully visible. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mark-glyph,
+  .play-orb,
+  .nav-dot,
+  .theme-dot,
+  .intro-skip,
+  .intro-ball,
+  .paint-swatch {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1;
+  }
+
+  a:hover > .mark-glyph,
+  a:focus-visible > .mark-glyph,
+  button:hover > .theme-dot,
+  button:focus-visible > .theme-dot,
+  .nav-dot-link:hover .nav-dot {
+    filter: blur(calc(var(--paint-bleed) * 0.12)) !important;
+  }
+
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+[data-a11y-motion="off"] .mark-glyph,
+[data-a11y-motion="off"] .play-orb,
+[data-a11y-motion="off"] .nav-dot,
+[data-a11y-motion="off"] .theme-dot,
+[data-a11y-motion="off"] .intro-skip {
+  transition: none !important;
+  animation: none !important;
+  opacity: 1;
 }
