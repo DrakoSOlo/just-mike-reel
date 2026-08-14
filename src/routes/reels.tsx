@@ -2,9 +2,14 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
-import { parseYouTubeId, reelPoster, reelWatchUrl, useReels } from "@/data/reels";
+import { parseYouTubeId, reelWatchUrl, useReels } from "@/data/reels";
 import { Bloom } from "@/components/motion/Bloom";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
+import { PageCurtain } from "@/components/motion/PageCurtain";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { CursorLens } from "@/components/motion/CursorLens";
+import { Reveal } from "@/components/Reveal";
+import { Poster } from "@/components/media/Poster";
 
 const title = "Add reels — just mike";
 const description =
@@ -52,11 +57,16 @@ function ReelsManager() {
 
   return (
     <>
+      <PageCurtain />
       <AmbientBackdrop />
-      <main className="relative min-h-svh px-5 py-16 md:px-10 md:py-24">
+      <ScrollProgress />
+      <CursorLens />
+      <main className="relative min-h-svh overflow-hidden px-5 py-10 md:px-10 md:py-16">
         <Bloom variant="a" opacity={0.4} className="-left-24 top-10 h-[28rem] w-[28rem]" />
+        <Bloom variant="b" opacity={0.2} className="-right-32 bottom-10 h-[24rem] w-[24rem]" />
 
         <div className="relative z-10 mx-auto max-w-[1000px]">
+          <Reveal>
           <a
             href="/"
             className="inline-flex min-h-11 items-center text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
@@ -71,7 +81,9 @@ function ReelsManager() {
             Paste a YouTube Shorts (or regular video) link and it lands in the reels strip on the
             home page. The line-up is saved in this browser.
           </p>
+          </Reveal>
 
+          <Reveal delay={90}>
           <form onSubmit={onSubmit} className="mt-8 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <label htmlFor="reel-link" className="spec-label">
@@ -138,26 +150,25 @@ function ReelsManager() {
               </button>
             </div>
           </form>
+          </Reveal>
 
           <p aria-live="polite" className="sr-only">
             {status}
           </p>
 
-          <h2 className="mt-14 font-display text-2xl tracking-tight md:text-3xl">
+          <Reveal delay={140}>
+          <h2 className="mt-12 font-display text-2xl tracking-tight md:text-3xl">
             Current line-up
           </h2>
           <ul className="mt-5 grid gap-px border-t border-border">
             {reels.map((reel, i) => (
               <li
                 key={reel.id}
-                className="flex items-center gap-4 border-b border-border py-4"
+                className="group flex items-center gap-4 border-b border-border py-4"
               >
-                <img
-                  src={reelPoster(reel)}
-                  alt=""
-                  loading="lazy"
-                  className="h-14 w-10 shrink-0 object-cover"
-                />
+                <span className="h-14 w-10 shrink-0 overflow-hidden">
+                  <Poster mediaId={reel.id} alt="" />
+                </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-display text-lg tracking-tight">{reel.title}</p>
                   <a
@@ -204,6 +215,7 @@ function ReelsManager() {
               </li>
             ))}
           </ul>
+          </Reveal>
         </div>
       </main>
     </>
