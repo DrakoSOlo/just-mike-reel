@@ -43,8 +43,10 @@ function loadYouTubeApi(): Promise<void> {
   return apiPromise;
 }
 
+/* Bare text controls, in the spirit of a screening-room player: no chrome,
+   just labels on the hairline under the frame. */
 const controlClass =
-  "inline-flex h-11 w-11 items-center justify-center rounded-sm text-foreground transition-colors duration-300 hover:bg-surface disabled:opacity-40";
+  "inline-flex min-h-11 items-center px-0 text-[0.625rem] uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:text-foreground disabled:opacity-40";
 
 
 /* ------------------------------------------------------------------ */
