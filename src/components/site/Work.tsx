@@ -26,7 +26,7 @@ const projects: Project[] = [
   { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
 ];
 
-function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
+function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   const reduced = useReducedMotion();
   const [style, setStyle] = useState<React.CSSProperties>({});
@@ -56,7 +56,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
       onMouseMove={onMove}
       onMouseLeave={reset}
       onBlur={reset}
-      onClick={onOpen}
+      onClick={() => ref.current && onOpen(ref.current)}
       style={style}
       className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out"
     >
@@ -104,6 +104,8 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
 
 export function Work() {
   const [active, setActive] = useState<Project | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
 
   return (
     <section
@@ -128,14 +130,33 @@ export function Work() {
               delay={(i % 2) * 120}
               className={cn(i % 2 === 1 && "md:mt-24")}
             >
-              <ProjectCard project={project} onOpen={() => setActive(project)} />
+              <ProjectCard
+                project={project}
+                onOpen={(el: HTMLButtonElement) => {
+                  triggerRef.current = el;
+                  setActive(project);
+                }}
+              />
             </Reveal>
           ))}
         </div>
       </div>
 
       <Dialog open={Boolean(active)} onOpenChange={(open) => !open && setActive(null)}>
-        <DialogContent className="max-w-5xl border-border bg-background p-4 sm:p-6">
+        <DialogContent
+          className="max-w-5xl border-border bg-background p-4 sm:p-6"
+          onOpenAutoFocus={(e) => {
+            // Keep focus on the dialog itself: an autoplaying YouTube iframe
+            // would otherwise swallow focus and trap keyboard users (WCAG 2.1.2).
+            e.preventDefault();
+            (e.currentTarget as HTMLElement).focus();
+          }}
+          onCloseAutoFocus={(e) => {
+            e.preventDefault();
+            triggerRef.current?.focus();
+          }}
+        >
+
           <DialogHeader className="sr-only">
             <DialogTitle>{active?.title ?? "Film"}</DialogTitle>
             <DialogDescription>
