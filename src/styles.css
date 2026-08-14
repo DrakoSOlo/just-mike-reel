@@ -1252,3 +1252,249 @@
   opacity: 1;
   transform: none !important;
 }
+
+/* ---------------------------------------------------------------
+ * Wordless controls: dots and glyphs instead of labels
+ * --------------------------------------------------------------- */
+
+.mark-glyph {
+  position: relative;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 45%, transparent);
+  background: radial-gradient(
+    circle at 32% 28%,
+    oklch(0.86 0.14 78) 0%,
+    oklch(0.74 0.16 55) 55%,
+    color-mix(in oklab, var(--color-foreground) 55%, transparent) 100%
+  );
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), filter 500ms ease;
+}
+
+a:hover > .mark-glyph,
+a:focus-visible > .mark-glyph {
+  transform: scale(1.35);
+  filter: saturate(1.3);
+}
+
+.nav-dot-link {
+  position: relative;
+}
+
+.nav-dot {
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--color-foreground) 28%, transparent);
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), background-color 450ms ease;
+}
+
+.nav-dot-link:hover .nav-dot,
+.nav-dot-link:focus-visible .nav-dot {
+  transform: scale(1.5);
+  background: var(--color-foreground);
+}
+
+.nav-dot-on {
+  background: var(--color-foreground);
+  transform: scale(1.6);
+}
+
+.nav-dot-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-mono, ui-monospace), monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.nav-dot-link:hover .nav-dot-label,
+.nav-dot-link:focus-visible .nav-dot-label {
+  opacity: 1;
+}
+
+.theme-dot {
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 55%, transparent);
+  background: var(--color-foreground);
+  transition: background-color 450ms ease, transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-dot-on {
+  background: transparent;
+}
+
+button:hover > .theme-dot,
+button:focus-visible > .theme-dot {
+  transform: scale(1.3);
+}
+
+/* ---------------------------------------------------------------
+ * Intro — a bouncing ball, no words
+ * --------------------------------------------------------------- */
+
+.intro-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.intro-floor {
+  opacity: 0.8;
+}
+
+.intro-ball-x {
+  position: absolute;
+  left: 12%;
+  top: 72%;
+  animation: intro-ball-travel 5000ms cubic-bezier(0.32, 0.06, 0.5, 1) 200ms forwards;
+}
+
+.intro-ball-y {
+  position: absolute;
+  display: block;
+  animation: intro-ball-bounce 5000ms linear 200ms forwards;
+}
+
+.intro-ball {
+  display: block;
+  height: clamp(3rem, 7vw, 5.5rem);
+  width: clamp(3rem, 7vw, 5.5rem);
+  margin: calc(clamp(3rem, 7vw, 5.5rem) / -1) 0 0 calc(clamp(3rem, 7vw, 5.5rem) / -2);
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 34% 28%,
+    oklch(0.95 0.06 92) 0%,
+    oklch(0.87 0.14 78) 34%,
+    oklch(0.72 0.16 52) 72%,
+    oklch(0.5 0.12 260) 100%
+  );
+  filter: blur(0.3px);
+  box-shadow: 0 0 3rem color-mix(in oklab, oklch(0.85 0.15 75) 45%, transparent);
+  animation: intro-ball-squash 5000ms linear 200ms forwards;
+}
+
+.intro-shadow {
+  position: absolute;
+  left: 12%;
+  top: 72%;
+  height: 0.5rem;
+  width: clamp(3rem, 7vw, 5.5rem);
+  margin-left: calc(clamp(3rem, 7vw, 5.5rem) / -2);
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--color-foreground) 22%, transparent);
+  filter: blur(6px);
+  animation: intro-shadow-travel 5000ms cubic-bezier(0.32, 0.06, 0.5, 1) 200ms forwards,
+    intro-shadow-pulse 5000ms linear 200ms forwards;
+}
+
+@keyframes intro-ball-travel {
+  0% { left: 12%; }
+  100% { left: 50%; }
+}
+
+@keyframes intro-shadow-travel {
+  0% { left: 12%; }
+  100% { left: 50%; }
+}
+
+@keyframes intro-ball-bounce {
+  0% { transform: translateY(-72vh); }
+  16% { transform: translateY(0); animation-timing-function: cubic-bezier(0.2, 0, 0.3, 1); }
+  34% { transform: translateY(-34vh); }
+  50% { transform: translateY(0); }
+  62% { transform: translateY(-16vh); }
+  72% { transform: translateY(0); }
+  80% { transform: translateY(-7vh); }
+  87% { transform: translateY(0); }
+  92% { transform: translateY(-2.4vh); }
+  96%, 100% { transform: translateY(0); }
+}
+
+@keyframes intro-ball-squash {
+  0%, 14% { scale: 1 1; }
+  17% { scale: 1.22 0.78; }
+  21% { scale: 1 1; }
+  48% { scale: 1 1; }
+  51% { scale: 1.14 0.86; }
+  55% { scale: 1 1; }
+  71% { scale: 1.08 0.92; }
+  75% { scale: 1 1; }
+  96% { scale: 1 1; }
+  100% { scale: 1.5 1.5; }
+}
+
+@keyframes intro-shadow-pulse {
+  0% { opacity: 0; transform: scaleX(0.3); }
+  16% { opacity: 0.9; transform: scaleX(1); }
+  34% { opacity: 0.35; transform: scaleX(0.6); }
+  50% { opacity: 0.85; transform: scaleX(1); }
+  72%, 100% { opacity: 0.7; transform: scaleX(1); }
+}
+
+.intro-ring {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  height: 8rem;
+  width: 8rem;
+  margin: -4rem 0 0 -4rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 30%, transparent);
+  opacity: 0;
+  animation: intro-ring-out 1600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.intro-ring-1 { animation-delay: 3900ms; }
+.intro-ring-2 { animation-delay: 4300ms; }
+
+@keyframes intro-ring-out {
+  0% { opacity: 0.7; transform: scale(0.2); }
+  100% { opacity: 0; transform: scale(3.4); }
+}
+
+.intro-skip {
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 55%, transparent);
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), background-color 400ms ease;
+}
+
+button:hover > .intro-skip,
+button:focus-visible > .intro-skip {
+  transform: scale(1.6);
+  background: var(--color-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-ball-x,
+  .intro-ball-y,
+  .intro-ball,
+  .intro-shadow,
+  .intro-ring {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1;
+  }
+}
+
+[data-a11y-motion="off"] .intro-ball-x,
+[data-a11y-motion="off"] .intro-ball-y,
+[data-a11y-motion="off"] .intro-ball,
+[data-a11y-motion="off"] .intro-shadow,
+[data-a11y-motion="off"] .intro-ring {
+  animation: none !important;
+  transform: none !important;
+}
