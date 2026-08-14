@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouterState } from "@tanstack/react-router";
 
 import { PageCurtain } from "@/components/motion/PageCurtain";
-import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
+import { SceneBackdrop } from "@/components/motion/SceneBackdrop";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { CursorLens } from "@/components/motion/CursorLens";
 import { AccessibilityMenu } from "@/components/a11y/AccessibilityMenu";
@@ -28,7 +28,7 @@ export function SiteChrome() {
   return (
     <>
       <PageCurtain key={pathname} />
-      <AmbientBackdrop />
+      <SceneBackdrop />
       <ScrollProgress />
       <CursorLens />
       <AccessibilityMenu />
