@@ -1304,6 +1304,11 @@
 .paint-swatch-on { opacity: 1; }
 button:hover > .paint-swatch,
 button:focus-visible > .paint-swatch { opacity: 0.85; }
+button:focus-visible > .paint-swatch {
+  outline: 2px solid var(--color-ring, currentColor);
+  outline-offset: 4px;
+  border-radius: var(--paint-radius-a);
+}
 
 
 .mark-glyph {
@@ -1417,22 +1422,37 @@ button:focus-visible > .theme-dot {
 }
 
 .intro-ball {
+  position: relative;
   display: block;
   height: clamp(2.75rem, 6vw, 4.75rem);
   width: clamp(2.75rem, 6vw, 4.75rem);
   margin: calc(clamp(2.75rem, 6vw, 4.75rem) / -1) 0 0 calc(clamp(2.75rem, 6vw, 4.75rem) / -2);
-  border-radius: 9999px;
-  background: radial-gradient(
-    circle at 32% 26%,
-    oklch(0.96 0.05 92) 0%,
-    oklch(0.88 0.13 80) 30%,
-    oklch(0.74 0.15 54) 66%,
-    oklch(0.52 0.11 262) 100%
-  );
+  border-radius: var(--paint-radius-a);
+  rotate: -8deg;
+  background:
+    radial-gradient(ellipse 62% 74% at 28% 24%, oklch(0.96 0.06 92 / 0.95), transparent 70%),
+    radial-gradient(ellipse 78% 62% at 70% 68%, oklch(0.6 0.12 262 / 0.55), transparent 72%),
+    radial-gradient(ellipse 92% 92% at 44% 42%, oklch(0.86 0.14 74) 0%, oklch(0.72 0.16 52) 58%, oklch(0.62 0.13 40 / 0.9) 100%);
+  filter: blur(calc(var(--paint-bleed) * 0.35)) saturate(1.05);
   box-shadow:
-    0 0 2rem color-mix(in oklab, oklch(0.86 0.14 76) 35%, transparent),
-    0 0 6rem color-mix(in oklab, oklch(0.8 0.13 70) 22%, transparent);
+    0 0 2rem color-mix(in oklab, oklch(0.86 0.14 76) var(--paint-glow), transparent),
+    0 0 6rem color-mix(in oklab, oklch(0.8 0.13 70) calc(var(--paint-glow) * 0.6), transparent);
   animation: intro-ball-squash 4600ms linear 260ms forwards;
+}
+
+/* dry-brush speckle on the intro ball, matching the painted marks */
+.intro-ball::after {
+  content: "";
+  position: absolute;
+  inset: -16%;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 12% 78%, oklch(0.78 0.15 58 / 0.5) 0 18%, transparent 22%),
+    radial-gradient(circle at 88% 22%, oklch(0.9 0.1 84 / 0.45) 0 12%, transparent 16%),
+    radial-gradient(circle at 74% 92%, oklch(0.66 0.12 44 / 0.4) 0 9%, transparent 13%);
+  filter: blur(var(--paint-bleed));
+  opacity: var(--paint-speckle);
+  pointer-events: none;
 }
 
 .intro-shadow {
