@@ -26,6 +26,7 @@ export type AnalyticsEvent =
   | "reel_play"
   | "theme_change"
   | "grade_change"
+  | "paint_change"
   | "a11y_change"
   | "contact_click"
   | "social_click"
