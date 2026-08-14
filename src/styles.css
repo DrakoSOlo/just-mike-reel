@@ -683,13 +683,29 @@
     border-color 320ms ease;
 }
 
-.group:hover .play-badge,
+/* Hover inversion only where a real pointer exists, so touch devices
+ * never get stuck in the hovered (inverted) state after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .play-badge,
+  .play-badge:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
+}
+
 .group:focus-visible .play-badge,
-.play-badge:hover,
-.play-badge:focus-visible {
+.play-badge:focus-visible,
+.group:active .play-badge,
+.play-badge:active {
   background: var(--color-foreground);
   color: var(--color-background);
   border-color: var(--color-foreground);
+}
+
+[data-cursor="play"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .play-badge svg {
