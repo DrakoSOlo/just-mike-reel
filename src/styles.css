@@ -683,13 +683,29 @@
     border-color 320ms ease;
 }
 
-.group:hover .play-badge,
+/* Hover inversion only where a real pointer exists, so touch devices
+ * never get stuck in the hovered (inverted) state after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .play-badge,
+  .play-badge:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+  }
+}
+
 .group:focus-visible .play-badge,
-.play-badge:hover,
-.play-badge:focus-visible {
+.play-badge:focus-visible,
+.group:active .play-badge,
+.play-badge:active {
   background: var(--color-foreground);
   color: var(--color-background);
   border-color: var(--color-foreground);
+}
+
+[data-cursor="play"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .play-badge svg {
@@ -769,4 +785,98 @@
 
 [data-a11y-contrast="on"] .bloom {
   display: none;
+}
+
+
+/* ---------------------------------------------------------------
+ * Blank posters + bloom hover graphic
+ * Temporary placeholder art while the film stills are off: a paper
+ * tile with the printed bloom that blooms in on hover/focus.
+ * Compositor-only properties (opacity/transform/filter) so hover
+ * costs nothing on the main thread.
+ * --------------------------------------------------------------- */
+
+.poster-blank {
+  background: color-mix(in oklab, var(--color-foreground) 5%, var(--color-background));
+}
+
+.poster-bloom {
+  opacity: 0.5;
+  filter: saturate(0.5) blur(6px);
+  transform: scale(1.08);
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.group:hover .poster-bloom,
+.group:focus-visible .poster-bloom,
+.group:active .poster-bloom {
+  opacity: 0.92;
+  filter: saturate(1.05) blur(0px);
+  transform: scale(1.14);
+}
+
+.poster-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-foreground) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-foreground) 8%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.55;
+}
+
+/* Play badge motion: the pill lifts a hair and a hairline ring
+ * expands out of it once. Transform/opacity only. */
+.play-badge {
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.play-badge::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transform: scale(1);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .play-badge {
+    transform: translate3d(0, -2px, 0);
+  }
+
+  .group:hover .play-badge::after {
+    animation: badge-ring 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+.group:focus-visible .play-badge {
+  transform: translate3d(0, -2px, 0);
+}
+
+@keyframes badge-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-bloom,
+  .play-badge {
+    transition-duration: 1ms;
+  }
+
+  .play-badge::after {
+    animation: none;
+  }
 }
