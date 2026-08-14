@@ -497,6 +497,21 @@
   font-size: 0.55rem;
 }
 
+/* Pointer label over film cards — same hairline pill as the poster badge. */
+.cursor-tag {
+  transition: opacity 220ms ease;
+  will-change: transform, opacity;
+}
+
+.play-badge-cursor {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border-color: var(--color-foreground);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.6rem;
+}
+
+
 /* Visitor accessibility preferences (set from the panel) */
 [data-a11y-motion="off"] .ambient-orb,
 [data-a11y-motion="off"] .glow-warm,
