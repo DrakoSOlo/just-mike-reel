@@ -257,3 +257,94 @@
 }
 
 
+
+/* ---------------------------------------------------------------
+ * Depth & interaction layer
+ * All effects below animate transform/opacity only (GPU-composited),
+ * are driven by one shared rAF ticker, and switch off entirely under
+ * prefers-reduced-motion (WCAG 2.1 — 2.3.3).
+ * --------------------------------------------------------------- */
+
+/* Ambient light source behind the page */
+.ambient-orb {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  height: 90vmax;
+  width: 90vmax;
+  margin-left: -45vmax;
+  margin-top: -45vmax;
+  border-radius: 9999px;
+  opacity: 0.55;
+  will-change: transform;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--color-surface) 90%, transparent) 0%,
+    transparent 62%
+  );
+}
+
+/* Entrance wipe */
+.page-curtain {
+  background: var(--color-background);
+  transform: translateY(0);
+  transition: transform 1100ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.page-curtain-lifted {
+  transform: translateY(-101%);
+}
+
+/* Scroll-linked parallax primitives (fed by use-parallax) */
+.parallax-y {
+  transform: translate3d(0, calc(var(--parallax, 0) * var(--parallax-depth, 18px) * -1), 0);
+  will-change: transform;
+}
+
+.parallax-media {
+  transform: translate3d(0, calc(var(--parallax, 0) * 26px), 0) scale(1.12);
+  will-change: transform;
+}
+
+.parallax-fade {
+  opacity: calc(0.55 + var(--enter, 1) * 0.45);
+}
+
+/* Letter / link interactions */
+.link-sweep {
+  background-image: linear-gradient(var(--color-foreground), var(--color-foreground));
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  transition: background-size 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-sweep:hover,
+.link-sweep:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Section edge that draws itself in as it enters the viewport */
+.edge-draw {
+  transform: scaleX(var(--enter, 1));
+  transform-origin: left;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb,
+  .parallax-y,
+  .parallax-media,
+  .edge-draw,
+  .page-curtain {
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .parallax-media {
+    transform: scale(1) !important;
+  }
+  .parallax-fade {
+    opacity: 1 !important;
+  }
+}
