@@ -5,16 +5,16 @@ import bloomB from "@/assets/bloom-b.png.asset.json";
 import bloom1 from "@/assets/bloom-hover-1.png.asset.json";
 
 const DURATION = 8000;
-const WIPE_AT = 6800;
+const WIPE_AT = 6900;
 
-const word1 = "just".split("");
-const word2 = "mike".split("");
+/** The line builds word by word in the middle of the screen. */
+const LINE = ["Filmmaking", "is", "just", "attention", "held", "long", "enough"];
 
 /**
- * Eight-second title sequence played once per session on the home page.
+ * Eight-second opening statement played once per session on the home page.
  *
  * Everything moves on transform/opacity via CSS keyframes; the only JS work is
- * a single rAF that writes the loading counter straight into a text node, so
+ * a single rAF that writes the frame counter straight into a text node, so
  * the sequence never triggers a React render or a layout pass.
  */
 export function IntroSequence({ onDone }: { onDone: () => void }) {
@@ -29,7 +29,7 @@ export function IntroSequence({ onDone }: { onDone: () => void }) {
       const p = Math.min((now - start) / (WIPE_AT - 400), 1);
       const eased = 1 - Math.pow(1 - p, 3);
       if (counterRef.current) {
-        counterRef.current.textContent = String(Math.round(eased * 100)).padStart(3, "0");
+        counterRef.current.textContent = String(Math.round(eased * 192)).padStart(3, "0");
       }
       if (p < 1) frame = requestAnimationFrame(tick);
     });
@@ -57,7 +57,7 @@ export function IntroSequence({ onDone }: { onDone: () => void }) {
   return (
     <div
       role="dialog"
-      aria-label="Opening title sequence"
+      aria-label="Opening sequence"
       className={`intro grain fixed inset-0 z-[100] overflow-hidden ${wiping ? "intro-out" : ""}`}
     >
       <img src={bloomA.url} alt="" aria-hidden="true" className="intro-bloom intro-bloom-1" />
@@ -73,59 +73,63 @@ export function IntroSequence({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="relative flex h-full w-full flex-col justify-between px-5 py-6 md:px-10 md:py-8">
-        <div className="flex items-start justify-between text-[0.625rem] uppercase tracking-[0.4em] text-muted-foreground">
+        <div className="flex items-start justify-between font-mono text-[0.625rem] uppercase tracking-[0.4em] text-muted-foreground">
           <span className="intro-fade" style={{ animationDelay: "300ms" }}>
             just mike
           </span>
           <span className="intro-fade" style={{ animationDelay: "420ms" }}>
-            title sequence
+            reel 01 — 24 fps
           </span>
         </div>
 
-        <div className="mx-auto w-full max-w-[1400px]">
+        {/* The statement, centred, with a hairline aperture opening behind it. */}
+        <div className="relative mx-auto flex w-full max-w-[1100px] flex-1 flex-col items-center justify-center text-center">
+          <span aria-hidden="true" className="intro-aperture" />
+
           <p
-            className="intro-fade text-[0.625rem] uppercase tracking-[0.45em] text-muted-foreground"
-            style={{ animationDelay: "700ms" }}
+            className="intro-fade font-mono text-[0.625rem] uppercase tracking-[0.45em] text-muted-foreground"
+            style={{ animationDelay: "500ms" }}
           >
-            Video editor &amp; filmmaker
+            A note before the reel
           </p>
-          <h2 className="mt-3 font-display text-[clamp(3.2rem,15vw,14rem)] leading-[0.82] tracking-[-0.03em]">
-            <span className="sr-only">just mike</span>
-            <span aria-hidden="true" className="block">
-              {word1.map((l, i) => (
-                <span key={`i1-${i}`} className="intro-letter" style={{ animationDelay: `${1000 + i * 90}ms` }}>
-                  {l}
-                </span>
-              ))}
-            </span>
-            <span aria-hidden="true" className="block pl-[0.12em] italic">
-              {word2.map((l, i) => (
-                <span key={`i2-${i}`} className="intro-letter" style={{ animationDelay: `${1700 + i * 90}ms` }}>
-                  {l}
+
+          <h2 className="relative mt-6 font-display text-[clamp(2.1rem,6.4vw,5.6rem)] leading-[1.02] tracking-[-0.02em]">
+            <span className="sr-only">Filmmaking is just attention, held long enough.</span>
+            <span aria-hidden="true">
+              {LINE.map((word, i) => (
+                <span key={word} className="intro-word-mask">
+                  <span
+                    className={`intro-word${i >= 3 ? " italic" : ""}`}
+                    style={{ animationDelay: `${900 + i * 260}ms` }}
+                  >
+                    {word}
+                  </span>
                 </span>
               ))}
             </span>
           </h2>
+
           <p
-            className="intro-fade mt-6 max-w-sm text-sm leading-relaxed text-muted-foreground"
-            style={{ animationDelay: "3200ms" }}
+            className="intro-fade mt-8 max-w-sm text-sm leading-relaxed text-muted-foreground"
+            style={{ animationDelay: "4200ms" }}
           >
-            Cuts built on rhythm, honesty and a stubborn love of the frame.
+            Everything else — the cut, the sound, the grade — is only a way of
+            keeping it there.
           </p>
         </div>
 
-        <div className="flex items-end justify-between text-[0.625rem] uppercase tracking-[0.4em] text-muted-foreground">
+        <div className="flex items-end justify-between font-mono text-[0.625rem] uppercase tracking-[0.4em] text-muted-foreground">
           <span className="intro-fade tabular-nums" style={{ animationDelay: "500ms" }}>
-            <span ref={counterRef}>000</span> / 100
+            frame <span ref={counterRef}>000</span> / 192
           </span>
           <button
             type="button"
             onClick={onDone}
-            className="intro-fade inline-flex min-h-11 items-center gap-3 px-1 text-[0.625rem] uppercase tracking-[0.4em] text-foreground"
+            className="intro-fade group inline-flex min-h-11 items-center gap-3 px-1 text-[0.625rem] uppercase tracking-[0.4em] text-foreground"
             style={{ animationDelay: "900ms" }}
           >
-            Skip intro
-            <span aria-hidden="true" className="h-px w-8 bg-foreground transition-all duration-500 hover:w-14" />
+            Skip
+            <span aria-hidden="true" className="h-px w-8 bg-foreground transition-all duration-500 group-hover:w-14" />
           </button>
         </div>
       </div>

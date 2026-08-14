@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import type { Film } from "@/data/films";
-import { embedUrl, posterUrl, watchUrl } from "@/data/films";
+import { embedUrl } from "@/data/films";
 import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
 import { track } from "@/lib/analytics";
@@ -18,8 +18,8 @@ type YTPlayer = {
   unMute: () => void;
   isMuted: () => boolean;
   seekTo: (s: number, allow: boolean) => void;
-  loadModule: (m: string) => void;
-  unloadModule: (m: string) => void;
+  getCurrentTime: () => number;
+  getDuration: () => number;
   destroy: () => void;
 };
 
@@ -43,10 +43,16 @@ function loadYouTubeApi(): Promise<void> {
   return apiPromise;
 }
 
-/* Bare text controls, in the spirit of a screening-room player: no chrome,
-   just labels on the hairline under the frame. */
+function timecode(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+/* Bare text controls: no chrome, just labels on the hairline under the frame. */
 const controlClass =
-  "inline-flex min-h-11 items-center px-0 text-[0.625rem] uppercase tracking-[0.3em] text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:text-foreground disabled:opacity-40";
+  "inline-flex min-h-11 items-center px-0 font-mono text-[0.625rem] uppercase tracking-[0.28em] text-muted-foreground transition-colors duration-300 hover:text-foreground focus-visible:text-foreground disabled:opacity-40";
 
 
 /* ------------------------------------------------------------------ */
@@ -68,12 +74,13 @@ export function FilmPlayer({
   const [selfActive, setSelfActive] = useState(false);
   const active = activeProp ?? selfActive;
 
+  const stageRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const playerRef = useRef<YTPlayer | null>(null);
+  const timeRef = useRef<HTMLSpanElement>(null);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(autoPlay);
   const [muted, setMuted] = useState(false);
-  const [captionsOn, setCaptionsOn] = useState(true);
   const statusId = useId();
   const [status, setStatus] = useState("");
 
@@ -115,6 +122,21 @@ export function FilmPlayer({
     };
   }, [active]);
 
+  /* Timecode is written straight into the text node once a second, so the
+     running clock never triggers a React render. */
+  useEffect(() => {
+    if (!ready) return;
+    const tick = () => {
+      const p = playerRef.current;
+      const el = timeRef.current;
+      if (!p || !el) return;
+      el.textContent = `${timecode(p.getCurrentTime())} / ${timecode(p.getDuration())}`;
+    };
+    tick();
+    const id = window.setInterval(tick, 500);
+    return () => window.clearInterval(id);
+  }, [ready]);
+
   const togglePlay = useCallback(() => {
     const p = playerRef.current;
     if (!p) return;
@@ -136,40 +158,28 @@ export function FilmPlayer({
     }
   }, []);
 
-  const toggleCaptions = useCallback(() => {
-    const p = playerRef.current;
-    if (!p) return;
-    if (captionsOn) {
-      p.unloadModule("captions");
-      p.unloadModule("cc");
-      setCaptionsOn(false);
-      setStatus("Captions off");
+  const toggleFullscreen = useCallback(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+      setStatus("Exited fullscreen");
     } else {
-      p.loadModule("captions");
-      p.loadModule("cc");
-      setCaptionsOn(true);
-      setStatus("Captions on");
+      void el.requestFullscreen?.();
+      setStatus("Fullscreen");
     }
-  }, [captionsOn]);
-
-  const restart = useCallback(() => {
-    const p = playerRef.current;
-    if (!p) return;
-    p.seekTo(0, true);
-    p.playVideo();
-    setStatus("Restarted from the beginning");
   }, []);
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="group relative aspect-video w-full overflow-hidden bg-surface">
+      <div ref={stageRef} className="group relative aspect-video w-full overflow-hidden bg-surface">
         {active ? (
           <iframe
             ref={frameRef}
             className="absolute inset-0 h-full w-full"
             src={embedUrl(film, autoPlay)}
             title={`${film.title} — ${film.category}, ${film.year}`}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             allowFullScreen
           />
         ) : (
@@ -204,7 +214,7 @@ export function FilmPlayer({
       </div>
 
       {active && (
-        <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 border-t border-border pt-2">
+        <div className="mt-3 flex items-center gap-x-6 border-t border-border pt-2">
           <button
             type="button"
             onClick={togglePlay}
@@ -215,46 +225,27 @@ export function FilmPlayer({
           >
             {playing ? "Pause" : "Play"}
           </button>
+
+          <span
+            ref={timeRef}
+            aria-hidden="true"
+            className="font-mono text-[0.625rem] tabular-nums tracking-[0.2em] text-muted-foreground"
+          >
+            00:00 / 00:00
+          </span>
+
           <button
             type="button"
             onClick={toggleMute}
             disabled={!ready}
             aria-pressed={muted}
-            className={controlClass}
+            className={cn(controlClass, "ml-auto")}
           >
             {muted ? "Unmute" : "Mute"}
           </button>
-          <button
-            type="button"
-            onClick={toggleCaptions}
-            disabled={!ready}
-            aria-pressed={captionsOn}
-            className={controlClass}
-          >
-            {captionsOn ? "Captions off" : "Captions on"}
+          <button type="button" onClick={toggleFullscreen} className={controlClass}>
+            Full
           </button>
-          <button
-            type="button"
-            onClick={restart}
-            disabled={!ready}
-            className={controlClass}
-          >
-            Restart
-          </button>
-
-          <a
-            href={watchUrl(film)}
-            target="_blank"
-            rel="noreferrer"
-            className={cn(controlClass, "ml-auto")}
-          >
-            <span>
-              YouTube
-              <span className="sr-only">
-                {` — open ${film.title} in a new tab`}
-              </span>
-            </span>
-          </a>
 
           <p id={statusId} role="status" aria-live="polite" className="sr-only">
             {status}
@@ -264,4 +255,3 @@ export function FilmPlayer({
     </div>
   );
 }
-

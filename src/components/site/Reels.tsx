@@ -25,7 +25,7 @@ export function Reels() {
     <section
       id="reels"
       aria-labelledby="reels-heading"
-      className="cv-auto relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
+      className="cv-auto section-band relative overflow-hidden px-5 md:px-10"
     >
       <Bloom variant="b" opacity={0.14} className="-left-40 top-0 h-[20rem] w-[20rem] md:h-[28rem] md:w-[28rem]" />
 
@@ -78,7 +78,7 @@ export function Reels() {
                     }}
                     className="group block w-full text-left"
                   >
-                    <span className="relative block aspect-[9/16] overflow-hidden bg-surface">
+                    <span className="media-frame relative block aspect-[9/16] overflow-hidden bg-surface">
                       <Poster mediaId={reel.id} alt={`Placeholder art for the reel ${reel.title}`} />
                       <span aria-hidden="true" className="frame-ticks absolute inset-0" />
                       <span aria-hidden="true" className="absolute bottom-3 left-3">
