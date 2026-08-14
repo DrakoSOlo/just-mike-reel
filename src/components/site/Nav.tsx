@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ThemeMenu } from "@/components/theme/ThemeMenu";
+import { track } from "@/lib/analytics";
 
 const links = [
   { href: "#reel", label: "Reel", id: "reel" },
@@ -7,6 +9,7 @@ const links = [
   { href: "#about", label: "About", id: "about" },
   { href: "#services", label: "Services", id: "services" },
 ];
+
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
