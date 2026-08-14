@@ -44,7 +44,7 @@ export function SiteChrome() {
   return (
     <>
       {intro && <IntroSequence onDone={() => setIntro(false)} />}
-      {!intro && <PageCurtain key={pathname} />}
+      {!intro && pathname !== introPath && <PageCurtain key={pathname} />}
       <SceneBackdrop />
       <ScrollProgress />
       <CursorLens />
