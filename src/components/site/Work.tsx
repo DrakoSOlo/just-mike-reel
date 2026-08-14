@@ -21,8 +21,8 @@ type Project = {
 // Placeholder YouTube IDs — swap for the real films.
 const projects: Project[] = [
   { id: "p1", videoId: "aqz-KE-bpKQ", title: "Northbound", category: "Brand film", year: "2026" },
-  { id: "p2", videoId: "9bZkp7q19f0", title: "Salt & Static", category: "Music video", year: "2025" },
-  { id: "p3", videoId: "M7lc1UVf-VE", title: "The Long Room", category: "Documentary", year: "2025" },
+  { id: "p2", videoId: "eRsGyueVLvQ", title: "Salt & Static", category: "Music video", year: "2025" },
+  { id: "p3", videoId: "YE7VzlLtp-4", title: "The Long Room", category: "Documentary", year: "2025" },
   { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
 ];
 
