@@ -6,28 +6,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { FilmPlayer } from "@/components/media/FilmPlayer";
 import { Reveal } from "@/components/Reveal";
+import type { Film } from "@/data/films";
+import { films, posterUrl } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type Project = {
-  id: string;
-  videoId: string;
-  title: string;
-  category: string;
-  year: string;
-};
-
-// Placeholder YouTube IDs — swap for the real films.
-const projects: Project[] = [
-  { id: "p1", videoId: "aqz-KE-bpKQ", title: "Northbound", category: "Brand film", year: "2026" },
-  { id: "p2", videoId: "9bZkp7q19f0", title: "Salt & Static", category: "Music video", year: "2025" },
-  { id: "p3", videoId: "YE7VzlLtp-4", title: "The Long Room", category: "Documentary", year: "2025" },
-  { id: "p4", videoId: "LXb3EKWsInQ", title: "Halcyon", category: "Commercial", year: "2024" },
-];
-
-function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLButtonElement) => void }) {
+function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   const mediaRef = useParallax<HTMLDivElement>();
   const reduced = useReducedMotion();
@@ -72,8 +59,8 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
         <img
-          src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
-          alt={`Still frame from ${project.title}, a ${project.category.toLowerCase()} from ${project.year}`}
+          src={`https://img.youtube.com/vi/${film.videoId}/maxresdefault.jpg`}
+          alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           loading="lazy"
           onLoad={(e) => {
             const img = e.currentTarget;
@@ -103,9 +90,9 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
         </span>
       </div>
       <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
-        <h3 className="font-display text-2xl tracking-tight md:text-3xl">{project.title}</h3>
+        <h3 className="font-display text-2xl tracking-tight md:text-3xl">{film.title}</h3>
         <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {project.category} — {project.year}
+          {film.category} — {film.year}
         </span>
       </div>
     </button>
@@ -113,7 +100,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
 }
 
 export function Work() {
-  const [active, setActive] = useState<Project | null>(null);
+  const [active, setActive] = useState<Film | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
 
@@ -129,22 +116,22 @@ export function Work() {
             Selected work
           </h2>
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {projects.length} films
+            {films.length} films
           </span>
         </Reveal>
 
         <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
-          {projects.map((project, i) => (
+          {films.map((film, i) => (
             <Reveal
-              key={project.id}
+              key={film.id}
               delay={(i % 2) * 120}
               className={cn(i % 2 === 1 && "md:mt-24")}
             >
-              <ProjectCard
-                project={project}
+              <FilmCard
+                film={film}
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
-                  setActive(project);
+                  setActive(film);
                 }}
               />
             </Reveal>

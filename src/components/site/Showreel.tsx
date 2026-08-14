@@ -1,9 +1,7 @@
 import { Reveal } from "@/components/Reveal";
-import { VideoEmbed } from "@/components/VideoEmbed";
+import { FilmPlayer } from "@/components/media/FilmPlayer";
+import { showreel } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
-
-// Placeholder — swap for the real showreel ID.
-const REEL_ID = "dQw4w9WgXcQ";
 
 export function Showreel() {
   const ref = useParallax<HTMLDivElement>();
@@ -32,7 +30,7 @@ export function Showreel() {
               "scale(calc(0.94 + var(--enter, 1) * 0.06)) translate3d(0, calc(var(--parallax, 0) * -22px), 0)",
           }}
         >
-          <VideoEmbed videoId={REEL_ID} title="just mike — 2026 showreel" />
+          <FilmPlayer film={showreel} autoPlay />
         </div>
       </div>
     </section>
