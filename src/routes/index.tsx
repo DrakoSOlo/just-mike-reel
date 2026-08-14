@@ -12,6 +12,8 @@ import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { showreel, posterUrl, watchUrl, films } from "@/data/films";
+import { posterSources } from "@/lib/youtube-images";
+
 
 const title = "just mike — Video Editor & Filmmaker";
 const description =
