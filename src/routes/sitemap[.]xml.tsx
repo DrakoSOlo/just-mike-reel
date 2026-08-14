@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
 /** Entries always advertise the canonical project domain, never a preview host. */
-const BASE_URL = "https://just-mike-reel.lovable.app";
+const BASE_URL = "https://justmike.gr";
 
 interface SitemapEntry {
   path: string;
