@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Showreel } from "@/components/site/Showreel";
+import { Reels } from "@/components/site/Reels";
 import { Work } from "@/components/site/Work";
 import { Studio } from "@/components/site/Studio";
 import { Craft } from "@/components/site/Craft";
@@ -14,6 +15,8 @@ import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { showreel, posterUrl, watchUrl, films } from "@/data/films";
 import { posterSources } from "@/lib/youtube-images";
 
+
+const SITE = "https://just-mike-reel.lovable.app";
 
 const title = "just mike — Video Editor & Filmmaker";
 const description =
@@ -62,12 +65,12 @@ export const Route = createFileRoute("/")({
           "@graph": [
             {
               "@type": "Person",
-              "@id": "/#mike",
+              "@id": `${SITE}/#mike`,
               name: "just mike",
               alternateName: "Mike",
               jobTitle: "Video Editor & Filmmaker",
               description,
-              url: "/",
+              url: `${SITE}/`,
               image,
               knowsAbout: [
                 "Video editing",
@@ -80,12 +83,12 @@ export const Route = createFileRoute("/")({
             },
             {
               "@type": "WebSite",
-              "@id": "/#website",
+              "@id": `${SITE}/#website`,
               name: "just mike",
-              url: "/",
+              url: `${SITE}/`,
               description,
               inLanguage: "en",
-              publisher: { "@id": "/#mike" },
+              publisher: { "@id": `${SITE}/#mike` },
             },
             {
               "@type": "ItemList",
@@ -103,7 +106,7 @@ export const Route = createFileRoute("/")({
                   embedUrl: `https://www.youtube.com/embed/${film.mediaId}`,
                   url: watchUrl(film),
                   uploadDate: `${film.year}-01-01T00:00:00+00:00`,
-                  creator: { "@id": "/#mike" },
+                  creator: { "@id": `${SITE}/#mike` },
                 },
 
               })),
@@ -136,6 +139,7 @@ function Index() {
       <main id="main" className="relative text-foreground">
         <Hero />
         <Showreel />
+        <Reels />
         <Work />
         <Studio />
         <Craft />

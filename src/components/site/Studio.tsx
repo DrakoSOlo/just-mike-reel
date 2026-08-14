@@ -52,7 +52,7 @@ export function Studio() {
         {/* Get in touch */}
         <div id="contact" className="md:col-span-5 md:border-l md:border-border md:pl-16">
           <Reveal delay={80}>
-            <h2 className="spec-label">
+            <h2 id="contact-heading" className="spec-label">
               Get in touch
             </h2>
             <p className="mt-5 font-display md:mt-8 text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.2] tracking-tight">
