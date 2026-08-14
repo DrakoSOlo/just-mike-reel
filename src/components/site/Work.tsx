@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import { Play } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -13,6 +15,8 @@ import { films, posterUrl } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
+
 
 function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
