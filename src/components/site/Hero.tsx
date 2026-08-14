@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useParallax } from "@/hooks/use-parallax";
+import { Bloom } from "@/components/motion/Bloom";
 
 const word1 = "just".split("");
 const word2 = "mike".split("");
@@ -69,6 +70,9 @@ export function Hero() {
       id="top"
       className="grain spotlight relative flex min-h-[80svh] flex-col justify-end overflow-hidden px-5 pb-10 pt-24 md:min-h-[88svh] md:px-10 md:pb-14 md:pt-28"
     >
+      <Bloom variant="a" opacity={0.55} depth={44} className="-left-32 -top-24 h-[36rem] w-[36rem] md:h-[46rem] md:w-[46rem]" />
+      <Bloom variant="b" opacity={0.42} depth={-30} className="-right-40 bottom-0 h-[30rem] w-[30rem] md:h-[40rem] md:w-[40rem]" />
+
       <div ref={scrollRef} className="relative mx-auto w-full max-w-[1400px]">
         <p
           className="animate-rise text-xs uppercase tracking-[0.4em] text-muted-foreground"

@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
 import { warmPoster } from "@/lib/youtube-images";
 import { track } from "@/lib/analytics";
+import { Bloom } from "@/components/motion/Bloom";
 
 
 function FilmCard({
@@ -127,14 +128,16 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="cv-auto figma-guides relative border-t border-border px-5 py-10 md:px-10 md:py-16"
+      className="cv-auto figma-guides relative overflow-hidden border-t border-border px-5 py-10 md:px-10 md:py-16"
     >
+      <Bloom variant="a" opacity={0.32} depth={38} className="-right-32 top-1/3 h-[28rem] w-[28rem] md:h-[38rem] md:w-[38rem]" />
+
       <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal className="mb-6 flex items-baseline md:mb-8 justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
-          <span className="spec-label">{films.length} films</span>
+          <span className="spec-label">3 films / 1 trailer</span>
         </Reveal>
 
         <div className="grid gap-x-8 gap-y-8 md:grid-cols-2 md:gap-y-12">

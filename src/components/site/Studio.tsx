@@ -1,3 +1,4 @@
+import { Bloom } from "@/components/motion/Bloom";
 import { Reveal } from "@/components/Reveal";
 import { track } from "@/lib/analytics";
 import { Magnetic } from "@/components/motion/Magnetic";
