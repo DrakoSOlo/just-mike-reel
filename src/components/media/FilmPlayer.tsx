@@ -3,6 +3,8 @@ import { Captions, CaptionsOff, ExternalLink, Pause, Play, RotateCcw, Volume2, V
 import type { Film } from "@/data/films";
 import { embedUrl, posterUrl, watchUrl } from "@/data/films";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
+
 
 /* ------------------------------------------------------------------ */
 /* YouTube IFrame API loader                                           */
@@ -41,7 +43,8 @@ function loadYouTubeApi(): Promise<void> {
 }
 
 const controlClass =
-  "inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-sm border border-border px-3 text-xs uppercase tracking-[0.2em] text-foreground transition-colors duration-300 hover:border-foreground hover:bg-surface";
+  "inline-flex h-11 w-11 items-center justify-center rounded-sm text-foreground transition-colors duration-300 hover:bg-surface disabled:opacity-40";
+
 
 /* ------------------------------------------------------------------ */
 /* Film player                                                         */
