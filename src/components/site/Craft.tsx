@@ -57,16 +57,19 @@ export function Craft() {
 
         <ol className="mt-14 grid gap-px border-t border-border sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
-            <Reveal key={service} delay={80 + i * 70}>
-              <li className="service-row group relative flex items-baseline justify-between gap-6 border-b border-border py-7">
+            <li
+              key={service}
+              className="service-row group relative flex items-baseline justify-between gap-6 border-b border-border py-7"
+            >
+              <Reveal delay={80 + i * 70} className="flex w-full items-baseline justify-between gap-6">
                 <span className="relative z-10 font-display text-[clamp(1.3rem,2.4vw,2rem)] tracking-tight transition-transform duration-500 ease-out group-hover:translate-x-3">
                   {service}
                 </span>
                 <span className="relative z-10 text-xs tabular-nums tracking-[0.3em] text-muted-foreground">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-              </li>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ol>
 
