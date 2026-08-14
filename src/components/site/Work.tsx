@@ -15,6 +15,7 @@ import { films, posterUrl } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import { Poster } from "@/components/media/Poster";
 import { track } from "@/lib/analytics";
 
 
@@ -63,36 +64,17 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
       className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out will-change-transform"
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
-        <img
-          src={posterUrl(film)}
+        <Poster
+          mediaId={film.mediaId}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
-          loading="lazy"
-          decoding="async"
-          onLoad={(e) => {
-            const img = e.currentTarget;
-            if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
-              img.dataset["fallback"] = "1";
-              img.src = img.src.replace("maxresdefault", "hqdefault");
-            }
-          }}
-          onError={(e) => {
-            const img = e.currentTarget;
-            if (!img.dataset["fallback"]) {
-              img.dataset["fallback"] = "1";
-              img.src = img.src.replace("maxresdefault", "hqdefault");
-            }
-          }}
-          className="parallax-media h-full w-full object-cover opacity-85 transition-opacity duration-500 ease-out group-hover:opacity-100"
+          className="parallax-media opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
         />
         <span aria-hidden="true" className="frame-ticks absolute inset-0" />
-        <span
-          aria-hidden="true"
-          className="absolute bottom-4 left-4 flex translate-y-2 items-center gap-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
-            <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
+        <span aria-hidden="true" className="absolute bottom-4 left-4">
+          <span className="play-badge">
+            <Play fill="currentColor" aria-hidden="true" />
+            Play film
           </span>
-          <span className="spec-label bg-background px-2 py-1 !text-foreground">Play film</span>
         </span>
       </div>
       <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">

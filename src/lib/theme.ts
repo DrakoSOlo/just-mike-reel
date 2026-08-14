@@ -28,7 +28,7 @@ export const GRADE_LABELS: Record<Grade, string> = {
 export const THEME_KEY = "justmike:theme";
 export const GRADE_KEY = "justmike:grade";
 
-export const DEFAULT_THEME: Theme = "midnight";
+export const DEFAULT_THEME: Theme = "paper";
 export const DEFAULT_GRADE: Grade = "neutral";
 
 export function applyTheme(theme: Theme, grade: Grade) {

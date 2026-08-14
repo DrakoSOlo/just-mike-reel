@@ -643,3 +643,41 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+
+/* ---------------------------------------------------------------
+ * Play badge — the same hairline "spec" graphic used across the
+ * page. Default: outline on the still. Hover/focus: the opposite,
+ * a solid fill with inverted ink.
+ * --------------------------------------------------------------- */
+
+.play-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  background: color-mix(in oklab, var(--color-background) 88%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 45%, transparent);
+  transition:
+    background-color 320ms ease,
+    color 320ms ease,
+    border-color 320ms ease;
+}
+
+.group:hover .play-badge,
+.group:focus-visible .play-badge,
+.play-badge:hover,
+.play-badge:focus-visible {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  border-color: var(--color-foreground);
+}
+
+.play-badge svg {
+  height: 0.7rem;
+  width: 0.7rem;
+}
