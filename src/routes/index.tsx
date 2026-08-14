@@ -12,40 +12,17 @@ import { CursorLens } from "@/components/motion/CursorLens";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
-import { showreel, posterUrl, watchUrl, films } from "@/data/films";
+import { showreel } from "@/data/films";
 import { posterSources } from "@/lib/youtube-images";
 
 
-const SITE = "https://just-mike-reel.lovable.app";
-
-const title = "just mike — Video Editor & Filmmaker";
-const description =
-  "Selected edits, short films and music videos by just mike — a video editor driven by honesty, rhythm and cinematic storytelling.";
-const image = posterUrl(showreel);
+import { homeJsonLd, homeMeta, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { name: "author", content: "just mike" },
-      { name: "robots", content: "index, follow" },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://just-mike-reel.lovable.app/" },
-      { property: "og:site_name", content: "just mike" },
-      { property: "og:locale", content: "en_US" },
-      { property: "og:image", content: image },
-      { property: "og:image:alt", content: "Still frame from the just mike showreel" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: title },
-      { name: "twitter:description", content: description },
-      { name: "twitter:image", content: image },
-      { name: "twitter:image:alt", content: "Still frame from the just mike showreel" },
-    ],
+    meta: homeMeta(),
     links: [
-      { rel: "canonical", href: "https://just-mike-reel.lovable.app/" },
+      { rel: "canonical", href: `${SITE_URL}/` },
       // The showreel still is the first poster a visitor sees — fetch it early.
       {
         rel: "preload",
@@ -56,65 +33,7 @@ export const Route = createFileRoute("/")({
         fetchpriority: "high",
       },
     ],
-
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Person",
-              "@id": `${SITE}/#mike`,
-              name: "just mike",
-              alternateName: "Mike",
-              jobTitle: "Video Editor & Filmmaker",
-              description,
-              url: `${SITE}/`,
-              image,
-              knowsAbout: [
-                "Video editing",
-                "Colour grading",
-                "Short films",
-                "Music videos",
-                "Documentary",
-              ],
-              worksFor: { "@type": "Organization", name: "just mike" },
-            },
-            {
-              "@type": "WebSite",
-              "@id": `${SITE}/#website`,
-              name: "just mike",
-              url: `${SITE}/`,
-              description,
-              inLanguage: "en",
-              publisher: { "@id": `${SITE}/#mike` },
-            },
-            {
-              "@type": "ItemList",
-              name: "Selected work",
-              itemListElement: films.map((film, i) => ({
-                "@type": "ListItem",
-                position: i + 1,
-                item: {
-                  "@type": "VideoObject",
-                  name: film.title,
-                  description: `${film.title} — a ${film.category.toLowerCase()} from ${film.year}, edited by just mike.`,
-                  genre: film.category,
-                  thumbnailUrl: [posterUrl(film)],
-                  contentUrl: watchUrl(film),
-                  embedUrl: `https://www.youtube.com/embed/${film.mediaId}`,
-                  url: watchUrl(film),
-                  uploadDate: `${film.year}-01-01T00:00:00+00:00`,
-                  creator: { "@id": `${SITE}/#mike` },
-                },
-
-              })),
-            },
-          ],
-        }),
-      },
-    ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(homeJsonLd()) }],
   }),
   component: Index,
 });

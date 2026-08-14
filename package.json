@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vitest run tests/seo.test.ts --reporter=dot && vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:seo": "vitest run tests/seo.test.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
