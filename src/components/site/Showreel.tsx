@@ -20,7 +20,7 @@ export function Showreel() {
         <div className="md:col-span-3">
           <Reveal>
             <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-4xl">
-              Showreel
+              just mike
             </h2>
             <dl className="mt-5 space-y-2 border-t border-border pt-4">
               <div className="flex items-baseline justify-between gap-4">
