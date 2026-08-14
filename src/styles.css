@@ -558,17 +558,45 @@
 }
 
 /* Raises every muted pairing to >= 7:1 and hardens borders (WCAG AAA text,
-   1.4.11 non-text contrast) for visitors who ask for it. */
+   1.4.11 non-text contrast) for visitors who ask for it. Theme aware: dark
+   themes lift muted text towards the off-white, paper darkens it to ink. */
 [data-a11y-contrast="on"] {
-  --muted-foreground: oklch(0.93 0.008 87.5);
-  --border: oklch(0.9585 0.0098 87.5 / 65%);
-  --input: oklch(0.9585 0.0098 87.5 / 70%);
+  --muted-foreground: oklch(0.95 0.008 87.5);
+  --foreground: oklch(0.985 0.006 87.5);
+  --border: oklch(0.9585 0.0098 87.5 / 70%);
+  --input: oklch(0.9585 0.0098 87.5 / 75%);
+  --ring: oklch(0.99 0.005 87.5);
 }
 
-[data-a11y-contrast="on"] .ambient-orb,
-[data-a11y-contrast="on"] .glow-warm {
-  opacity: 0.12;
+[data-a11y-contrast="on"][data-theme="paper"] {
+  --background: oklch(0.985 0.008 84);
+  --foreground: oklch(0.16 0.03 250.9);
+  --muted-foreground: oklch(0.24 0.03 250.9);
+  --border: oklch(0.16 0.03 250.9 / 70%);
+  --input: oklch(0.16 0.03 250.9 / 75%);
+  --ring: oklch(0.16 0.03 250.9);
 }
+
+/* Quiet the ambient light so text always wins. */
+[data-a11y-contrast="on"] .ambient-orb,
+[data-a11y-contrast="on"] .glow-warm,
+[data-a11y-contrast="on"] .scene-bloom,
+[data-a11y-contrast="on"] .bloom {
+  opacity: 0.06;
+}
+
+[data-a11y-contrast="on"] .grain::after,
+[data-a11y-contrast="on"] .poster-grid {
+  opacity: 0.15;
+}
+
+/* Hairline UI (dots, rules, frames) needs 3:1 too. */
+[data-a11y-contrast="on"] .nav-dot,
+[data-a11y-contrast="on"] .intro-skip,
+[data-a11y-contrast="on"] .theme-dot {
+  border-color: var(--color-foreground);
+}
+
 
 /* ---------------------------------------------------------------
  * Colour correction (grade) — a film grade applied to the warm light
