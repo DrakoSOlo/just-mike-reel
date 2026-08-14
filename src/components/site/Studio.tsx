@@ -4,9 +4,7 @@ import { Magnetic } from "@/components/motion/Magnetic";
 import { useParallax } from "@/hooks/use-parallax";
 
 // TODO: replace with Mike's real details.
-const EMAIL = "hello@justmike.film";
-const WHATSAPP_NUMBER = "+30 000 000 0000";
-const WHATSAPP_LINK = "https://wa.me/300000000000";
+import { EMAIL, WHATSAPP_LINK, WHATSAPP_NUMBER } from "@/data/profile";
 
 /**
  * About + Get in touch, side by side in one section.
