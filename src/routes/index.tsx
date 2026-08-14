@@ -6,6 +6,7 @@ import { Work } from "@/components/site/Work";
 import { Studio } from "@/components/site/Studio";
 import { Craft } from "@/components/site/Craft";
 import { AccessibilityMenu } from "@/components/a11y/AccessibilityMenu";
+import { CookieBanner } from "@/components/consent/CookieBanner";
 import { CursorLens } from "@/components/motion/CursorLens";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
@@ -116,6 +117,7 @@ function Index() {
       <ScrollProgress />
       <CursorLens />
       <AccessibilityMenu />
+      <CookieBanner />
       <Nav />
       <main id="main" className="relative text-foreground">
         <Hero />
