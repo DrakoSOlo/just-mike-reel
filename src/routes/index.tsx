@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
-import { Hero } from "@/components/site/Hero";
+
 import { Showreel } from "@/components/site/Showreel";
 import { Reels } from "@/components/site/Reels";
 import { Work } from "@/components/site/Work";
@@ -32,8 +32,8 @@ function Index() {
         Skip to main content
       </a>
       <Nav />
-      <main id="main" className="relative text-foreground">
-        <Hero />
+      <span id="top" aria-hidden="true" />
+      <main id="main" className="relative pt-20 text-foreground md:pt-24">
         <Showreel />
         <Reels />
         <Work />
