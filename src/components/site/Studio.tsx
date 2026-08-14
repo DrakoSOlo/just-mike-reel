@@ -18,7 +18,7 @@ export function Studio() {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="cv-auto relative overflow-hidden border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto relative overflow-hidden border-t border-border px-5 py-16 md:px-10 md:py-32"
     >
       <div
         ref={driftRef}
@@ -26,20 +26,20 @@ export function Studio() {
         className="glow-warm glow-warm-left pointer-events-none absolute z-0 -left-24 top-1/3"
       />
 
-      <div className="relative z-10 mx-auto grid max-w-[1400px] gap-16 md:grid-cols-12 md:gap-20">
+      <div className="relative z-10 mx-auto grid max-w-[1400px] gap-12 md:grid-cols-12 md:gap-20">
         {/* About */}
         <div className="md:col-span-7">
           <Reveal>
             <h2 id="about-heading" className="spec-label">
               About me
             </h2>
-            <p className="mt-8 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] leading-[1.15] tracking-tight">
+            <p className="mt-5 font-display md:mt-8 text-[clamp(1.6rem,3.2vw,2.8rem)] leading-[1.15] tracking-tight">
               Hi, I'm Mike. I love alternative rock, Miyazaki movies, and
               cinematic journeys that start with Lynch and end with Scorsese.
             </p>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-5 max-w-xl text-sm md:mt-8 leading-relaxed text-muted-foreground">
               I studied Materials Science and Engineering, which mostly just
               gave me a micro-perspective on how the physical world works — and
               that's about it. My real drive is guided by honesty and passion.
@@ -56,13 +56,13 @@ export function Studio() {
             <h2 className="spec-label">
               Get in touch
             </h2>
-            <p className="mt-8 font-display text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.2] tracking-tight">
+            <p className="mt-5 font-display md:mt-8 text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.2] tracking-tight">
               Let's talk. Feel free to shoot me a message on WhatsApp, or send
               an email if you're that old.
             </p>
           </Reveal>
 
-          <div className="mt-10 flex flex-col gap-8">
+          <div className="mt-7 flex flex-col gap-6 md:mt-10 md:gap-8">
             <Reveal delay={160}>
               <Magnetic strength={0.12} className="block">
                 <a

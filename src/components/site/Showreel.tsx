@@ -10,10 +10,10 @@ export function Showreel() {
     <section
       id="reel"
       aria-labelledby="reel-heading"
-      className="cv-auto px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto px-5 py-16 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-[1400px]">
-        <Reveal className="mb-10 flex items-baseline justify-between gap-6 border-b border-border pb-5">
+        <Reveal className="mb-6 flex items-baseline md:mb-10 justify-between gap-6 border-b border-border pb-5">
           <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Showreel
           </h2>

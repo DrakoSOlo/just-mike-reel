@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 
 import {
@@ -16,13 +16,42 @@ import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { Poster } from "@/components/media/Poster";
+import { warmPoster } from "@/lib/youtube-images";
 import { track } from "@/lib/analytics";
 
 
-function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
+function FilmCard({
+  film,
+  nextMediaId,
+  priority = false,
+  onOpen,
+}: {
+  film: Film;
+  nextMediaId?: string | undefined;
+  priority?: boolean;
+  onOpen: (el: HTMLButtonElement) => void;
+}) {
   const ref = useRef<HTMLButtonElement>(null);
   const mediaRef = useParallax<HTMLDivElement>();
   const reduced = useReducedMotion();
+
+  // As a card comes within ~a screen of the viewport, warm the *next* film's
+  // still so it is already decoded by the time the visitor reaches it.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !nextMediaId || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          warmPoster(nextMediaId);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [nextMediaId]);
 
   // Tilt is written straight to CSS variables — no state, no re-render per frame.
   const onMove = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -65,6 +94,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
     >
       <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
         <Poster
+          eager={priority}
           mediaId={film.mediaId}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           className="parallax-media opacity-90 transition-opacity duration-500 ease-out group-hover:opacity-100"
@@ -77,7 +107,7 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
           </span>
         </span>
       </div>
-      <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
+      <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
         <h3 className="font-display text-2xl tracking-tight md:text-3xl">{film.title}</h3>
         <span className="spec-label">
           {film.category} / {film.year}
@@ -97,17 +127,17 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="cv-auto figma-guides relative border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative border-t border-border px-5 py-16 md:px-10 md:py-32"
     >
       <div className="relative z-10 mx-auto max-w-[1400px]">
-        <Reveal className="mb-14 flex items-baseline justify-between gap-6">
+        <Reveal className="mb-8 flex items-baseline md:mb-14 justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
           <span className="spec-label">{films.length} films</span>
         </Reveal>
 
-        <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
+        <div className="grid gap-x-10 gap-y-10 md:grid-cols-2 md:gap-y-16">
           {films.map((film, i) => (
             <Reveal
               key={film.id}
@@ -116,6 +146,8 @@ export function Work() {
             >
               <FilmCard
                 film={film}
+                priority={i === 0}
+                nextMediaId={films[i + 1]?.mediaId}
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
                   setActive(film);

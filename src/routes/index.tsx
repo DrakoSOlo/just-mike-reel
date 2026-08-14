@@ -12,6 +12,8 @@ import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
 import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { showreel, posterUrl, watchUrl, films } from "@/data/films";
+import { posterSources } from "@/lib/youtube-images";
+
 
 const title = "just mike — Video Editor & Filmmaker";
 const description =
@@ -28,7 +30,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://just-mike-reel.lovable.app/" },
       { property: "og:site_name", content: "just mike" },
       { property: "og:locale", content: "en_US" },
       { property: "og:image", content: image },
@@ -39,7 +41,19 @@ export const Route = createFileRoute("/")({
       { name: "twitter:image", content: image },
       { name: "twitter:image:alt", content: "Still frame from the just mike showreel" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "https://just-mike-reel.lovable.app/" },
+      // The showreel still is the first poster a visitor sees — fetch it early.
+      {
+        rel: "preload",
+        as: "image",
+        href: `https://i.ytimg.com/vi_webp/${showreel.mediaId}/hqdefault.webp`,
+        imagesrcset: posterSources(showreel.mediaId).webpSrcSet,
+        imagesizes: "(min-width: 1024px) 900px, 100vw",
+        fetchpriority: "high",
+      },
+    ],
+
     scripts: [
       {
         type: "application/ld+json",

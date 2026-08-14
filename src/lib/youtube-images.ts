@@ -39,3 +39,19 @@ export function posterSources(mediaId: string): PosterSources {
     height: 720,
   };
 }
+
+/**
+ * Warm a poster in the HTTP cache before it scrolls into view. Uses the same
+ * srcset/sizes as <Poster>, so the browser picks (and reuses) the exact
+ * candidate it will need — no extra bytes, no duplicate request.
+ */
+export function warmPoster(mediaId: string, sizes = "(min-width: 768px) 50vw, 100vw") {
+  if (typeof window === "undefined") return;
+  const s = posterSources(mediaId);
+  const img = new Image();
+  img.decoding = "async";
+  (img as HTMLImageElement & { fetchPriority?: string }).fetchPriority = "low";
+  img.sizes = sizes;
+  img.srcset = s.webpSrcSet;
+  img.src = s.src;
+}
