@@ -25,9 +25,31 @@ export const GRADE_LABELS: Record<Grade, string> = {
 
 export const THEME_KEY = "justmike:theme";
 export const GRADE_KEY = "justmike:grade";
+export const PAINT_KEY = "justmike:paint";
 
 export const DEFAULT_THEME: Theme = "paper";
 export const DEFAULT_GRADE: Grade = "neutral";
+
+/** How heavy the painted blot texture reads — shared by both themes. */
+export const PAINT_LEVELS = ["subtle", "medium", "heavy"] as const;
+export type PaintLevel = (typeof PAINT_LEVELS)[number];
+
+export const PAINT_LABELS: Record<PaintLevel, string> = {
+  subtle: "Subtle",
+  medium: "Medium",
+  heavy: "Heavy",
+};
+
+export const DEFAULT_PAINT: PaintLevel = "medium";
+
+export function applyPaint(level: PaintLevel) {
+  document.documentElement.dataset["paint"] = level;
+  try {
+    localStorage.setItem(PAINT_KEY, level);
+  } catch {
+    /* ignore blocked storage */
+  }
+}
 
 let fadeTimer: number | undefined;
 
@@ -54,4 +76,8 @@ export const themeBootScript = `(function(){try{var t=localStorage.getItem(${JSO
   THEME_KEY,
 )})||${JSON.stringify(DEFAULT_THEME)};if(t!=="paper"&&t!=="midnight")t=${JSON.stringify(
   DEFAULT_THEME,
-)};var r=document.documentElement;r.dataset.theme=t;r.dataset.grade="neutral";r.style.colorScheme=t==="paper"?"light":"dark";}catch(e){}})();`;
+)};var r=document.documentElement;r.dataset.theme=t;r.dataset.grade="neutral";r.style.colorScheme=t==="paper"?"light":"dark";var p=localStorage.getItem(${JSON.stringify(
+  PAINT_KEY,
+)})||${JSON.stringify(DEFAULT_PAINT)};if(["subtle","medium","heavy"].indexOf(p)<0)p=${JSON.stringify(
+  DEFAULT_PAINT,
+)};r.dataset.paint=p;}catch(e){}})();`;
