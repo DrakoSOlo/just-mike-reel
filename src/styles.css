@@ -859,6 +859,18 @@
   transform: translate3d(0, -2px, 0);
 }
 
+/* Touch: a tap gets the same press visual (lift + one ring pulse) without
+ * any sticky hover state, and the ring is driven by animation only. */
+@media (hover: none), (pointer: coarse) {
+  .group:active .play-badge {
+    transform: translate3d(0, -1px, 0) scale(0.98);
+  }
+
+  .group:active .play-badge::after {
+    animation: badge-ring 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
 @keyframes badge-ring {
   0% {
     opacity: 0.55;
@@ -879,4 +891,99 @@
   .play-badge::after {
     animation: none;
   }
+}
+
+
+/* ---------------------------------------------------------------
+ * Unified scene backdrop
+ * One fixed layer shared by every page: three printed blooms that
+ * drift on a long loop under the ambient light pools and grain.
+ * Transform/opacity only, so it composites on the GPU.
+ * --------------------------------------------------------------- */
+
+.scene-backdrop {
+  contain: strict;
+}
+
+.scene-bloom {
+  position: absolute;
+  width: 62vmax;
+  height: 62vmax;
+  object-fit: cover;
+  border-radius: 9999px;
+  filter: blur(90px) saturate(1);
+  mix-blend-mode: multiply;
+  opacity: 0.13;
+  will-change: transform;
+}
+
+.scene-bloom-1 {
+  top: -22vmax;
+  left: -18vmax;
+  animation: scene-drift-a 46s ease-in-out infinite;
+}
+
+.scene-bloom-2 {
+  right: -24vmax;
+  top: 18vh;
+  width: 54vmax;
+  height: 54vmax;
+  opacity: 0.1;
+  animation: scene-drift-b 58s ease-in-out infinite;
+}
+
+.scene-bloom-3 {
+  bottom: -26vmax;
+  left: 22vw;
+  width: 48vmax;
+  height: 48vmax;
+  opacity: 0.09;
+  animation: scene-drift-c 68s ease-in-out infinite;
+}
+
+.scene-veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    transparent 0%,
+    color-mix(in oklab, var(--color-background) 45%, transparent) 60%,
+    color-mix(in oklab, var(--color-background) 80%, transparent) 100%
+  );
+}
+
+[data-theme="midnight"] .scene-bloom,
+[data-theme="forest"] .scene-bloom {
+  mix-blend-mode: screen;
+  opacity: 0.16;
+  filter: blur(90px) saturate(1.1);
+}
+
+@keyframes scene-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6vw, 5vh, 0) scale(1.08); }
+}
+
+@keyframes scene-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.04); }
+  50% { transform: translate3d(-7vw, -6vh, 0) scale(1); }
+}
+
+@keyframes scene-drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4vw, -5vh, 0) scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-bloom {
+    animation: none;
+  }
+}
+
+[data-a11y-motion="off"] .scene-bloom {
+  animation: none;
+}
+
+[data-a11y-contrast="on"] .scene-backdrop {
+  display: none;
 }

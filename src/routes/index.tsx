@@ -6,12 +6,6 @@ import { Reels } from "@/components/site/Reels";
 import { Work } from "@/components/site/Work";
 import { Studio } from "@/components/site/Studio";
 import { Craft } from "@/components/site/Craft";
-import { AccessibilityMenu } from "@/components/a11y/AccessibilityMenu";
-import { CookieBanner } from "@/components/consent/CookieBanner";
-import { CursorLens } from "@/components/motion/CursorLens";
-import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
-import { PageCurtain } from "@/components/motion/PageCurtain";
-import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 
 import { homeJsonLd, homeMeta, SITE_URL } from "@/lib/seo";
@@ -37,12 +31,6 @@ function Index() {
       >
         Skip to main content
       </a>
-      <PageCurtain />
-      <AmbientBackdrop />
-      <ScrollProgress />
-      <CursorLens />
-      <AccessibilityMenu />
-      <CookieBanner />
       <Nav />
       <main id="main" className="relative text-foreground">
         <Hero />
