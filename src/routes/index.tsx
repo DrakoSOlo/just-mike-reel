@@ -81,12 +81,16 @@ export const Route = createFileRoute("/")({
                 item: {
                   "@type": "VideoObject",
                   name: film.title,
+                  description: `${film.title} — a ${film.category.toLowerCase()} from ${film.year}, edited by just mike.`,
                   genre: film.category,
-                  thumbnailUrl: posterUrl(film),
+                  thumbnailUrl: [posterUrl(film)],
+                  contentUrl: watchUrl(film),
+                  embedUrl: `https://www.youtube.com/embed/${film.mediaId}`,
                   url: watchUrl(film),
-                  uploadDate: `${film.year}-01-01`,
+                  uploadDate: `${film.year}-01-01T00:00:00+00:00`,
                   creator: { "@id": "/#mike" },
                 },
+
               })),
             },
           ],

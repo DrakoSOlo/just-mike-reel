@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ThemeMenu } from "@/components/theme/ThemeMenu";
+import { track } from "@/lib/analytics";
 
 const links = [
   { href: "#reel", label: "Reel", id: "reel" },
@@ -7,6 +9,7 @@ const links = [
   { href: "#about", label: "About", id: "about" },
   { href: "#services", label: "Services", id: "services" },
 ];
+
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,29 +59,34 @@ export function Nav() {
         >
           just.mike
         </a>
-        <ul className="flex items-center gap-5 text-xs uppercase tracking-[0.2em] sm:gap-7">
-          {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                aria-current={active === link.id ? "true" : undefined}
-                className={cn(
-                  "relative inline-flex min-h-11 items-center transition-colors duration-300 hover:text-foreground",
-                  active === link.id ? "text-foreground" : "text-muted-foreground",
-                )}
-              >
-                {link.label}
-                <span
-                  aria-hidden="true"
+        <div className="flex items-center gap-4 sm:gap-6">
+          <ul className="flex items-center gap-4 text-[0.7rem] uppercase tracking-[0.2em] sm:gap-7">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => track("nav_click", { section: link.id })}
+                  aria-current={active === link.id ? "true" : undefined}
                   className={cn(
-                    "absolute -bottom-0.5 left-0 h-px w-full origin-left bg-foreground transition-transform duration-500",
-                    active === link.id ? "scale-x-100" : "scale-x-0",
+                    "relative inline-flex min-h-11 items-center transition-colors duration-300 hover:text-foreground",
+                    active === link.id ? "text-foreground" : "text-muted-foreground",
                   )}
-                />
-              </a>
-            </li>
-          ))}
-        </ul>
+                >
+                  {link.label}
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "absolute -bottom-0.5 left-0 h-px w-full origin-left bg-foreground transition-transform duration-500",
+                      active === link.id ? "scale-x-100" : "scale-x-0",
+                    )}
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <ThemeMenu />
+        </div>
+
       </nav>
     </header>
   );

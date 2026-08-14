@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import { Play } from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
@@ -13,6 +15,8 @@ import { films, posterUrl } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
+
 
 function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
@@ -58,11 +62,12 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
       }}
       className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out will-change-transform"
     >
-      <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
+      <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden bg-surface">
         <img
           src={posterUrl(film)}
           alt={`Still frame from ${film.title}, a ${film.category.toLowerCase()} from ${film.year}`}
           loading="lazy"
+          decoding="async"
           onLoad={(e) => {
             const img = e.currentTarget;
             if (img.naturalWidth < 200 && !img.dataset["fallback"]) {
@@ -77,25 +82,26 @@ function FilmCard({ film, onOpen }: { film: Film; onOpen: (el: HTMLButtonElement
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
           }}
-          className="parallax-media h-full w-full object-cover opacity-80 transition-opacity duration-[900ms] ease-out group-hover:opacity-100"
+          className="parallax-media h-full w-full object-cover opacity-85 transition-opacity duration-500 ease-out group-hover:opacity-100"
         />
+        <span aria-hidden="true" className="frame-ticks absolute inset-0" />
         <span
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent opacity-70 transition-opacity duration-700 group-hover:opacity-30"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute bottom-4 left-4 translate-y-3 rounded-full border border-foreground/60 bg-background/70 px-4 py-2 text-[0.65rem] uppercase tracking-[0.25em] opacity-0 backdrop-blur-sm transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+          className="absolute bottom-4 left-4 flex translate-y-2 items-center gap-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
         >
-          Play film
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
+            <Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true" />
+          </span>
+          <span className="spec-label bg-background px-2 py-1 !text-foreground">Play film</span>
         </span>
       </div>
       <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-border pt-4 transition-colors duration-500 group-hover:border-foreground">
         <h3 className="font-display text-2xl tracking-tight md:text-3xl">{film.title}</h3>
-        <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {film.category} — {film.year}
+        <span className="spec-label">
+          {film.category} / {film.year}
         </span>
       </div>
+
     </button>
   );
 }
@@ -109,16 +115,14 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="border-t border-border px-6 py-24 md:px-10 md:py-32"
+      className="cv-auto figma-guides relative border-t border-border px-6 py-24 md:px-10 md:py-32"
     >
-      <div className="mx-auto max-w-[1400px]">
+      <div className="relative z-10 mx-auto max-w-[1400px]">
         <Reveal className="mb-14 flex items-baseline justify-between gap-6">
           <h2 id="work-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Selected work
           </h2>
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {films.length} films
-          </span>
+          <span className="spec-label">{films.length} films</span>
         </Reveal>
 
         <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
@@ -133,10 +137,12 @@ export function Work() {
                 onOpen={(el: HTMLButtonElement) => {
                   triggerRef.current = el;
                   setActive(film);
+                  track("film_open", { title: film.title, category: film.category });
                 }}
               />
             </Reveal>
           ))}
+
         </div>
       </div>
 
