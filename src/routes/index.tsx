@@ -5,6 +5,8 @@ import { Showreel } from "@/components/site/Showreel";
 import { Work } from "@/components/site/Work";
 import { About } from "@/components/site/About";
 import { Contact } from "@/components/site/Contact";
+import { CursorLens } from "@/components/motion/CursorLens";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const title = "just mike — Videographer & Director";
 const description =
@@ -40,13 +42,23 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="bg-background text-foreground">
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:rounded-sm focus:bg-foreground focus:px-4 focus:py-3 focus:text-sm focus:text-background"
+      >
+        Skip to main content
+      </a>
+      <ScrollProgress />
+      <CursorLens />
       <Nav />
-      <Hero />
-      <Showreel />
-      <Work />
-      <About />
-      <Contact />
-    </main>
+      <main id="main" className="bg-background text-foreground">
+        <Hero />
+        <Showreel />
+        <Work />
+        <About />
+        <Contact />
+      </main>
+    </>
   );
 }
