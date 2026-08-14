@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accessibility, RotateCcw } from "lucide-react";
+import { Accessibility, RotateCcw, Volume2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,12 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { PaintDial } from "@/components/theme/PaintDial";
 
 type Prefs = {
   motion: boolean;
   contrast: boolean;
   underline: boolean;
   cursor: boolean;
+  speech: boolean;
   scale: number;
 };
 
@@ -23,6 +25,7 @@ const DEFAULTS: Prefs = {
   contrast: false,
   underline: false,
   cursor: true,
+  speech: false,
   scale: 100,
 };
 
@@ -66,6 +69,39 @@ export function AccessibilityMenu() {
     }
   }, [prefs, loaded]);
 
+  // Read aloud: while enabled, clicking (or Enter/Space on) any block of text
+  // speaks it with the browser speech engine. Escape stops the narration.
+  useEffect(() => {
+    if (!prefs.speech || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+    const speak = (text: string) => {
+      const clean = text.replace(/\s+/g, " ").trim();
+      if (!clean) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(clean);
+      utterance.rate = 0.98;
+      window.speechSynthesis.speak(utterance);
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const block = target?.closest("p, h1, h2, h3, h4, li, blockquote, figcaption");
+      if (block instanceof HTMLElement) speak(block.innerText);
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") window.speechSynthesis.cancel();
+    };
+
+    document.addEventListener("click", onClick, true);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      window.removeEventListener("keydown", onKey);
+      window.speechSynthesis.cancel();
+    };
+  }, [prefs.speech]);
+
   const set = <K extends keyof Prefs>(key: K, value: Prefs[K]) =>
     setPrefs((p) => ({ ...p, [key]: value }));
 
@@ -74,6 +110,7 @@ export function AccessibilityMenu() {
     { key: "contrast", label: "High contrast", hint: "Stronger text and border contrast", on: prefs.contrast },
     { key: "underline", label: "Underline links", hint: "Never rely on colour alone", on: prefs.underline },
     { key: "cursor", label: "Custom pointer", hint: "The decorative cursor ring", on: prefs.cursor },
+    { key: "speech", label: "Read aloud", hint: "Tap any text to hear it. Esc stops.", on: prefs.speech },
   ];
 
   return (
@@ -151,6 +188,15 @@ export function AccessibilityMenu() {
               </li>
             ))}
           </ul>
+
+          <fieldset>
+            <legend className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              Painted texture
+            </legend>
+            <div className="mt-2">
+              <PaintDial />
+            </div>
+          </fieldset>
 
           <button
             type="button"
