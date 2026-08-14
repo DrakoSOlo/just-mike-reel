@@ -6,6 +6,8 @@ import { Work } from "@/components/site/Work";
 import { About } from "@/components/site/About";
 import { Contact } from "@/components/site/Contact";
 import { CursorLens } from "@/components/motion/CursorLens";
+import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
+import { PageCurtain } from "@/components/motion/PageCurtain";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const title = "just mike — Video Editor & Filmmaker";
@@ -49,6 +51,8 @@ function Index() {
       >
         Skip to main content
       </a>
+      <PageCurtain />
+      <AmbientBackdrop />
       <ScrollProgress />
       <CursorLens />
       <Nav />

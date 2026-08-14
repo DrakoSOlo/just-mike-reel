@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Reveal } from "@/components/Reveal";
+import { useParallax } from "@/hooks/use-parallax";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -28,39 +29,48 @@ const projects: Project[] = [
 
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLButtonElement) => void }) {
   const ref = useRef<HTMLButtonElement>(null);
+  const mediaRef = useParallax<HTMLDivElement>();
   const reduced = useReducedMotion();
-  const [style, setStyle] = useState<React.CSSProperties>({});
 
-  const onMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (reduced || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
+  // Tilt is written straight to CSS variables — no state, no re-render per frame.
+  const onMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const el = ref.current;
+    if (reduced || !el) return;
+    const rect = el.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
-    setStyle({
-      transform: `perspective(1100px) rotateX(${(0.5 - py) * 6}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-6px)`,
-    });
-    ref.current.style.setProperty("--spot-x", `${px * 100}%`);
-    ref.current.style.setProperty("--spot-y", `${py * 100}%`);
-    ref.current.style.setProperty("--spot-opacity", "0.9");
+    el.style.setProperty("--rx", `${(0.5 - py) * 7}deg`);
+    el.style.setProperty("--ry", `${(px - 0.5) * 10}deg`);
+    el.style.setProperty("--lift", "-8px");
+    el.style.setProperty("--spot-x", `${px * 100}%`);
+    el.style.setProperty("--spot-y", `${py * 100}%`);
+    el.style.setProperty("--spot-opacity", "0.9");
   };
 
   const reset = () => {
-    setStyle({});
-    ref.current?.style.setProperty("--spot-opacity", "0");
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+    el.style.setProperty("--lift", "0px");
+    el.style.setProperty("--spot-opacity", "0");
   };
 
   return (
     <button
       ref={ref}
       type="button"
-      onMouseMove={onMove}
-      onMouseLeave={reset}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
       onBlur={reset}
       onClick={() => ref.current && onOpen(ref.current)}
-      style={style}
-      className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out"
+      style={{
+        transform:
+          "perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translate3d(0, var(--lift, 0px), 0)",
+      }}
+      className="spotlight group relative block w-full text-left transition-transform duration-500 ease-out will-change-transform"
     >
-      <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
+      <div ref={mediaRef} className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
         <img
           src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
           alt={`Still frame from ${project.title}, a ${project.category.toLowerCase()} from ${project.year}`}
@@ -79,7 +89,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (el: HTMLB
               img.src = img.src.replace("maxresdefault", "hqdefault");
             }
           }}
-          className="h-full w-full object-cover opacity-80 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+          className="parallax-media h-full w-full object-cover opacity-80 transition-opacity duration-[900ms] ease-out group-hover:opacity-100"
         />
         <span
           aria-hidden="true"
