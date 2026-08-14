@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 
 import { parseYouTubeId, reelWatchUrl, useReels } from "@/data/reels";
@@ -59,12 +59,12 @@ function ReelsManager() {
 
         <div className="relative z-10 mx-auto max-w-[1000px]">
           <Reveal>
-          <a
-            href="/"
+          <Link
+            to="/"
             className="inline-flex min-h-11 items-center text-xs uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground"
           >
             ← just.mike
-          </a>
+          </Link>
 
           <h1 className="mt-6 font-display text-[clamp(2.4rem,7vw,4.5rem)] leading-[0.95] tracking-tight">
             Add a reel

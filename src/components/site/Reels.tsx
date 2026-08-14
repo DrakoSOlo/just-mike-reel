@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Play } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import {
   Dialog,
@@ -33,20 +34,20 @@ export function Reels() {
           <h2 id="reels-heading" className="font-display text-3xl tracking-tight md:text-5xl">
             Reels
           </h2>
-          <a
-            href="/reels"
+          <Link
+            to="/reels"
             className="spec-label inline-flex min-h-11 items-center underline-offset-4 hover:underline"
           >
             {reels.length} shorts / manage
-          </a>
+          </Link>
         </Reveal>
 
         {reels.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             No reels yet — add YouTube Shorts links from the{" "}
-            <a href="/reels" className="underline underline-offset-4">
+            <Link to="/reels" className="underline underline-offset-4">
               reels manager
-            </a>
+            </Link>
             .
           </p>
         ) : (
