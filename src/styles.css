@@ -1963,3 +1963,198 @@ button,
 [data-a11y-motion="off"] .rain-dot i {
   animation: none !important;
 }
+
+/* ---------------------------------------------------------------
+ * Bold pass — retro-print marks
+ * Every accent mark is now the same graphic object: a hard-edged
+ * vermilion petal with a thick ink outline, a flat cream highlight and
+ * a halftone shade. Flat, printed, confident — no soft blur blobs.
+ * --------------------------------------------------------------- */
+
+:root {
+  --mark-petal: 52% 52% 52% 10% / 52% 52% 52% 10%;
+  --mark-petal-alt: 52% 10% 52% 52% / 52% 10% 52% 52%;
+  --mark-pigment: oklch(0.63 0.21 34);
+  --mark-pigment-deep: oklch(0.5 0.19 30);
+  --mark-cream: oklch(0.96 0.03 88);
+  --mark-ink: color-mix(in oklab, var(--color-foreground) 88%, transparent);
+}
+
+.mark-glyph,
+.nav-dot,
+.theme-dot,
+.intro-skip,
+.play-orb,
+.paint-swatch,
+.rain-dot,
+.intro-ball {
+  border-radius: var(--mark-petal);
+  background:
+    radial-gradient(circle at 30% 26%, var(--mark-cream) 0 16%, transparent 17%),
+    linear-gradient(150deg, var(--mark-pigment) 0 58%, var(--mark-pigment-deep) 58% 100%);
+  border: var(--mark-stroke, 2px) solid var(--mark-ink);
+  box-shadow: none;
+  filter: none;
+}
+
+.mark-glyph::after,
+.nav-dot::after,
+.theme-dot::after,
+.intro-skip::after,
+.play-orb::after,
+.rain-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(var(--mark-ink) 0.6px, transparent 0.7px);
+  background-size: 3px 3px;
+  opacity: calc(var(--paint-speckle) * 0.35);
+  mix-blend-mode: normal;
+  filter: none;
+  pointer-events: none;
+}
+
+.mark-glyph,
+.nav-dot,
+.theme-dot,
+.intro-skip,
+.play-orb,
+.rain-dot { position: relative; }
+
+/* sizes and per-mark character */
+.mark-glyph { --mark-stroke: 2px; height: 1rem; width: 1rem; rotate: -14deg; }
+.nav-dot { --mark-stroke: 1.5px; height: 0.5rem; width: 0.5rem; rotate: -14deg; opacity: 0.55; }
+.nav-dot-link:hover .nav-dot,
+.nav-dot-link:focus-visible .nav-dot { opacity: 0.9; }
+.nav-dot-on {
+  opacity: 1;
+  rotate: 26deg;
+  border-radius: var(--mark-petal-alt);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--mark-pigment) 22%, transparent);
+}
+.theme-dot { --mark-stroke: 2px; height: 0.8rem; width: 0.8rem; rotate: 10deg; }
+.theme-dot-on {
+  background: transparent;
+  border-radius: var(--mark-petal-alt);
+  rotate: -16deg;
+}
+.theme-dot-on::after { opacity: 0; }
+.intro-skip { --mark-stroke: 1.5px; height: 0.6rem; width: 0.6rem; rotate: -20deg; opacity: 0.6; }
+button:hover > .intro-skip,
+button:focus-visible > .intro-skip { opacity: 1; filter: none; }
+.rain-dot { --mark-stroke: 2px; }
+.rain-dot:not(.rain-dot-on) { background: transparent; }
+.paint-swatch { --mark-stroke: 1.5px; }
+
+.play-orb {
+  --mark-stroke: 2px;
+  height: 1.35rem;
+  width: 1.35rem;
+  rotate: -14deg;
+  transition: rotate 420ms var(--ease-glide), box-shadow 420ms var(--ease-glide);
+}
+@media (hover: hover) {
+  .group:hover .play-orb {
+    rotate: 22deg;
+    border-radius: var(--mark-petal-alt);
+    filter: none;
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--mark-pigment) 26%, transparent);
+  }
+}
+.play-orb-cursor { height: 0.95rem; width: 0.95rem; }
+
+/* ---------------------------------------------------------------
+ * Intro — heavier ball, many more bounces
+ * --------------------------------------------------------------- */
+
+.intro-ball {
+  --mark-stroke: 3px;
+  rotate: -14deg;
+  filter: none;
+  box-shadow: none;
+}
+.intro-ball::before { display: none; }
+.intro-ball::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(var(--mark-ink) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+  opacity: calc(var(--paint-speckle) * 0.3);
+  mix-blend-mode: normal;
+  filter: none;
+}
+
+.intro-ball-x { animation-duration: 4600ms; }
+
+/* nine hops: high arcs first, then a fast chatter as it dies out */
+@keyframes intro-ball-bounce {
+  0% { transform: translateY(-80vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  14% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  25% { transform: translateY(-46vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  36% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  45% { transform: translateY(-30vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  54% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  61% { transform: translateY(-18vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  68% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  74% { transform: translateY(-10vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  79% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  83% { transform: translateY(-5.5vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  87% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  90% { transform: translateY(-2.8vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  93% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  95% { transform: translateY(-1.3vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
+  97% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
+  98.5% { transform: translateY(-0.5vh); }
+  100% { transform: translateY(0); }
+}
+
+/* squash on every landing, spin between hops */
+@keyframes intro-ball-squash {
+  0%, 11% { scale: 0.9 1.12; rotate: -14deg; }
+  14% { scale: 1.28 0.74; rotate: -4deg; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  18% { scale: 0.96 1.05; }
+  25% { scale: 1 1; rotate: 22deg; }
+  36% { scale: 1.22 0.8; rotate: 34deg; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  40% { scale: 0.98 1.03; }
+  45% { rotate: 56deg; }
+  54% { scale: 1.16 0.86; rotate: 70deg; }
+  58% { scale: 1 1; }
+  68% { scale: 1.11 0.9; rotate: 96deg; }
+  72% { scale: 1 1; }
+  79% { scale: 1.07 0.94; rotate: 116deg; }
+  87% { scale: 1.04 0.96; rotate: 130deg; }
+  93% { scale: 1.02 0.98; rotate: 138deg; }
+  97% { scale: 1 1; rotate: 142deg; }
+  100% { scale: 1.5 1.5; rotate: 150deg; }
+}
+
+@keyframes intro-shadow-pulse {
+  0% { opacity: 0; transform: scaleX(0.2); }
+  14% { opacity: 0.9; transform: scaleX(1.05); }
+  25% { opacity: 0.3; transform: scaleX(0.5); }
+  36% { opacity: 0.85; transform: scaleX(1); }
+  45% { opacity: 0.4; transform: scaleX(0.65); }
+  54% { opacity: 0.85; transform: scaleX(1); }
+  61% { opacity: 0.5; transform: scaleX(0.78); }
+  68%, 79%, 87%, 97% { opacity: 0.8; transform: scaleX(1); }
+  74% { opacity: 0.6; transform: scaleX(0.86); }
+  100% { opacity: 0.25; transform: scaleX(1.4); }
+}
+
+.intro-ring-1 { animation-delay: 3400ms; }
+.intro-ring-2 { animation-delay: 3750ms; }
+.intro-ring {
+  border-width: 2px;
+  border-color: color-mix(in oklab, var(--mark-pigment) 55%, transparent);
+}
+
+[data-a11y-contrast="on"] .mark-glyph,
+[data-a11y-contrast="on"] .nav-dot,
+[data-a11y-contrast="on"] .theme-dot,
+[data-a11y-contrast="on"] .play-orb {
+  border-color: var(--color-foreground);
+  opacity: 1;
+}
