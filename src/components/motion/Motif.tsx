@@ -56,3 +56,27 @@ export function MotifBrackets({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/** A four-point retro sparkle. Decorative only. */
+export function MotifStar({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={`retro-star ${className}`} fill="currentColor">
+      <path d="M12 0c.9 6.4 4.7 10.2 12 12-7.3 1.8-11.1 5.6-12 12-.9-6.4-4.7-10.2-12-12C7.3 10.2 11.1 6.4 12 0Z" />
+    </svg>
+  );
+}
+
+/** Radiating printed sunburst used behind headings and in the backdrop. */
+export function MotifSunburst({ className = "" }: { className?: string }) {
+  return <span aria-hidden="true" className={`retro-burst ${className}`} />;
+}
+
+/** A field of pigment halftone dots. */
+export function MotifDotField({ className = "" }: { className?: string }) {
+  return <span aria-hidden="true" className={`retro-halftone-field ${className}`} />;
+}
+
+/** Diagonal print stripes. */
+export function MotifStripes({ className = "" }: { className?: string }) {
+  return <span aria-hidden="true" className={`retro-stripes ${className}`} />;
+}
