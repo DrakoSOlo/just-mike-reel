@@ -81,7 +81,7 @@ export function Reels() {
                       <Poster mediaId={reel.id} alt={`Placeholder art for the reel ${reel.title}`} />
                       <span aria-hidden="true" className="frame-ticks absolute inset-0" />
                       <span aria-hidden="true" className="absolute bottom-3 left-3">
-                        <span className="play-orb" />
+                        <span className="play-orb reel-orb" />
                       </span>
                     </span>
                     <span className="mt-3 flex items-baseline justify-between gap-3 border-t border-border pt-3 transition-colors duration-500 group-hover:border-foreground">

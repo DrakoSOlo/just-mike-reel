@@ -2158,3 +2158,73 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
   border-color: var(--color-foreground);
   opacity: 1;
 }
+
+/* ---------------------------------------------------------------
+ * Retro print furniture — sunburst, halftone fields, scalloped rule,
+ * sparkles. Pure CSS, decorative, all cheap to paint.
+ * --------------------------------------------------------------- */
+
+/* smaller marks in the page: the poster/reel play mark reads as an accent */
+.play-orb { height: 0.8rem; width: 0.8rem; }
+.play-orb-cursor { height: 0.8rem; width: 0.8rem; }
+.reel-orb { height: 0.62rem; width: 0.62rem; }
+
+.retro-burst {
+  position: absolute;
+  border-radius: 9999px;
+  background: repeating-conic-gradient(
+    from 0deg,
+    color-mix(in oklab, var(--mark-pigment) 26%, transparent) 0deg 6deg,
+    transparent 6deg 12deg
+  );
+  mask-image: radial-gradient(circle, #000 34%, transparent 72%);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: retro-burst-spin 90s linear infinite;
+}
+@keyframes retro-burst-spin { to { rotate: 360deg; } }
+
+.retro-halftone-field {
+  position: absolute;
+  pointer-events: none;
+  background-image: radial-gradient(color-mix(in oklab, var(--mark-pigment) 55%, transparent) 1.4px, transparent 1.6px);
+  background-size: 8px 8px;
+  mask-image: linear-gradient(to bottom right, #000, transparent 78%);
+  opacity: 0.35;
+}
+
+.retro-scallop {
+  height: 0.6rem;
+  width: 100%;
+  background-image: radial-gradient(circle at 0.3rem 0.3rem, var(--mark-ink) 0.16rem, transparent 0.17rem);
+  background-size: 0.6rem 0.6rem;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.retro-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--mark-pigment) 45%, transparent) 0 3px,
+    transparent 3px 9px
+  );
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.retro-star {
+  position: absolute;
+  pointer-events: none;
+  color: var(--mark-pigment);
+  animation: retro-star-twinkle 5.5s ease-in-out infinite;
+}
+@keyframes retro-star-twinkle {
+  0%, 100% { opacity: 0.35; scale: 0.9; }
+  50% { opacity: 0.9; scale: 1.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retro-burst, .retro-star { animation: none !important; }
+}
+[data-a11y-motion="off"] .retro-burst,
+[data-a11y-motion="off"] .retro-star { animation: none !important; }

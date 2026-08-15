@@ -1,5 +1,13 @@
 import { Reveal } from "@/components/Reveal";
-import { MotifBrackets, MotifHalftone, MotifRings } from "@/components/motion/Motif";
+import {
+  MotifBrackets,
+  MotifDotField,
+  MotifHalftone,
+  MotifRings,
+  MotifStar,
+  MotifStripes,
+  MotifSunburst,
+} from "@/components/motion/Motif";
 import { FilmPlayer } from "@/components/media/FilmPlayer";
 import { showreel } from "@/data/films";
 import { useParallax } from "@/hooks/use-parallax";
