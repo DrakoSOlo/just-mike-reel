@@ -28,9 +28,13 @@ export function Showreel() {
       <div className="mx-auto grid max-w-[1400px] gap-6 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-3">
           <Reveal>
-            <h2 id="reel-heading" className="font-display text-3xl tracking-tight md:text-4xl">
-              just mike
-            </h2>
+            <div className="relative inline-block">
+              <MotifSunburst className="pointer-events-none absolute -left-10 -top-10 h-32 w-32 opacity-40" />
+              <MotifStar className="pointer-events-none absolute -right-5 -top-3 h-3 w-3" />
+              <h2 id="reel-heading" className="relative font-display text-3xl tracking-tight md:text-4xl">
+                just mike
+              </h2>
+            </div>
             <dl className="mt-5 space-y-2 border-t border-border pt-4">
               <div className="flex items-baseline justify-between gap-4">
                 <dt className="spec-label">Year</dt>
