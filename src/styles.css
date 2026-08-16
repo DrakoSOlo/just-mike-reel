@@ -146,33 +146,33 @@
 [data-theme="paper"] {
   /* Warm printed cream, closer to the reference paper stock. */
   --background: oklch(0.9525 0.0185 84);
-  --foreground: oklch(0.2551 0.0367 250.9);
+  --foreground: oklch(0.2712 0.0393 176.8);
   --surface: oklch(0.9155 0.0235 82);
-  --surface-foreground: oklch(0.2551 0.0367 250.9);
+  --surface-foreground: oklch(0.2712 0.0393 176.8);
   --card: oklch(0.9155 0.0235 82);
-  --card-foreground: oklch(0.2551 0.0367 250.9);
+  --card-foreground: oklch(0.2712 0.0393 176.8);
   --popover: oklch(0.9525 0.0185 84);
-  --popover-foreground: oklch(0.2551 0.0367 250.9);
-  --primary: oklch(0.2551 0.0367 250.9);
+  --popover-foreground: oklch(0.2712 0.0393 176.8);
+  --primary: oklch(0.2712 0.0393 176.8);
   --primary-foreground: oklch(0.9585 0.0098 87.5);
   --secondary: oklch(0.9215 0.0122 87.5);
-  --secondary-foreground: oklch(0.2551 0.0367 250.9);
+  --secondary-foreground: oklch(0.2712 0.0393 176.8);
   --muted: oklch(0.9215 0.0122 87.5);
   /* 4.8:1 on the paper background */
-  --muted-foreground: oklch(0.46 0.026 250.9);
-  --accent: oklch(0.2989 0.0393 176.8);
+  --muted-foreground: oklch(0.44 0.03 176.8);
+  --accent: oklch(0.3242 0.0362 176.8);
   --accent-foreground: oklch(0.9585 0.0098 87.5);
-  --border: oklch(0.2551 0.0367 250.9 / 20%);
-  --input: oklch(0.2551 0.0367 250.9 / 30%);
-  --ring: oklch(0.2551 0.0367 250.9);
+  --border: oklch(0.2712 0.0393 176.8 / 20%);
+  --input: oklch(0.2712 0.0393 176.8 / 30%);
+  --ring: oklch(0.2712 0.0393 176.8);
   --sidebar: oklch(0.9215 0.0122 87.5);
-  --sidebar-foreground: oklch(0.2551 0.0367 250.9);
-  --sidebar-primary: oklch(0.2551 0.0367 250.9);
+  --sidebar-foreground: oklch(0.2712 0.0393 176.8);
+  --sidebar-primary: oklch(0.2712 0.0393 176.8);
   --sidebar-primary-foreground: oklch(0.9585 0.0098 87.5);
   --sidebar-accent: oklch(0.9215 0.0122 87.5);
-  --sidebar-accent-foreground: oklch(0.2551 0.0367 250.9);
-  --sidebar-border: oklch(0.2551 0.0367 250.9 / 20%);
-  --sidebar-ring: oklch(0.2551 0.0367 250.9);
+  --sidebar-accent-foreground: oklch(0.2712 0.0393 176.8);
+  --sidebar-border: oklch(0.2712 0.0393 176.8 / 20%);
+  --sidebar-ring: oklch(0.2712 0.0393 176.8);
 }
 
 
@@ -569,11 +569,11 @@
 
 [data-a11y-contrast="on"][data-theme="paper"] {
   --background: oklch(0.985 0.008 84);
-  --foreground: oklch(0.16 0.03 250.9);
-  --muted-foreground: oklch(0.24 0.03 250.9);
-  --border: oklch(0.16 0.03 250.9 / 70%);
-  --input: oklch(0.16 0.03 250.9 / 75%);
-  --ring: oklch(0.16 0.03 250.9);
+  --foreground: oklch(0.17 0.035 176.8);
+  --muted-foreground: oklch(0.23 0.035 176.8);
+  --border: oklch(0.17 0.035 176.8 / 70%);
+  --input: oklch(0.17 0.035 176.8 / 75%);
+  --ring: oklch(0.17 0.035 176.8);
 }
 
 /* Quiet the ambient light so text always wins. */
