@@ -37,11 +37,9 @@ export function Showreel() {
                 <dd className="spec-label text-foreground">16:9 / 24fps</dd>
               </div>
             </dl>
-            <MotifStripes className="mt-6 block h-6 w-20" />
-            <div className="relative mt-6 hidden h-24 md:block">
+            <div className="relative mt-8 hidden h-24 md:block">
               <MotifRings className="absolute left-0 top-0 h-24 w-24" />
               <MotifHalftone className="absolute bottom-1 right-0 h-10 w-24" />
-              <MotifDotField className="absolute bottom-0 left-24 h-12 w-20" />
             </div>
           </Reveal>
         </div>
