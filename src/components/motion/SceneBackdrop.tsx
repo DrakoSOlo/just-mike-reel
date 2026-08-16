@@ -17,6 +17,12 @@ export function SceneBackdrop() {
     <>
       <AmbientBackdrop />
       <div aria-hidden="true" className="scene-backdrop grain pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <span className="scene-retro">
+          <MotifSunburst className="scene-burst-1" />
+          <MotifSunburst className="scene-burst-2" />
+          <MotifStripes className="scene-stripe-band" />
+          <MotifDotField className="scene-halftone-plate" />
+        </span>
         <img src={bloom1.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-1" />
         <img src={bloom2.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-2" />
         <img src={bloom3.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-3" />
