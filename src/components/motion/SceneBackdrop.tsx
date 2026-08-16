@@ -1,41 +1,22 @@
-import bloom1 from "@/assets/bloom-hover-1.png.asset.json";
-import bloom2 from "@/assets/bloom-hover-2.png.asset.json";
-import bloom3 from "@/assets/bloom-hover-3.png.asset.json";
-import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
-import { MotifDotField, MotifStripes, MotifSunburst } from "@/components/motion/Motif";
-
 /**
- * The single background for every page: pointer-reactive light pools, three
- * slowly drifting printed blooms and the film grain, all in one fixed layer.
+ * The single, static background for every page: a soft printed wash, film
+ * grain and the bold drafting rules the layout sits inside.
  *
- * Everything animates on transform/opacity via CSS keyframes (no JS ticker
- * beyond the ambient orbs), so it stays off the main thread and never enters
- * the LCP or TBT path.
+ * Nothing here animates — no JS ticker, no keyframes — so the backdrop costs
+ * one paint and never competes with the content for attention or CPU.
  */
 export function SceneBackdrop() {
   return (
-    <>
-      <AmbientBackdrop />
-      <div aria-hidden="true" className="scene-backdrop grain pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <span className="scene-retro">
-          <MotifSunburst className="scene-burst-1" />
-          <MotifSunburst className="scene-burst-2" />
-          <MotifStripes className="scene-stripe-band" />
-          <MotifDotField className="scene-halftone-plate" />
-        </span>
-        <img src={bloom1.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-1" />
-        <img src={bloom2.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-2" />
-        <img src={bloom3.url} alt="" loading="lazy" decoding="async" className="scene-bloom scene-bloom-3" />
-        <span className="scene-veil" />
-        {/* Drafting guides — the hairline frame the whole layout sits inside. */}
-        <span className="scene-guides">
-          <span className="scene-guide scene-guide-v" style={{ left: "12%" }} />
-          <span className="scene-guide scene-guide-v" style={{ left: "50%" }} />
-          <span className="scene-guide scene-guide-v" style={{ left: "88%" }} />
-          <span className="scene-guide scene-guide-h" style={{ top: "14%" }} />
-          <span className="scene-guide scene-guide-h" style={{ top: "86%" }} />
-        </span>
-      </div>
-    </>
+    <div aria-hidden="true" className="scene-backdrop grain pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <span className="scene-wash" />
+      <span className="scene-veil" />
+      {/* Drafting rules — the bold, textured frame the whole layout sits inside. */}
+      <span className="scene-guides">
+        <span className="scene-guide scene-guide-v" style={{ left: "12%" }} />
+        <span className="scene-guide scene-guide-v" style={{ left: "88%" }} />
+        <span className="scene-guide scene-guide-h" style={{ top: "14%" }} />
+        <span className="scene-guide scene-guide-h" style={{ top: "86%" }} />
+      </span>
+    </div>
   );
 }
