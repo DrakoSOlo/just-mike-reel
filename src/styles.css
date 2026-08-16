@@ -2228,3 +2228,50 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
 }
 [data-a11y-motion="off"] .retro-burst,
 [data-a11y-motion="off"] .retro-star { animation: none !important; }
+
+/* ---------------------------------------------------------------
+ * Scene retro layer — the printed furniture living in the shared
+ * background: two slow sunbursts, a halftone plate and a stripe band.
+ * --------------------------------------------------------------- */
+
+.scene-retro { position: absolute; inset: 0; overflow: hidden; }
+
+.scene-burst-1 {
+  top: -18vh;
+  left: -10vw;
+  height: 78vh;
+  width: 78vh;
+  opacity: 0.3;
+  animation-duration: 140s;
+}
+.scene-burst-2 {
+  bottom: -26vh;
+  right: -14vw;
+  height: 92vh;
+  width: 92vh;
+  opacity: 0.22;
+  animation-duration: 200s;
+  animation-direction: reverse;
+}
+.scene-halftone-plate {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62vh;
+  opacity: 0.22;
+  background-size: 11px 11px;
+  mask-image: linear-gradient(to top, #000, transparent 85%);
+}
+.scene-stripe-band {
+  position: absolute;
+  top: 12%;
+  right: 0;
+  height: 26vh;
+  width: 34vw;
+  opacity: 0.14;
+  mask-image: linear-gradient(to left, #000, transparent 90%);
+}
+@media (max-width: 768px) {
+  .scene-stripe-band { display: none; }
+  .scene-halftone-plate { height: 40vh; }
+}
+[data-a11y-contrast="on"] .scene-retro { display: none; }
