@@ -2,6 +2,7 @@ import bloom1 from "@/assets/bloom-hover-1.png.asset.json";
 import bloom2 from "@/assets/bloom-hover-2.png.asset.json";
 import bloom3 from "@/assets/bloom-hover-3.png.asset.json";
 import { AmbientBackdrop } from "@/components/motion/AmbientBackdrop";
+import { MotifDotField, MotifStripes, MotifSunburst } from "@/components/motion/Motif";
 
 /**
  * The single background for every page: pointer-reactive light pools, three
