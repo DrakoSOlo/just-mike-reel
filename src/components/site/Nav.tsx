@@ -60,11 +60,15 @@ export function Nav() {
       >
         <a
           href="#top"
-          aria-label="Back to top"
-          className="group inline-flex h-11 w-11 items-center justify-center"
+          aria-label="just mike — back to top"
+          className="group inline-flex h-11 items-center gap-2 pr-2"
         >
           <span aria-hidden="true" className="mark-glyph" />
+          <span aria-hidden="true" className="wordmark">
+            just mike
+          </span>
         </a>
+
 
         <div className="flex items-center gap-1 sm:gap-2">
           <ul className="flex items-center">
