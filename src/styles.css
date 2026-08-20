@@ -2271,7 +2271,7 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
 
 /* --- Palette overrides -------------------------------------------------- */
 
-[data-theme="paper"] {
+html[data-theme="paper"] {
   --background: var(--jp-white);
   --foreground: var(--charcoal);
   --surface: oklch(0.9005 0.0205 84.5);
@@ -2298,9 +2298,8 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
 }
 
 /* The dark sheet is the same ink, inverted — charcoal stock, white type. */
-:root,
-.dark,
-[data-theme="midnight"] {
+html[data-theme="midnight"],
+.dark {
   --background: var(--charcoal);
   --foreground: var(--jp-white);
   --surface: oklch(0.2860 0.0060 67);
