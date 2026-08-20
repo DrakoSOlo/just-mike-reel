@@ -2563,3 +2563,38 @@ button:focus-visible > .intro-skip {
 .theme-dot {
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
+
+/* --- Whiter stock + masthead wordmark ----------------------------------- */
+
+html[data-theme="paper"] {
+  --jp-white: oklch(0.9760 0.0068 85);   /* near-white, warm paper tint */
+  --background: var(--jp-white);
+  --surface: oklch(0.9530 0.0090 85);
+  --card: oklch(0.9530 0.0090 85);
+  --popover: var(--jp-white);
+  --secondary: oklch(0.9530 0.0090 85);
+  --muted: oklch(0.9530 0.0090 85);
+  --sidebar: oklch(0.9530 0.0090 85);
+}
+
+html[data-theme="paper"] .paper-tooth { opacity: 0.34; }
+html[data-theme="paper"] .paper-charcoal { opacity: 0.12; }
+html[data-theme="paper"] .paper-vignette { opacity: 0.55; }
+
+/* Masthead: heavy, tight-set, magazine-front type. */
+.wordmark {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.0625rem;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--color-foreground);
+  transition: opacity 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  .wordmark { font-size: 1.1875rem; }
+}
+
+a:hover > .wordmark { opacity: 0.62; }
