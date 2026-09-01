@@ -4,20 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --font-display: "Instrument Serif", "Canela", Georgia, serif;
   --font-sans: "Schibsted Grotesk", "Archivo", ui-sans-serif, system-ui, sans-serif;
@@ -67,12 +53,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/*
- * Brand palette (2 colours):
- *   deep green  #15342d  -> dark page
- *   paper cream #F4F1EA  -> light page / foreground on green
- * All text pairings below meet WCAG 2.1 AA (>= 4.5:1 body, >= 3:1 large/UI).
- */
 :root {
   --radius: 0.25rem;
   --background: oklch(0.2712 0.0393 176.8);
@@ -88,7 +68,7 @@
   --secondary: oklch(0.3242 0.0362 176.8);
   --secondary-foreground: oklch(0.9585 0.0098 87.5);
   --muted: oklch(0.3242 0.0362 176.8);
-  /* 4.8:1 on --background */
+  
   --muted-foreground: oklch(0.79 0.012 87.5);
   --accent: oklch(0.9585 0.0098 87.5);
   --accent-foreground: oklch(0.2712 0.0393 176.8);
@@ -112,21 +92,11 @@
   --sidebar-ring: oklch(0.9585 0.0098 87.5);
 }
 
-/* The site is dark by default; .dark mirrors :root so tokens stay consistent. */
 .dark {
   --background: oklch(0.2712 0.0393 176.8);
   --foreground: oklch(0.9585 0.0098 87.5);
 }
 
-/* ---------------------------------------------------------------
- * Themes — swapped from the theme menu via data-theme on <html>.
- * Each theme keeps the same three-colour logic (deep base / surface /
- * off-white) and every text pairing below is >= 4.5:1.
- * --------------------------------------------------------------- */
-
-/* Midnight (default) is the :root palette above. */
-
-/* Forest — the deep green becomes the page, navy becomes the surface. */
 [data-theme="forest"] {
   --background: oklch(0.2712 0.0393 176.8);
   --surface: oklch(0.3242 0.0367 200.9);
@@ -142,9 +112,8 @@
   --chart-3: oklch(0.2712 0.0393 176.8);
 }
 
-/* Paper — light mode. Off-white page, navy ink (13.8:1). */
 [data-theme="paper"] {
-  /* Warm printed cream, closer to the reference paper stock. */
+  
   --background: oklch(0.9525 0.0185 84);
   --foreground: oklch(0.2712 0.0393 176.8);
   --surface: oklch(0.9155 0.0235 82);
@@ -158,7 +127,7 @@
   --secondary: oklch(0.9215 0.0122 87.5);
   --secondary-foreground: oklch(0.2712 0.0393 176.8);
   --muted: oklch(0.9215 0.0122 87.5);
-  /* 4.8:1 on the paper background */
+  
   --muted-foreground: oklch(0.44 0.03 176.8);
   --accent: oklch(0.3242 0.0362 176.8);
   --accent-foreground: oklch(0.9585 0.0098 87.5);
@@ -174,8 +143,6 @@
   --sidebar-border: oklch(0.2712 0.0393 176.8 / 20%);
   --sidebar-ring: oklch(0.2712 0.0393 176.8);
 }
-
-
 
 @layer base {
   * {
@@ -193,7 +160,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* WCAG 2.1 AA — 2.4.7 Focus Visible, 1.4.11 Non-text Contrast */
+  
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 3px;
@@ -205,7 +172,6 @@
   font-family: var(--font-display);
 }
 
-/* Interactive motion */
 @utility magnetic {
   transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
@@ -220,12 +186,10 @@
   animation: marquee-track 32s linear infinite;
 }
 
-.marquee-track:hover,
-.marquee-paused .marquee-track {
+.marquee-track:hover{
   animation-play-state: paused;
 }
 
-/* Spotlight that follows the pointer inside a section */
 .spotlight::before {
   content: "";
   position: absolute;
@@ -240,8 +204,6 @@
   );
 }
 
-
-/* Scroll reveal */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -254,23 +216,6 @@
 .reveal-in {
   opacity: 1;
   transform: none;
-}
-
-/* Hero line-by-line intro */
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.5em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.animate-rise {
-  opacity: 0;
-  animation: rise-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes grain-shift {
@@ -291,13 +236,11 @@
   animation: grain-shift 7s steps(4) infinite;
 }
 
-/* WCAG 2.1 AA — 2.3.3 Animation from Interactions */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .reveal,
-  .animate-rise,
   .grain::after,
   .marquee-track,
   .magnetic {
@@ -314,35 +257,6 @@
   }
 }
 
-
-
-/* ---------------------------------------------------------------
- * Depth & interaction layer
- * All effects below animate transform/opacity only (GPU-composited),
- * are driven by one shared rAF ticker, and switch off entirely under
- * prefers-reduced-motion (WCAG 2.1 — 2.3.3).
- * --------------------------------------------------------------- */
-
-/* Ambient light source behind the page */
-.ambient-orb {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  height: 90vmax;
-  width: 90vmax;
-  margin-left: -45vmax;
-  margin-top: -45vmax;
-  border-radius: 9999px;
-  opacity: 0.55;
-  will-change: transform;
-  background: radial-gradient(
-    circle,
-    color-mix(in oklab, var(--color-surface) 90%, transparent) 0%,
-    transparent 62%
-  );
-}
-
-/* Entrance wipe */
 .page-curtain {
   background: var(--color-background);
   transform: translateY(0);
@@ -351,12 +265,6 @@
 
 .page-curtain-lifted {
   transform: translateY(-101%);
-}
-
-/* Scroll-linked parallax primitives (fed by use-parallax) */
-.parallax-y {
-  transform: translate3d(0, calc(var(--parallax, 0) * var(--parallax-depth, 18px) * -1), 0);
-  will-change: transform;
 }
 
 .parallax-media {
@@ -368,7 +276,6 @@
   opacity: calc(0.55 + var(--enter, 1) * 0.45);
 }
 
-/* Letter / link interactions */
 .link-sweep {
   background-image: linear-gradient(var(--color-foreground), var(--color-foreground));
   background-repeat: no-repeat;
@@ -382,18 +289,8 @@
   background-size: 100% 1px;
 }
 
-/* Section edge that draws itself in as it enters the viewport */
-.edge-draw {
-  transform: scaleX(var(--enter, 1));
-  transform-origin: left;
-  will-change: transform;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ambient-orb,
-  .parallax-y,
   .parallax-media,
-  .edge-draw,
   .page-curtain {
     transform: none !important;
     transition: none !important;
@@ -407,34 +304,10 @@
   }
 }
 
-/* ---------------------------------------------------------------
- * Warm haze, fancy pointer, and the visitor accessibility panel
- * --------------------------------------------------------------- */
-
-/* Decorative warm yellow only — never used behind text, so contrast
-   ratios in the palette are unaffected. */
 :root {
   --warm: oklch(0.86 0.15 88);
 }
 
-.ambient-orb-warm {
-  top: 65%;
-  left: 70%;
-  height: 70vmax;
-  width: 70vmax;
-  margin-left: -35vmax;
-  margin-top: -35vmax;
-  opacity: 0.3;
-  filter: blur(28px);
-  background: radial-gradient(
-    circle,
-    color-mix(in oklab, var(--warm) 42%, transparent) 0%,
-    color-mix(in oklab, var(--warm) 12%, transparent) 45%,
-    transparent 68%
-  );
-}
-
-/* Section-level warm blur graphic */
 .glow-warm {
   height: 34rem;
   width: 34rem;
@@ -457,7 +330,6 @@
   transform: translate3d(calc(var(--parallax, 0) * 50px), calc(var(--parallax, 0) * -70px), 0);
 }
 
-/* Services rows: warm wash sweeps in on hover/focus */
 .service-row::before {
   content: "";
   position: absolute;
@@ -481,7 +353,6 @@
   transform: scaleX(1);
 }
 
-/* Fancy pointer */
 .cursor-ring {
   transition: opacity 300ms ease, background-color 300ms ease, border-color 300ms ease;
   background-color: color-mix(in oklab, var(--warm) 10%, transparent);
@@ -494,33 +365,13 @@
   will-change: transform;
 }
 
-.cursor-label {
-  font-size: 0.55rem;
-}
-
-/* Pointer label over film cards — same hairline pill as the poster badge. */
 .cursor-tag {
   transition: opacity 220ms ease;
   will-change: transform, opacity;
 }
-
-.play-badge-cursor {
-  background: var(--color-foreground);
-  color: var(--color-background);
-  border-color: var(--color-foreground);
-  padding: 0.3rem 0.6rem;
-  font-size: 0.6rem;
-}
-
-
-/* Visitor accessibility preferences (set from the panel) */
-[data-a11y-motion="off"] .ambient-orb,
 [data-a11y-motion="off"] .glow-warm,
-[data-a11y-motion="off"] .parallax-y,
 [data-a11y-motion="off"] .parallax-media,
-[data-a11y-motion="off"] .edge-draw,
 [data-a11y-motion="off"] .marquee-track,
-[data-a11y-motion="off"] .animate-rise,
 [data-a11y-motion="off"] .reveal,
 [data-a11y-motion="off"] h1,
 [data-a11y-motion="off"] .grain::after,
@@ -556,9 +407,6 @@
   text-underline-offset: 0.25em;
 }
 
-/* Raises every muted pairing to >= 7:1 and hardens borders (WCAG AAA text,
-   1.4.11 non-text contrast) for visitors who ask for it. Theme aware: dark
-   themes lift muted text towards the off-white, paper darkens it to ink. */
 [data-a11y-contrast="on"] {
   --muted-foreground: oklch(0.95 0.008 87.5);
   --foreground: oklch(0.985 0.006 87.5);
@@ -575,11 +423,7 @@
   --input: oklch(0.17 0.035 176.8 / 75%);
   --ring: oklch(0.17 0.035 176.8);
 }
-
-/* Quiet the ambient light so text always wins. */
-[data-a11y-contrast="on"] .ambient-orb,
 [data-a11y-contrast="on"] .glow-warm,
-[data-a11y-contrast="on"] .scene-bloom,
 [data-a11y-contrast="on"] .bloom {
   opacity: 0.06;
 }
@@ -589,19 +433,11 @@
   opacity: 0.15;
 }
 
-/* Hairline UI (dots, rules, frames) needs 3:1 too. */
 [data-a11y-contrast="on"] .nav-dot,
 [data-a11y-contrast="on"] .intro-skip,
 [data-a11y-contrast="on"] .theme-dot {
   border-color: var(--color-foreground);
 }
-
-
-/* ---------------------------------------------------------------
- * Colour correction (grade) — a film grade applied to the warm light
- * source and glows only. Text tokens are never touched, so every
- * WCAG AA pairing holds in all grades.
- * --------------------------------------------------------------- */
 
 :root {
   --grade-strength: 1;
@@ -627,18 +463,9 @@
   --grade-strength: 0.55;
 }
 
-.ambient-orb-warm {
-  opacity: calc(0.3 * var(--grade-strength));
-}
-
 .glow-warm {
   opacity: calc(0.4 * var(--grade-strength));
 }
-
-/* ---------------------------------------------------------------
- * Editorial / Figma-style layer: hairline guides, spec labels,
- * corner ticks. Structure you can see, nothing decorative-heavy.
- * --------------------------------------------------------------- */
 
 .spec-label {
   font-family: var(--font-mono);
@@ -648,7 +475,6 @@
   color: var(--color-muted-foreground);
 }
 
-/* Vertical column guides, like a Figma layout grid */
 .figma-guides::before {
   content: "";
   position: absolute;
@@ -663,7 +489,6 @@
   );
 }
 
-/* Selection-handle ticks on media frames */
 .frame-ticks::after {
   content: "";
   position: absolute;
@@ -678,58 +503,9 @@
   border-color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
 }
 
-/* ---------------------------------------------------------------
- * Performance: skip render + layout work for sections that are far
- * outside the viewport. Intrinsic sizes keep the scrollbar stable.
- * --------------------------------------------------------------- */
-
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
-}
-
-/* ---------------------------------------------------------------
- * Play badge — the same hairline "spec" graphic used across the
- * page. Default: outline on the still. Hover/focus: the opposite,
- * a solid fill with inverted ink.
- * --------------------------------------------------------------- */
-
-.play-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-foreground);
-  background: color-mix(in oklab, var(--color-background) 88%, transparent);
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 45%, transparent);
-  transition:
-    background-color 320ms ease,
-    color 320ms ease,
-    border-color 320ms ease;
-}
-
-/* Hover inversion only where a real pointer exists, so touch devices
- * never get stuck in the hovered (inverted) state after a tap. */
-@media (hover: hover) and (pointer: fine) {
-  .group:hover .play-badge,
-  .play-badge:hover {
-    background: var(--color-foreground);
-    color: var(--color-background);
-    border-color: var(--color-foreground);
-  }
-}
-
-.group:focus-visible .play-badge,
-.play-badge:focus-visible,
-.group:active .play-badge,
-.play-badge:active {
-  background: var(--color-foreground);
-  color: var(--color-background);
-  border-color: var(--color-foreground);
 }
 
 [data-cursor="play"] {
@@ -737,39 +513,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.play-badge svg {
-  height: 0.7rem;
-  width: 0.7rem;
-}
-
-/* ---------------------------------------------------------------
- * Paper background refinement — on the light theme the big surface
- * orb reads as a grey smudge, so it becomes a soft warm wash with a
- * faint ink vignette instead, and the film grain is dialled back.
- * --------------------------------------------------------------- */
-
 [data-theme="paper"] {
   --warm: oklch(0.9 0.09 88);
-}
-
-[data-theme="paper"] .ambient-orb {
-  opacity: 0.75;
-  background: radial-gradient(
-    circle,
-    color-mix(in oklab, var(--warm) 26%, transparent) 0%,
-    color-mix(in oklab, var(--warm) 8%, transparent) 42%,
-    transparent 68%
-  );
-}
-
-[data-theme="paper"] .ambient-orb-warm {
-  opacity: 0.34;
-  background: radial-gradient(
-    circle,
-    color-mix(in oklab, var(--warm) 34%, transparent) 0%,
-    color-mix(in oklab, var(--color-accent) 7%, transparent) 48%,
-    transparent 70%
-  );
 }
 
 [data-theme="paper"] .glow-warm {
@@ -780,7 +525,6 @@
   opacity: 0.035;
 }
 
-/* A whisper of ink at the edges so the page has a paper edge. */
 [data-theme="paper"] body::after {
   content: "";
   position: fixed;
@@ -794,7 +538,6 @@
   );
 }
 
-/* Printed bloom graphics -------------------------------------------------- */
 .bloom {
   filter: blur(28px) saturate(1.05);
   mix-blend-mode: multiply;
@@ -815,15 +558,6 @@
 [data-a11y-contrast="on"] .bloom {
   display: none;
 }
-
-
-/* ---------------------------------------------------------------
- * Blank posters + bloom hover graphic
- * Temporary placeholder art while the film stills are off: a paper
- * tile with the printed bloom that blooms in on hover/focus.
- * Compositor-only properties (opacity/transform/filter) so hover
- * costs nothing on the main thread.
- * --------------------------------------------------------------- */
 
 .poster-blank {
   background: color-mix(in oklab, var(--color-foreground) 5%, var(--color-background));
@@ -856,173 +590,19 @@
   opacity: 0.55;
 }
 
-/* Play badge motion: the pill lifts a hair and a hairline ring
- * expands out of it once. Transform/opacity only. */
-.play-badge {
-  position: relative;
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-.play-badge::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border: 1px solid currentColor;
-  opacity: 0;
-  transform: scale(1);
-  pointer-events: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .group:hover .play-badge {
-    transform: translate3d(0, -2px, 0);
-  }
-
-  .group:hover .play-badge::after {
-    animation: badge-ring 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-}
-
-.group:focus-visible .play-badge {
-  transform: translate3d(0, -2px, 0);
-}
-
-/* Touch: a tap gets the same press visual (lift + one ring pulse) without
- * any sticky hover state, and the ring is driven by animation only. */
-@media (hover: none), (pointer: coarse) {
-  .group:active .play-badge {
-    transform: translate3d(0, -1px, 0) scale(0.98);
-  }
-
-  .group:active .play-badge::after {
-    animation: badge-ring 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-}
-
-@keyframes badge-ring {
-  0% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.35);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .poster-bloom,
-  .play-badge {
+  .poster-bloom{
     transition-duration: 1ms;
   }
-
-  .play-badge::after {
-    animation: none;
-  }
 }
-
-
-/* ---------------------------------------------------------------
- * Unified scene backdrop
- * One fixed layer shared by every page: three printed blooms that
- * drift on a long loop under the ambient light pools and grain.
- * Transform/opacity only, so it composites on the GPU.
- * --------------------------------------------------------------- */
 
 .scene-backdrop {
   contain: strict;
 }
 
-.scene-bloom {
-  position: absolute;
-  width: 62vmax;
-  height: 62vmax;
-  object-fit: cover;
-  border-radius: 9999px;
-  filter: blur(90px) saturate(1);
-  mix-blend-mode: multiply;
-  opacity: 0.13;
-  will-change: transform;
-}
-
-.scene-bloom-1 {
-  top: -22vmax;
-  left: -18vmax;
-  animation: scene-drift-a 46s ease-in-out infinite;
-}
-
-.scene-bloom-2 {
-  right: -24vmax;
-  top: 18vh;
-  width: 54vmax;
-  height: 54vmax;
-  opacity: 0.1;
-  animation: scene-drift-b 58s ease-in-out infinite;
-}
-
-.scene-bloom-3 {
-  bottom: -26vmax;
-  left: 22vw;
-  width: 48vmax;
-  height: 48vmax;
-  opacity: 0.09;
-  animation: scene-drift-c 68s ease-in-out infinite;
-}
-
-.scene-veil {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    120% 80% at 50% 0%,
-    transparent 0%,
-    color-mix(in oklab, var(--color-background) 45%, transparent) 60%,
-    color-mix(in oklab, var(--color-background) 80%, transparent) 100%
-  );
-}
-
-[data-theme="midnight"] .scene-bloom,
-[data-theme="forest"] .scene-bloom {
-  mix-blend-mode: screen;
-  opacity: 0.16;
-  filter: blur(90px) saturate(1.1);
-}
-
-@keyframes scene-drift-a {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(6vw, 5vh, 0) scale(1.08); }
-}
-
-@keyframes scene-drift-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.04); }
-  50% { transform: translate3d(-7vw, -6vh, 0) scale(1); }
-}
-
-@keyframes scene-drift-c {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(4vw, -5vh, 0) scale(1.1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scene-bloom {
-    animation: none;
-  }
-}
-
-[data-a11y-motion="off"] .scene-bloom {
-  animation: none;
-}
-
 [data-a11y-contrast="on"] .scene-backdrop {
   display: none;
 }
-
-
-/* ---------------------------------------------------------------
- * Opening title sequence (8s, once per session)
- * Transform/opacity keyframes only; skipped entirely when the visitor
- * asked for reduced motion (WCAG 2.1 — 2.3.3).
- * --------------------------------------------------------------- */
 
 .intro {
   background: var(--color-background);
@@ -1036,95 +616,6 @@
   transform: translateY(-101%);
 }
 
-.intro-bloom {
-  position: absolute;
-  border-radius: 9999px;
-  object-fit: cover;
-  mix-blend-mode: multiply;
-  filter: blur(70px);
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: intro-bloom-in 5200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.intro-bloom-1 {
-  left: -18vmax;
-  top: -16vmax;
-  height: 56vmax;
-  width: 56vmax;
-  animation-delay: 200ms;
-}
-
-.intro-bloom-2 {
-  right: -22vmax;
-  bottom: -20vmax;
-  height: 60vmax;
-  width: 60vmax;
-  animation-delay: 900ms;
-}
-
-.intro-bloom-3 {
-  left: 34vw;
-  top: 22vh;
-  height: 40vmax;
-  width: 40vmax;
-  animation-delay: 1800ms;
-}
-
-[data-theme="midnight"] .intro-bloom,
-[data-theme="forest"] .intro-bloom {
-  mix-blend-mode: screen;
-}
-
-@keyframes intro-bloom-in {
-  0% { opacity: 0; transform: scale(0.72) translate3d(0, 6vh, 0); }
-  55% { opacity: 0.3; }
-  100% { opacity: 0.22; transform: scale(1.06) translate3d(0, -2vh, 0); }
-}
-
-.intro-guides {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.intro-guide {
-  position: absolute;
-  background: color-mix(in oklab, var(--color-foreground) 22%, transparent);
-  animation: intro-guide-draw 1400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.intro-guide-v {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: scaleY(0);
-  transform-origin: top;
-}
-
-.intro-guide-h {
-  left: 0;
-  right: 0;
-  height: 1px;
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-@keyframes intro-guide-draw {
-  to { transform: scale(1); }
-}
-
-.intro-letter {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(0.5em) rotate(3deg);
-  animation: intro-letter-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes intro-letter-in {
-  to { opacity: 1; transform: none; }
-}
-
 .intro-fade {
   opacity: 0;
   animation: intro-fade-in 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -1135,124 +626,13 @@
   to { opacity: 1; transform: none; }
 }
 
-/* ---------------------------------------------------------------
- * Global hairline guides — the drafting-grid layer that frames the
- * page the way the reference sites do. Purely decorative.
- * --------------------------------------------------------------- */
-
-/* A flat printed wash — one static gradient, no motion, no blur cost. */
-.scene-wash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(70% 46% at 14% 8%, color-mix(in oklab, var(--color-foreground) 7%, transparent) 0%, transparent 70%),
-    radial-gradient(58% 40% at 88% 82%, color-mix(in oklab, var(--color-foreground) 6%, transparent) 0%, transparent 72%);
-}
-
-.scene-guides {
-  position: absolute;
-  inset: 0;
-}
-
-/* Bold, minimal drafting rules with a printed (slightly broken) edge. */
-.scene-guide {
-  position: absolute;
-  opacity: 0.5;
-}
-
-.scene-guide-v {
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    color-mix(in oklab, var(--color-foreground) 34%, transparent) 0 14px,
-    color-mix(in oklab, var(--color-foreground) 12%, transparent) 14px 17px
-  );
-}
-
-.scene-guide-h {
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-image: repeating-linear-gradient(
-    to right,
-    color-mix(in oklab, var(--color-foreground) 34%, transparent) 0 14px,
-    color-mix(in oklab, var(--color-foreground) 12%, transparent) 14px 17px
-  );
-}
-
-[data-a11y-contrast="on"] .scene-guide {
-  opacity: 0.85;
-}
-
-@media (max-width: 767px) {
-  .scene-guides {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .intro-bloom,
-  .intro-guide,
-  .intro-letter,
   .intro-fade {
     animation: none !important;
     opacity: 1;
     transform: none !important;
   }
 }
-
-
-/* ---------------------------------------------------------------
- * Opening statement — centred aperture + word masks
- * --------------------------------------------------------------- */
-
-.intro-aperture {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: min(58vmin, 30rem);
-  width: min(58vmin, 30rem);
-  margin: calc(min(58vmin, 30rem) / -2) 0 0 calc(min(58vmin, 30rem) / -2);
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 16%, transparent);
-  border-radius: 9999px;
-  opacity: 0;
-  transform: scale(0.6);
-  animation: intro-aperture-open 5200ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
-}
-
-@keyframes intro-aperture-open {
-  0% { opacity: 0; transform: scale(0.6) rotate(-6deg); }
-  40% { opacity: 1; }
-  100% { opacity: 0.55; transform: scale(1.12) rotate(4deg); }
-}
-
-.intro-word-mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding-bottom: 0.06em;
-}
-
-.intro-word-mask + .intro-word-mask {
-  margin-left: 0.26em;
-}
-
-.intro-word {
-  display: inline-block;
-  transform: translateY(110%);
-  animation: intro-word-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes intro-word-in {
-  to { transform: none; }
-}
-
-/* ---------------------------------------------------------------
- * One continuous page: sections share the same rhythm and are joined
- * by a hairline seam instead of hard blocks.
- * --------------------------------------------------------------- */
 
 .section-band {
   position: relative;
@@ -1275,7 +655,6 @@
   );
 }
 
-/* Media frames read as composed elements: inset, hairline, soft lift. */
 .media-frame {
   position: relative;
   border: 1px solid color-mix(in oklab, var(--color-foreground) 16%, transparent);
@@ -1288,31 +667,11 @@
   border-color: color-mix(in oklab, var(--color-foreground) 34%, transparent);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .intro-aperture,
-  .intro-word {
-    animation: none !important;
-    opacity: 1;
-    transform: none !important;
-  }
-}
-
-[data-a11y-motion="off"] .intro-aperture,
-[data-a11y-motion="off"] .intro-word {
-  animation: none !important;
-  opacity: 1;
-  transform: none !important;
-}
-
-/* ---------------------------------------------------------------
- * Wordless controls: dots and glyphs instead of labels
- * --------------------------------------------------------------- */
-
 :root {
-  /* irregular, hand-painted blot silhouettes */
+  
   --paint-radius-a: 58% 42% 47% 53% / 45% 55% 45% 55%;
   --paint-radius-b: 44% 56% 62% 38% / 57% 41% 59% 43%;
-  /* texture intensity — overridden by [data-paint] */
+  
   --paint-speckle: 0.9;
   --paint-bleed: 1.4px;
   --paint-glow: 32%;
@@ -1336,7 +695,6 @@
   --paint-glow: 52%;
 }
 
-/* the dial's own swatches */
 .paint-swatch {
   position: relative;
   display: block;
@@ -1361,7 +719,6 @@ button:focus-visible > .paint-swatch {
   border-radius: var(--paint-radius-a);
 }
 
-
 .mark-glyph {
   position: relative;
   height: 0.85rem;
@@ -1381,7 +738,6 @@ a:hover > .mark-glyph,
 a:focus-visible > .mark-glyph {
   filter: saturate(1.6) brightness(1.08) blur(calc(var(--paint-bleed) * 0.12));
 }
-
 
 .nav-dot-link {
   position: relative;
@@ -1458,152 +814,6 @@ button:focus-visible > .theme-dot {
   filter: blur(calc(var(--paint-bleed) * 0.1)) saturate(1.4) brightness(1.05);
 }
 
-/* ---------------------------------------------------------------
- * Intro — a bouncing ball, no words
- * --------------------------------------------------------------- */
-
-.intro-stage {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.intro-floor {
-  opacity: 0.8;
-}
-
-.intro-ball-x {
-  position: absolute;
-  left: 14%;
-  top: 72%;
-  animation: intro-ball-travel 4600ms cubic-bezier(0.22, 0.5, 0.2, 1) 260ms forwards;
-}
-
-.intro-ball-y {
-  position: absolute;
-  display: block;
-  animation: intro-ball-bounce 4600ms linear 260ms forwards;
-}
-
-.intro-ball {
-  position: relative;
-  display: block;
-  height: clamp(2.75rem, 6vw, 4.75rem);
-  width: clamp(2.75rem, 6vw, 4.75rem);
-  margin: calc(clamp(2.75rem, 6vw, 4.75rem) / -1) 0 0 calc(clamp(2.75rem, 6vw, 4.75rem) / -2);
-  border-radius: var(--paint-radius-a);
-  rotate: -8deg;
-  background:
-    radial-gradient(ellipse 62% 74% at 28% 24%, oklch(0.96 0.06 92 / 0.95), transparent 70%),
-    radial-gradient(ellipse 78% 62% at 70% 68%, oklch(0.6 0.12 262 / 0.55), transparent 72%),
-    radial-gradient(ellipse 92% 92% at 44% 42%, oklch(0.86 0.14 74) 0%, oklch(0.72 0.16 52) 58%, oklch(0.62 0.13 40 / 0.9) 100%);
-  filter: blur(calc(var(--paint-bleed) * 0.35)) saturate(1.05);
-  box-shadow:
-    0 0 2rem color-mix(in oklab, oklch(0.86 0.14 76) var(--paint-glow), transparent),
-    0 0 6rem color-mix(in oklab, oklch(0.8 0.13 70) calc(var(--paint-glow) * 0.6), transparent);
-  animation: intro-ball-squash 4600ms linear 260ms forwards;
-}
-
-/* dry-brush speckle on the intro ball, matching the painted marks */
-.intro-ball::after {
-  content: "";
-  position: absolute;
-  inset: -16%;
-  border-radius: inherit;
-  background:
-    radial-gradient(circle at 12% 78%, oklch(0.78 0.15 58 / 0.5) 0 18%, transparent 22%),
-    radial-gradient(circle at 88% 22%, oklch(0.9 0.1 84 / 0.45) 0 12%, transparent 16%),
-    radial-gradient(circle at 74% 92%, oklch(0.66 0.12 44 / 0.4) 0 9%, transparent 13%);
-  filter: blur(var(--paint-bleed));
-  opacity: var(--paint-speckle);
-  pointer-events: none;
-}
-
-.intro-shadow {
-  position: absolute;
-  left: 14%;
-  top: 72%;
-  height: 0.4rem;
-  width: clamp(2.75rem, 6vw, 4.75rem);
-  margin-left: calc(clamp(2.75rem, 6vw, 4.75rem) / -2);
-  border-radius: 9999px;
-  background: color-mix(in oklab, var(--color-foreground) 20%, transparent);
-  filter: blur(7px);
-  animation: intro-shadow-travel 4600ms cubic-bezier(0.22, 0.5, 0.2, 1) 260ms forwards,
-    intro-shadow-pulse 4600ms linear 260ms forwards;
-}
-
-@keyframes intro-ball-travel {
-  0% { left: 14%; }
-  100% { left: 50%; }
-}
-
-@keyframes intro-shadow-travel {
-  0% { left: 14%; }
-  100% { left: 50%; }
-}
-
-/* Gravity: each fall eases in, each rise eases out — no linear arcs. */
-@keyframes intro-ball-bounce {
-  0% { transform: translateY(-78vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  20% { transform: translateY(0); animation-timing-function: cubic-bezier(0.25, 1, 0.64, 1); }
-  36% { transform: translateY(-38vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  52% { transform: translateY(0); animation-timing-function: cubic-bezier(0.25, 1, 0.64, 1); }
-  63% { transform: translateY(-18vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  74% { transform: translateY(0); animation-timing-function: cubic-bezier(0.25, 1, 0.64, 1); }
-  81% { transform: translateY(-7.5vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  88% { transform: translateY(0); animation-timing-function: cubic-bezier(0.25, 1, 0.64, 1); }
-  92% { transform: translateY(-2.6vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  95% { transform: translateY(0); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
-  97% { transform: translateY(-0.8vh); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes intro-ball-squash {
-  0%, 17% { scale: 0.94 1.06; }
-  20% { scale: 1.2 0.8; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  25% { scale: 0.97 1.03; }
-  30%, 49% { scale: 1 1; }
-  52% { scale: 1.13 0.87; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  57% { scale: 1 1; }
-  74% { scale: 1.07 0.93; }
-  78% { scale: 1 1; }
-  95% { scale: 1 1; animation-timing-function: cubic-bezier(0.7, 0, 0.3, 1); }
-  100% { scale: 1.35 1.35; }
-}
-
-@keyframes intro-shadow-pulse {
-  0% { opacity: 0; transform: scaleX(0.24); }
-  20% { opacity: 0.85; transform: scaleX(1); }
-  36% { opacity: 0.3; transform: scaleX(0.55); }
-  52% { opacity: 0.8; transform: scaleX(1); }
-  63% { opacity: 0.45; transform: scaleX(0.75); }
-  74%, 95% { opacity: 0.7; transform: scaleX(1); }
-  100% { opacity: 0.3; transform: scaleX(1.3); }
-}
-
-.intro-ring {
-  position: absolute;
-  left: 50%;
-  top: 72%;
-  height: 7rem;
-  width: 7rem;
-  margin: -3.5rem 0 0 -3.5rem;
-  border-radius: 9999px;
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 26%, transparent);
-  opacity: 0;
-  animation: intro-ring-out 2000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.intro-ring-1 { animation-delay: 3550ms; }
-.intro-ring-2 { animation-delay: 3900ms; }
-
-@keyframes intro-ring-out {
-  0% { opacity: 0.55; transform: scale(0.18); }
-  70% { opacity: 0.18; }
-  100% { opacity: 0; transform: scale(3.6); }
-}
-
 .intro-skip {
   height: 0.55rem;
   width: 0.55rem;
@@ -1624,32 +834,6 @@ button:focus-visible > .intro-skip {
   filter: blur(calc(var(--paint-bleed) * 0.12)) saturate(1.4);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .intro-ball-x,
-  .intro-ball-y,
-  .intro-ball,
-  .intro-shadow,
-  .intro-ring {
-    animation: none !important;
-    transform: none !important;
-    opacity: 1;
-  }
-}
-
-[data-a11y-motion="off"] .intro-ball-x,
-[data-a11y-motion="off"] .intro-ball-y,
-[data-a11y-motion="off"] .intro-ball,
-[data-a11y-motion="off"] .intro-shadow,
-[data-a11y-motion="off"] .intro-ring {
-  animation: none !important;
-  transform: none !important;
-}
-
-
-/* ---------------------------------------------------------------
- * Theme crossfade — colours dissolve instead of snapping
- * --------------------------------------------------------------- */
-
 html[data-theme-fade] body,
 html[data-theme-fade] body * {
   transition:
@@ -1664,10 +848,6 @@ html[data-theme-fade] body * {
   html[data-theme-fade] body,
   html[data-theme-fade] body * { transition: none !important; }
 }
-
-/* ---------------------------------------------------------------
- * Dot controls (player) — graphics instead of words
- * --------------------------------------------------------------- */
 
 .ctl { color: var(--color-muted-foreground); }
 .ctl:hover, .ctl:focus-visible { color: var(--color-foreground); }
@@ -1714,7 +894,6 @@ html[data-theme-fade] body * {
 }
 .ctl:hover .ctl-corners { transform: scale(1.2); }
 
-/* Poster play mark — a painted pigment blot, not a word. */
 .play-orb {
   position: relative;
   display: block;
@@ -1730,7 +909,7 @@ html[data-theme-fade] body * {
   box-shadow: 0 0 1.4rem color-mix(in oklab, oklch(0.85 0.14 76) var(--paint-glow), transparent);
   transition: filter 620ms ease, box-shadow 620ms ease;
 }
-/* dry-brush speckle so the edge reads as pigment, not vector */
+
 .play-orb::after {
   content: "";
   position: absolute;
@@ -1753,11 +932,6 @@ html[data-theme-fade] body * {
   }
 }
 
-
-/* ---------------------------------------------------------------
- * Motifs lifted from the bloom artwork — rings, halftone dots, brackets
- * --------------------------------------------------------------- */
-
 .motif {
   pointer-events: none;
   color: color-mix(in oklab, var(--color-foreground) 42%, transparent);
@@ -1772,17 +946,10 @@ html[data-theme-fade] body * {
 .motif-spin { animation: motif-spin 42s linear infinite; }
 @keyframes motif-spin { to { transform: rotate(360deg); } }
 
-.motif-breathe { animation: motif-breathe 9s ease-in-out infinite; }
-@keyframes motif-breathe {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.05); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .motif-spin, .motif-breathe { animation: none !important; }
+  .motif-spin{ animation: none !important; }
 }
-[data-a11y-motion="off"] .motif-spin,
-[data-a11y-motion="off"] .motif-breathe { animation: none !important; }
+[data-a11y-motion="off"] .motif-spin{ animation: none !important; }
 
 .play-orb-cursor {
   height: 0.75rem;
@@ -1790,44 +957,11 @@ html[data-theme-fade] body * {
   transform: translate(-50%, -50%);
 }
 
-/* ---------------------------------------------------------------
- * Final refinement pass — painted render, smooth easing, reduced motion
- * --------------------------------------------------------------- */
-
 :root {
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-
-/* A richer, oil-on-paper render for the intro mark: pigment core, wet
-   edge bleed and a dry-brush rim, all painted with gradients only. */
-.intro-ball {
-  filter: blur(calc(var(--paint-bleed) * 0.5)) saturate(1.08) contrast(1.04);
-}
-
-.intro-ball::before {
-  content: "";
-  position: absolute;
-  inset: -22%;
-  border-radius: var(--paint-radius-b);
-  rotate: 14deg;
-  background:
-    radial-gradient(ellipse 70% 58% at 34% 70%, oklch(0.72 0.15 52 / 0.55), transparent 68%),
-    radial-gradient(ellipse 56% 72% at 74% 30%, oklch(0.9 0.11 88 / 0.45), transparent 70%);
-  filter: blur(calc(var(--paint-bleed) * 2.4));
-  opacity: calc(var(--paint-speckle) * 0.85);
-  pointer-events: none;
-}
-
-.intro-ball::after {
-  mix-blend-mode: multiply;
-}
-
-/* Softer, unified easing for the ambient motion. */
-.intro-ring { animation-timing-function: var(--ease-soft); }
 .reveal { transition-timing-function: var(--ease-soft); }
 
-/* Reduced motion: no glow pulses, no hover transitions — but the painted
-   pigment (gradients, bleed, speckle) stays fully visible. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1843,7 +977,6 @@ html[data-theme-fade] body * {
   .nav-dot,
   .theme-dot,
   .intro-skip,
-  .intro-ball,
   .paint-swatch {
     transition: none !important;
     animation: none !important;
@@ -1870,10 +1003,6 @@ html[data-theme-fade] body * {
   animation: none !important;
   opacity: 1;
 }
-
-/* ---------------------------------------------------------------
- * Ambience — forest rain toggle (painted dot + falling lines)
- * --------------------------------------------------------------- */
 
 .rain-dot {
   position: relative;
@@ -1930,10 +1059,6 @@ button:focus-visible > .rain-dot {
   filter: blur(calc(var(--paint-bleed) * 0.1)) saturate(1.35) brightness(1.05);
 }
 
-/* ---------------------------------------------------------------
- * Global smoothness pass — one easing family, calmer durations
- * --------------------------------------------------------------- */
-
 :root {
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
@@ -1946,8 +1071,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Everything that already animates inherits the same glide, so hovers,
-   reveals and section transitions decelerate together. */
 a,
 button,
 .nav-dot,
@@ -1957,7 +1080,6 @@ button,
 .mark-glyph,
 .play-orb,
 .media-frame,
-.poster-tile,
 .paint-swatch {
   transition-timing-function: var(--ease-glide);
 }
@@ -1968,13 +1090,11 @@ button,
   will-change: opacity, transform;
 }
 
-.media-frame,
-.poster-tile {
+.media-frame{
   transition-duration: var(--dur-base);
 }
 
-.media-frame:hover,
-.poster-tile:hover {
+.media-frame:hover{
   will-change: transform;
 }
 
@@ -1986,13 +1106,6 @@ button,
 [data-a11y-motion="off"] .rain-dot i {
   animation: none !important;
 }
-
-/* ---------------------------------------------------------------
- * Bold pass — retro-print marks
- * Every accent mark is now the same graphic object: a hard-edged
- * vermilion petal with a thick ink outline, a flat cream highlight and
- * a halftone shade. Flat, printed, confident — no soft blur blobs.
- * --------------------------------------------------------------- */
 
 :root {
   --mark-petal: 52% 52% 52% 10% / 52% 52% 52% 10%;
@@ -2009,8 +1122,7 @@ button,
 .intro-skip,
 .play-orb,
 .paint-swatch,
-.rain-dot,
-.intro-ball {
+.rain-dot{
   border-radius: var(--mark-petal);
   background:
     radial-gradient(circle at 30% 26%, var(--mark-cream) 0 16%, transparent 17%),
@@ -2045,7 +1157,6 @@ button,
 .play-orb,
 .rain-dot { position: relative; }
 
-/* sizes and per-mark character */
 .mark-glyph { --mark-stroke: 2px; height: 1rem; width: 1rem; rotate: -14deg; }
 .nav-dot { --mark-stroke: 1.5px; height: 0.5rem; width: 0.5rem; rotate: -14deg; opacity: 0.55; }
 .nav-dot-link:hover .nav-dot,
@@ -2087,93 +1198,6 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
 }
 .play-orb-cursor { height: 0.95rem; width: 0.95rem; }
 
-/* ---------------------------------------------------------------
- * Intro — heavier ball, many more bounces
- * --------------------------------------------------------------- */
-
-.intro-ball {
-  --mark-stroke: 3px;
-  rotate: -14deg;
-  filter: none;
-  box-shadow: none;
-}
-.intro-ball::before { display: none; }
-.intro-ball::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image: radial-gradient(var(--mark-ink) 1px, transparent 1.2px);
-  background-size: 6px 6px;
-  opacity: calc(var(--paint-speckle) * 0.3);
-  mix-blend-mode: normal;
-  filter: none;
-}
-
-.intro-ball-x { animation-duration: 4600ms; }
-
-/* nine hops: high arcs first, then a fast chatter as it dies out */
-@keyframes intro-ball-bounce {
-  0% { transform: translateY(-80vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  14% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  25% { transform: translateY(-46vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  36% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  45% { transform: translateY(-30vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  54% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  61% { transform: translateY(-18vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  68% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  74% { transform: translateY(-10vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  79% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  83% { transform: translateY(-5.5vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  87% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  90% { transform: translateY(-2.8vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  93% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  95% { transform: translateY(-1.3vh); animation-timing-function: cubic-bezier(0.36, 0, 0.75, 0); }
-  97% { transform: translateY(0); animation-timing-function: cubic-bezier(0.19, 1, 0.55, 1); }
-  98.5% { transform: translateY(-0.5vh); }
-  100% { transform: translateY(0); }
-}
-
-/* squash on every landing, spin between hops */
-@keyframes intro-ball-squash {
-  0%, 11% { scale: 0.9 1.12; rotate: -14deg; }
-  14% { scale: 1.28 0.74; rotate: -4deg; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  18% { scale: 0.96 1.05; }
-  25% { scale: 1 1; rotate: 22deg; }
-  36% { scale: 1.22 0.8; rotate: 34deg; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
-  40% { scale: 0.98 1.03; }
-  45% { rotate: 56deg; }
-  54% { scale: 1.16 0.86; rotate: 70deg; }
-  58% { scale: 1 1; }
-  68% { scale: 1.11 0.9; rotate: 96deg; }
-  72% { scale: 1 1; }
-  79% { scale: 1.07 0.94; rotate: 116deg; }
-  87% { scale: 1.04 0.96; rotate: 130deg; }
-  93% { scale: 1.02 0.98; rotate: 138deg; }
-  97% { scale: 1 1; rotate: 142deg; }
-  100% { scale: 1.5 1.5; rotate: 150deg; }
-}
-
-@keyframes intro-shadow-pulse {
-  0% { opacity: 0; transform: scaleX(0.2); }
-  14% { opacity: 0.9; transform: scaleX(1.05); }
-  25% { opacity: 0.3; transform: scaleX(0.5); }
-  36% { opacity: 0.85; transform: scaleX(1); }
-  45% { opacity: 0.4; transform: scaleX(0.65); }
-  54% { opacity: 0.85; transform: scaleX(1); }
-  61% { opacity: 0.5; transform: scaleX(0.78); }
-  68%, 79%, 87%, 97% { opacity: 0.8; transform: scaleX(1); }
-  74% { opacity: 0.6; transform: scaleX(0.86); }
-  100% { opacity: 0.25; transform: scaleX(1.4); }
-}
-
-.intro-ring-1 { animation-delay: 3400ms; }
-.intro-ring-2 { animation-delay: 3750ms; }
-.intro-ring {
-  border-width: 2px;
-  border-color: color-mix(in oklab, var(--mark-pigment) 55%, transparent);
-}
-
 [data-a11y-contrast="on"] .mark-glyph,
 [data-a11y-contrast="on"] .nav-dot,
 [data-a11y-contrast="on"] .theme-dot,
@@ -2182,85 +1206,13 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
   opacity: 1;
 }
 
-/* ---------------------------------------------------------------
- * Retro print furniture — sunburst, halftone fields, scalloped rule,
- * sparkles. Pure CSS, decorative, all cheap to paint.
- * --------------------------------------------------------------- */
-
-/* smaller marks in the page: the poster/reel play mark reads as an accent */
 .play-orb { height: 0.8rem; width: 0.8rem; }
 .play-orb-cursor { height: 0.8rem; width: 0.8rem; }
 .reel-orb { height: 0.62rem; width: 0.62rem; }
 
-.retro-burst {
-  position: absolute;
-  border-radius: 9999px;
-  background: repeating-conic-gradient(
-    from 0deg,
-    color-mix(in oklab, var(--mark-pigment) 26%, transparent) 0deg 6deg,
-    transparent 6deg 12deg
-  );
-  mask-image: radial-gradient(circle, #000 34%, transparent 72%);
-  opacity: 0.5;
-  pointer-events: none;
-  animation: retro-burst-spin 90s linear infinite;
-}
-@keyframes retro-burst-spin { to { rotate: 360deg; } }
-
-.retro-halftone-field {
-  position: absolute;
-  pointer-events: none;
-  background-image: radial-gradient(color-mix(in oklab, var(--mark-pigment) 55%, transparent) 1.4px, transparent 1.6px);
-  background-size: 8px 8px;
-  mask-image: linear-gradient(to bottom right, #000, transparent 78%);
-  opacity: 0.35;
-}
-
-.retro-scallop {
-  height: 0.6rem;
-  width: 100%;
-  background-image: radial-gradient(circle at 0.3rem 0.3rem, var(--mark-ink) 0.16rem, transparent 0.17rem);
-  background-size: 0.6rem 0.6rem;
-  opacity: 0.35;
-  pointer-events: none;
-}
-
-.retro-stripes {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    color-mix(in oklab, var(--mark-pigment) 45%, transparent) 0 3px,
-    transparent 3px 9px
-  );
-  opacity: 0.35;
-  pointer-events: none;
-}
-
-.retro-star {
-  position: absolute;
-  pointer-events: none;
-  color: var(--mark-pigment);
-  animation: retro-star-twinkle 5.5s ease-in-out infinite;
-}
-@keyframes retro-star-twinkle {
-  0%, 100% { opacity: 0.35; scale: 0.9; }
-  50% { opacity: 0.9; scale: 1.08; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .retro-burst, .retro-star { animation: none !important; }
-}
-[data-a11y-motion="off"] .retro-burst,
-[data-a11y-motion="off"] .retro-star { animation: none !important; }
-
-/* ===============================================================
- * MAGAZINE PASS
- * Japanese white stock (#EEE6D9) + charcoal ink. No background lines,
- * no drifting colour: a printed sheet with tooth and a bold masthead.
- * =============================================================== */
-
 :root {
-  --jp-white: oklch(0.9245 0.0195 84.5);   /* #EEE6D9 */
-  --charcoal: oklch(0.2340 0.0060 67);     /* deep press black */
+  --jp-white: oklch(0.9245 0.0195 84.5);   
+  --charcoal: oklch(0.2340 0.0060 67);     
   --charcoal-soft: oklch(0.4400 0.0080 67);
 }
 
@@ -2268,8 +1220,6 @@ button:focus-visible > .intro-skip { opacity: 1; filter: none; }
   --font-display: "Instrument Serif", "Canela", "Times New Roman", serif;
   --font-sans: "Helvetica Neue", Helvetica, "Schibsted Grotesk", Arial, sans-serif;
 }
-
-/* --- Palette overrides -------------------------------------------------- */
 
 html[data-theme="paper"] {
   --background: var(--jp-white);
@@ -2297,7 +1247,6 @@ html[data-theme="paper"] {
   --sidebar-ring: var(--charcoal);
 }
 
-/* The dark sheet is the same ink, inverted — charcoal stock, white type. */
 html[data-theme="midnight"],
 .dark {
   --background: var(--charcoal);
@@ -2320,8 +1269,6 @@ html[data-theme="midnight"],
   --input: oklch(0.9245 0.0195 84.5 / 32%);
   --ring: var(--jp-white);
 }
-
-/* --- Magazine typography ------------------------------------------------ */
 
 body {
   font-family: var(--font-sans);
@@ -2346,13 +1293,10 @@ h1, h2, h3 {
   font-weight: 500;
 }
 
-/* --- The printed ground ------------------------------------------------- */
-
 .scene-backdrop {
   background: var(--color-background);
 }
 
-/* paper tooth: fine charcoal noise pressed into the stock */
 .paper-tooth {
   position: absolute;
   inset: 0;
@@ -2361,7 +1305,6 @@ h1, h2, h3 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23t)' opacity='0.32'/%3E%3C/svg%3E");
 }
 
-/* charcoal dust: broad, soft smudges of graphite across the sheet */
 .paper-charcoal {
   position: absolute;
   inset: 0;
@@ -2387,20 +1330,9 @@ h1, h2, h3 {
 [data-a11y-contrast="on"] .paper-vignette {
   display: none;
 }
-
-/* No drafting lines, no drifting light — the sheet is quiet. */
-.scene-guides,
-.scene-guide,
-.scene-wash,
-.ambient-orb,
-.glow-warm,
-.scene-bloom,
-.intro-guides,
-.intro-bloom {
+.glow-warm{
   display: none !important;
 }
-
-/* --- Marks: charcoal ink instead of pigment ----------------------------- */
 
 .play-orb,
 .mark-glyph,
@@ -2445,8 +1377,6 @@ button:focus-visible > .intro-skip {
   opacity: 1;
 }
 
-/* --- Intro: one black droplet on Japanese white ------------------------- */
-
 .intro {
   background: var(--color-background);
   transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1), opacity 500ms ease;
@@ -2466,7 +1396,6 @@ button:focus-visible > .intro-skip {
   animation: drop-fall 1500ms cubic-bezier(0.5, 0, 0.9, 0.4) 180ms forwards;
 }
 
-/* A teardrop with character: tapered top, heavy round belly, ink black. */
 .drop {
   position: absolute;
   display: block;
@@ -2485,7 +1414,6 @@ button:focus-visible > .intro-skip {
   100% { transform: translateY(0); }
 }
 
-/* stretched while falling, then it rounds out and settles on impact */
 @keyframes drop-shape {
   0% { scale: 0.72 1.5; }
   70% { scale: 0.86 1.24; }
@@ -2493,7 +1421,6 @@ button:focus-visible > .intro-skip {
   100% { scale: 1 1; border-radius: 50%; rotate: 45deg; }
 }
 
-/* the ink pool the drop leaves behind */
 .drop-splat {
   position: absolute;
   left: 50%;
@@ -2533,7 +1460,6 @@ button:focus-visible > .intro-skip {
   100% { opacity: 0; transform: scale(4.2); }
 }
 
-/* the sheet lifts as the ink fills — inverted charcoal beneath */
 .intro-out { transform: translateY(-101%); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2554,8 +1480,6 @@ button:focus-visible > .intro-skip {
   animation: none !important;
 }
 
-/* --- Transitions: one calm easing family -------------------------------- */
-
 .reveal,
 .media-frame,
 .poster,
@@ -2564,10 +1488,8 @@ button:focus-visible > .intro-skip {
   transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* --- Whiter stock + masthead wordmark ----------------------------------- */
-
 html[data-theme="paper"] {
-  --jp-white: oklch(0.9760 0.0068 85);   /* near-white, warm paper tint */
+  --jp-white: oklch(0.9760 0.0068 85);   
   --background: var(--jp-white);
   --surface: oklch(0.9530 0.0090 85);
   --card: oklch(0.9530 0.0090 85);
@@ -2581,7 +1503,6 @@ html[data-theme="paper"] .paper-tooth { opacity: 0.34; }
 html[data-theme="paper"] .paper-charcoal { opacity: 0.12; }
 html[data-theme="paper"] .paper-vignette { opacity: 0.55; }
 
-/* Masthead: heavy, tight-set, magazine-front type. */
 .wordmark {
   font-family: var(--font-sans);
   font-weight: 800;
