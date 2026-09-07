@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Mark } from "@/components/site/Mark";
 import { ThemeDot } from "@/components/theme/ThemeDot";
 import { AmbienceDot } from "@/components/audio/AmbienceDot";
 import { track } from "@/lib/analytics";
@@ -63,7 +64,7 @@ export function Nav() {
           aria-label="just mike — back to top"
           className="group inline-flex h-11 items-center gap-2 pr-2"
         >
-          <span aria-hidden="true" className="mark-glyph" />
+          <Mark className="mark-glyph" />
           <span aria-hidden="true" className="wordmark">
             just mike
           </span>
