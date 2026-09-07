@@ -169,7 +169,9 @@
 }
 
 @utility font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 @utility magnetic {
