@@ -1276,13 +1276,13 @@ body {
   letter-spacing: -0.005em;
 }
 
-h1, h2, h3 {
-  letter-spacing: -0.025em;
+h1, h2, h3, h4, .font-display, .wordmark {
+  font-family: var(--font-sans);
+  letter-spacing: -0.045em;
 }
 
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+h1, h2, h3, .font-display {
+  font-weight: 800;
 }
 
 .spec-label {
