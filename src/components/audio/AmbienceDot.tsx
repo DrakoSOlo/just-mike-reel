@@ -66,7 +66,7 @@ export function AmbienceDot() {
       type="button"
       onClick={toggle}
       aria-pressed={on}
-      aria-label={on ? "Turn off forest rain ambience" : "Play forest rain ambience"}
+      aria-label={on ? "Turn off birdsong and rain ambience" : "Play birdsong and rain ambience"}
       className="group inline-flex h-11 w-11 items-center justify-center"
     >
       <span aria-hidden="true" className={`rain-dot${on ? " rain-dot-on" : ""}`}>

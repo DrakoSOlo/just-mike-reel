@@ -169,7 +169,9 @@
 }
 
 @utility font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 @utility magnetic {
@@ -719,24 +721,22 @@ button:focus-visible > .paint-swatch {
   border-radius: var(--paint-radius-a);
 }
 
+.mark-drop {
+  display: block;
+  color: var(--color-foreground);
+}
+
 .mark-glyph {
-  position: relative;
-  height: 0.85rem;
-  width: 0.85rem;
-  border-radius: var(--paint-radius-a);
-  rotate: -10deg;
-  background:
-    radial-gradient(ellipse 60% 70% at 26% 24%, oklch(0.95 0.06 92 / 0.9), transparent 68%),
-    radial-gradient(ellipse 80% 70% at 72% 74%, oklch(0.58 0.11 262 / 0.5), transparent 74%),
-    radial-gradient(ellipse 95% 95% at 46% 44%, oklch(0.85 0.14 76) 0%, oklch(0.71 0.16 52) 62%, oklch(0.6 0.13 40 / 0.9) 100%);
-  filter: blur(calc(var(--paint-bleed) * 0.12));
-  box-shadow: 0 0 0.9rem color-mix(in oklab, oklch(0.85 0.14 76) calc(var(--paint-glow) * 0.6), transparent);
-  transition: filter 620ms ease, box-shadow 620ms ease;
+  height: 1.05rem;
+  width: 1.05rem;
+  rotate: -6deg;
+  filter: blur(calc(var(--paint-bleed) * 0.06));
+  transition: rotate 620ms var(--ease-soft), opacity 320ms ease;
 }
 
 a:hover > .mark-glyph,
 a:focus-visible > .mark-glyph {
-  filter: saturate(1.6) brightness(1.08) blur(calc(var(--paint-bleed) * 0.12));
+  rotate: 4deg;
 }
 
 .nav-dot-link {
@@ -1276,13 +1276,13 @@ body {
   letter-spacing: -0.005em;
 }
 
-h1, h2, h3 {
-  letter-spacing: -0.025em;
+h1, h2, h3, h4, .font-display, .wordmark {
+  font-family: var(--font-sans);
+  letter-spacing: -0.045em;
 }
 
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+h1, h2, h3, .font-display {
+  font-weight: 800;
 }
 
 .spec-label {
