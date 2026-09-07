@@ -1,5 +1,5 @@
 /**
- * "Rain in the forest" — a tiny synthesised ambience.
+ * "Birdsong and soft rain" — a tiny synthesised ambience.
  *
  * No audio file is downloaded: everything is generated with the Web Audio API
  * (filtered noise for the rain, a slow band for wind through the canopy, plus
@@ -9,8 +9,8 @@
 
 export const AMBIENCE_KEY = "jm-ambience";
 
-const TARGET_GAIN = 0.16;
-const FADE = 1.2;
+const TARGET_GAIN = 0.11;
+const FADE = 2.4;
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
@@ -68,7 +68,7 @@ function drip(audio: AudioContext, out: GainNode, at: number) {
   osc.frequency.setValueAtTime(freq, at);
   osc.frequency.exponentialRampToValueAtTime(freq * 0.45, at + 0.09);
   gain.gain.setValueAtTime(0.0001, at);
-  gain.gain.exponentialRampToValueAtTime(0.05 + Math.random() * 0.05, at + 0.006);
+  gain.gain.exponentialRampToValueAtTime(0.018 + Math.random() * 0.022, at + 0.01);
   gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.16);
   osc.connect(gain).connect(out);
   osc.start(at);
@@ -78,9 +78,9 @@ function drip(audio: AudioContext, out: GainNode, at: number) {
 /** A distant bird, two or three notes. */
 function bird(audio: AudioContext, out: GainNode, at: number) {
   const notes = 2 + Math.floor(Math.random() * 2);
-  const base = 1800 + Math.random() * 1200;
+  const base = 1500 + Math.random() * 900;
   for (let i = 0; i < notes; i += 1) {
-    const start = at + i * 0.16;
+    const start = at + i * 0.24;
     const osc = audio.createOscillator();
     const gain = audio.createGain();
     osc.type = "sine";
@@ -88,11 +88,11 @@ function bird(audio: AudioContext, out: GainNode, at: number) {
     osc.frequency.exponentialRampToValueAtTime(base * (1.25 + Math.random() * 0.4), start + 0.07);
     osc.frequency.exponentialRampToValueAtTime(base * 0.9, start + 0.12);
     gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(0.028, start + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.13);
+    gain.gain.exponentialRampToValueAtTime(0.022, start + 0.035);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.22);
     osc.connect(gain).connect(out);
     osc.start(start);
-    osc.stop(start + 0.16);
+    osc.stop(start + 0.26);
   }
 }
 
@@ -100,10 +100,10 @@ function scheduleDetail(audio: AudioContext, out: GainNode) {
   const tick = () => {
     if (!playing) return;
     const now = audio.currentTime;
-    const drops = 1 + Math.floor(Math.random() * 3);
+    const drops = Math.random() < 0.6 ? 1 : 2;
     for (let i = 0; i < drops; i += 1) drip(audio, out, now + Math.random() * 2);
-    if (Math.random() < 0.28) bird(audio, out, now + Math.random() * 2);
-    timer = setTimeout(tick, 1400 + Math.random() * 2200);
+    if (Math.random() < 0.62) bird(audio, out, now + Math.random() * 3);
+    timer = setTimeout(tick, 2600 + Math.random() * 3200);
   };
   tick();
 }
@@ -129,11 +129,11 @@ export async function startAmbience() {
   // Steady rain: mid/high hiss rolled off so it stays behind the page.
   const rain = loopSource(audio, buffer);
   const rainFilter = audio.createBiquadFilter();
-  rainFilter.type = "bandpass";
-  rainFilter.frequency.value = 1500;
-  rainFilter.Q.value = 0.4;
+  rainFilter.type = "lowpass";
+  rainFilter.frequency.value = 1100;
+  rainFilter.Q.value = 0.25;
   const rainGain = audio.createGain();
-  rainGain.gain.value = 0.85;
+  rainGain.gain.value = 0.55;
   rain.connect(rainFilter).connect(rainGain).connect(master);
 
   // Canopy / wind: low rumble with a slow breathing swell.
@@ -142,7 +142,7 @@ export async function startAmbience() {
   windFilter.type = "lowpass";
   windFilter.frequency.value = 320;
   const windGain = audio.createGain();
-  windGain.gain.value = 0.5;
+  windGain.gain.value = 0.34;
   wind.connect(windFilter).connect(windGain).connect(master);
 
   const lfo = audio.createOscillator();
